@@ -12,8 +12,8 @@ The domain model for the BadCode clicker game. You click to generate more and mo
 classDiagram
 class Player {
     -name: string
-    -clickPower: int
-    -BadCodeCount: int
+    -clickPower: number
+    -BadCodeCount: number
 }
 
 note for Player "Class invariants:
@@ -26,8 +26,8 @@ note for Player "Class invariants:
 
 class Upgrade {
     <<interface>>
-    -getCount(): int
-    -multiplierAmount(): float
+    -getCount(): number
+    -multiplierAmount(): number
     -purchase():void
 }
 
@@ -39,8 +39,8 @@ note for Upgrade "
 "
 
 class VibeCodingIntern {
-    -count: int
-    -multiplier:float
+    -count: number
+    -multiplier:number
     -purchase():void
 }
 
@@ -51,8 +51,8 @@ note for VibeCodingIntern "Class invariants:
 </ul>"
 
 class AIFacilitatedChatBot {
-    -count: int
-    -multiplier:float
+    -count: number
+    -multiplier:number
     -purchase():void
 }
 
@@ -62,8 +62,8 @@ note for AIFacilitatedChatBot "Class invariants:
 <li>multiplier > 1</li>
 </ul>"
 
-Upgrade <|.. "inherits" AIFacilitatedChatBot
-Upgrade <|.. "inherits" VibeCodingIntern
+Upgrade <|.. "implements" AIFacilitatedChatBot
+Upgrade <|.. "implements" VibeCodingIntern
 
 
 Player o-- Upgrade : purchases and owns
