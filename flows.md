@@ -1,38 +1,47 @@
 ---
-title: Flows of interaction for Bad Code Clicker!
+title: Flows of interaction for Bad Code Clicker
 author: Moulik Bhatia (bhatiam3@myumanitoba.ca)
-date: Januray 12 2026
+date: January 12 2026
 ---
 
 # Flows of interaction
 
-## Click
+This document describes how a person interacts with the Bad Code Clicker
+application. Each flow represents a task that the user can perform while
+using the game.
 
-This is the most basic task you can perform in the game. Increases total bad code by one or more depending on modifiers
+---
+
+## Click on the item
+
+This is the most basic task in the game. The player clicks on the main item and sees the total amount of Bad Code increase. Any previously
+purchased upgrades affect the amount gained per click.
 
 ```mermaid
-flowchart
-    StartClick[[Start Click]]
-    Click[Player Clicks]
-    CheckUpgrades{Any Upgrades?}
-    ApplyMods[Apply Upgrade Modifiers]
-    AddBadCode[Increase BadCode by clickPower]
-    EndClick[[End Click]]
+flowchart TD
+    view[[Player sees clickable item and current BadCode count]]
+    click[[Player clicks item]]
+    update[Displayed BadCode increases based on current upgrades]
+    end([Player continues playing])
 
-    StartClick --> Click --> CheckUpgrades
-    CheckUpgrades -->|Yes| ApplyMods --> AddBadCode --> EndClick
-    CheckUpgrades -->|No| AddBadCode
+    view --> click --> update --> end
 ```
 
-## Buy Upgrade
+## Purchase Upgrades
+
+The player may choose to purchase an upgrade to increase their clicking
+power. If they do not have enough Bad Code, an error message is shown.
 
 ```mermaid
-flowchart
-    BuyUpgrade[[Buy Upgrade]]
-    checkCost{Enough BadCode?}
-    purchase[ Purchase upgrade and update multiplier]
-    endTransaction[End transaction]
+flowchart TD
+    view[[Player views available upgrades]]
+    select[[Player selects an upgrade]]
+    enough{Enough BadCode available?}
+    success[Upgrade is purchased and clicking power increases]
+    fail[Message shown: not enough BadCode]
+    end([Return to game])
 
-    BuyUpgrade --> checkCost --> |Yes| purchase --> endTransaction
-    checkCost --> |No| endTransaction
+    view --> select --> enough
+    enough -->|Yes| success --> end
+    enough -->|No| fail --> end
 ```
