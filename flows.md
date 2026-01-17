@@ -39,9 +39,9 @@ flowchart TD
     enough{Enough BadCode available?}
     success[Upgrade is purchased and clicking power increases]
     fail[Message shown: not enough BadCode]
-    end([Return to game])
+    endUpgrade([Return to game])
 
     view --> select --> enough
-    enough -->|Yes| success --> end
-    enough -->|No| fail --> end
+    enough -->|Yes| success --> endUpgrade
+    enough -->|No| fail --> endUpgrade
 ```
