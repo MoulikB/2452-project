@@ -20,11 +20,11 @@ purchased upgrades affect the amount gained per click.
 ```mermaid
 flowchart TD
     view[[Player sees clickable item and current BadCode count]]
-    click[[Player clicks item]]
+    clickButton[[Player clicks item]]
     update[Displayed BadCode increases based on current upgrades]
-    end([Player continues playing])
+    endClick([Player continues playing])
 
-    view --> click --> update --> end
+    view --> clickButton --> update --> endClick
 ```
 
 ## Purchase Upgrades
