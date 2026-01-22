@@ -25,16 +25,17 @@ note for Player "Class invariants:
 "
 
 class Upgrade {
-    <<interface>>
-    -getCount(): number
-    -multiplierAmount(): number
-    -purchase():void
+    <<abstract>>
+    -count: number
+    -multiplier: number
+    +purchase(): void
 }
+
 
 note for Upgrade "
 <ul> Class Invariants :
-<li>multiplierAmount > 1</li>
-<li>getCount() >= 0</li>
+<li>multiplier > 1</li>
+<li>count >= 0</li>
 </ul>
 "
 
@@ -62,9 +63,11 @@ note for AIFacilitatedChatBot "Class invariants:
 <li>multiplier > 1</li>
 </ul>"
 
-Upgrade <|.. "implements" AIFacilitatedChatBot
-Upgrade <|.. "implements" VibeCodingIntern
+Upgrade <|-- VibeCodingIntern
+Upgrade <|-- AIFacilitatedChatBot
 
 
-Player o-- Upgrade : purchases and owns
+
+Player *-- Upgrade
+
 ```
