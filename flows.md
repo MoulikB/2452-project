@@ -20,11 +20,14 @@ purchased upgrades affect the amount gained per click.
 ```mermaid
 flowchart TD
     view[[Player sees clickable item and current BadCode count]]
-    clickButton([Player clicks item])
-    update[Displayed BadCode increases based on current upgrades]
-    endClick[[Continue playing]]
+    clickItem([Player clicks BadCode])
+    process{Process click input based on upgrades}
+    endClick[[BadCode total updated and continue playing]]
 
-    view --> clickButton --> update --> endClick
+    view --> clickItem
+    clickItem -- click input --> process
+    process -- updated BadCode --> endClick
+
 ```
 
 ## Purchase Upgrades
@@ -35,13 +38,17 @@ power. If they do not have enough Bad Code, an error message is shown.
 ```mermaid
 flowchart TD
     view[[Player views available upgrades]]
-    select([Player selects an upgrade])
-    enough{Enough BadCode available?}
-    success[Upgrade is purchased and clicking power increases]
-    fail[Message shown: not enough BadCode]
+    select([Player selects upgrade])
+    process{Process upgrade purchase}
+    success[Click power increased]
+    fail[Not enough BadCode message shown]
     endUpgrade[[Return to game]]
 
-    view --> select --> enough
-    enough -->|Yes| success --> endUpgrade
-    enough -->|No| fail --> endUpgrade
+    view --> select
+    select -- selected upgrade and current BadCode --> process
+    process -- purchase successful --> success
+    process -- insufficient BadCode --> fail
+    success --> endUpgrade
+    fail --> endUpgrade
+
 ```
