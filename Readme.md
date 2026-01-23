@@ -12,7 +12,11 @@ purchase upgrades to increase their terrible coding power.
 
 # Running the project
 
-This project is implemented using JavaScript and TypeScript.
+This project is implemented using JavaScript and TypeScript. To run enter the following command
+
+```
+npx vite
+```
 
 # Design documentation
 
