@@ -6,7 +6,7 @@ date: Januray 12 2026
 
 # Domain model
 
-The domain model for the BadCode clicker game. You click to generate more and more bad code. You have a player class which keeps account of current stats and info and an upgrade abstract on which all the upgrades are built upon. Each click is modified by the upgrades : the multipliers you own. The amount of upgrades you own also modifies the "clicking power".
+The domain model for the BadCode clicker game. You click to generate more and more bad code. You have a player class which keeps account of current stats and info and an abstract Upgrade class on which all upgrades are built. Each click is modified by the upgrades : the multipliers you own. The amount of upgrades you own also modifies the "clicking power".
 
 ```mermaid
 
