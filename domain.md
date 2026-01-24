@@ -29,7 +29,6 @@ class Upgrade {
     <<abstract>>
     -count: number
     -multiplier: number
-    +purchase(): void
 }
 
 note for Upgrade "Class invariants:
@@ -44,10 +43,9 @@ class VibeCodingIntern {
 class AIFacilitatedChatBot {
 }
 
-note for VibeCodingIntern "Abstract class which inherits from upgrade"
+note for VibeCodingIntern "Concrete class which inherits from abstract class upgrade"
 
-note for AIFacilitatedChatBot "Abstract class which inherits from upgrade"
-
+note for AIFacilitatedChatBot "Concrete class which inherits from abstract class upgrade"
 Upgrade <|-- VibeCodingIntern
 Upgrade <|-- AIFacilitatedChatBot
 
