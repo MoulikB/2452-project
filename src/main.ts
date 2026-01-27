@@ -29,7 +29,7 @@ clickBtn.addEventListener("click", () => {
 chatbotBtn.addEventListener("click", () => {
   try {
     counter.spend(chatbot.cost);
-    chatbot.purchase(counter.getValue());
+    chatbot.purchase();
     render();
   } catch (e) {
     alert((e as Error).message);
@@ -39,7 +39,7 @@ chatbotBtn.addEventListener("click", () => {
 internBtn.addEventListener("click", () => {
   try {
     counter.spend(intern.cost);
-    intern.purchase(counter.getValue());
+    intern.purchase();
     render();
   } catch (e) {
     alert((e as Error).message);

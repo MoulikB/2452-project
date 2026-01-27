@@ -3,10 +3,7 @@ export abstract class Upgrade {
   abstract cost: number;
   count: number = 0;
 
-  purchase(currentValue: number): void {
-    if (currentValue < this.cost) {
-      throw new Error("Precondition violated: not enough points");
-    }
+  purchase(): void {
     this.count++;
   }
 }
