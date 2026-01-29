@@ -1,5 +1,5 @@
 import { Counter } from "./domain/Counter";
-import { AIFacilitatedChatBot, VibeCodingIntern } from "./domain/upgrade";
+import { AIFacilitatedChatBot, VibeCodingIntern } from "./domain/Upgrade";
 
 // Create upgrades
 const chatbot = new AIFacilitatedChatBot();

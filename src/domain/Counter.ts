@@ -1,4 +1,4 @@
-import { Upgrade } from "./upgrade";
+import { Upgrade } from "./Upgrade";
 
 // Invariant: value is always >= 0
 export class Counter {
