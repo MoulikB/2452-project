@@ -1,4 +1,5 @@
-import type Listener from "../Listener";
+import type Listener from "../listener";
+import InvalidAmountError from "./InvalidAmountError";
 import BadCodeCountError from "./BadCodeCountError";
 import { InvalidClickPowerError } from "./InvalidClickPowerError";
 import InsufficientBadCodeError from "./InsufficientBadCodeError";
@@ -30,15 +31,24 @@ export default class Player {
   }
 
   spend(amount: number) {
+    this.#checkInvariants();
+    if (amount < 0) {
+      throw new InvalidAmountError();
+    }
     if (amount > this.#badCode) {
       throw new InsufficientBadCodeError();
     }
 
     this.#badCode -= amount;
+    this.#checkInvariants();
     this.#notifyAll();
   }
 
   increaseClickPower(amount: number) {
+    this.#checkInvariants();
+    if (amount < 0) {
+      throw new InvalidAmountError();
+    }
     this.#clickPower += amount;
     this.#checkInvariants();
     this.#notifyAll();
