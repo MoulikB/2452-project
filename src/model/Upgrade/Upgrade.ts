@@ -4,7 +4,7 @@ export default abstract class Upgrade {
   protected cost!: number;
   protected count: number = 0;
 
-  get costValue(): number {
+  costValue(): number {
     return this.cost;
   }
 
