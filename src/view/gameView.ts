@@ -1,4 +1,4 @@
-import type Listener from "../model/listener";
+import type Listener from "../model/Listener";
 import Player from "../model/Player/Player";
 import GameController from "../controller/GameController";
 import VibeCodingIntern from "../model/Upgrade/VibeCodingIntern";
@@ -71,7 +71,6 @@ export default class GameView implements Listener {
         }
       }
     });
-
   }
 
   notify(): void {

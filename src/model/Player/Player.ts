@@ -1,8 +1,7 @@
-import type Listener from "../listener";
-import BadCodeCountError  from "./BadCodeCountError";
+import type Listener from "../Listener";
+import BadCodeCountError from "./BadCodeCountError";
 import { InvalidClickPowerError } from "./InvalidClickPowerError";
 import InsufficientBadCodeError from "./InsufficientBadCodeError";
-
 
 export default class Player {
   #badCode: number;
@@ -30,16 +29,14 @@ export default class Player {
     this.#notifyAll();
   }
 
+  spend(amount: number) {
+    if (amount > this.#badCode) {
+      throw new InsufficientBadCodeError();
+    }
 
-spend(amount: number) {
-  if (amount > this.#badCode) {
-    throw new InsufficientBadCodeError();
+    this.#badCode -= amount;
+    this.#notifyAll();
   }
-
-  this.#badCode -= amount;
-  this.#notifyAll();
-}
-
 
   increaseClickPower(amount: number) {
     this.#clickPower += amount;
