@@ -3,13 +3,18 @@ import Player from "../src/model/Player/Player";
 import VibeCodingIntern from "../src/model/Upgrade/VibeCodingIntern";
 import InsufficientBadCodeError from "../src/model/Player/InsufficientBadCodeError";
 
+//Helper function to increase click power and increment bad code
+function givePlayerBadCode(player: Player, amount: number) {
+  player.increaseClickPower(amount - 1);
+  player.increment();
+}
+
 test("purchase increases click power and upgrade count", () => {
   const player = new Player();
   const upgrade = new VibeCodingIntern();
 
   // give player exactly 20 badCode
-  player.increaseClickPower(19);
-  player.increment(); // badCode = 20
+  givePlayerBadCode(player, 20);
 
   upgrade.purchase(player);
 
@@ -23,8 +28,8 @@ test("upgrade can be purchased multiple times", () => {
   const upgrade = new VibeCodingIntern();
 
   // give enough badCode for two purchases
-  player.increaseClickPower(39);
-  player.increment(); // badCode = 40
+  // give player exactly 40 badCode
+  givePlayerBadCode(player, 40);
 
   upgrade.purchase(player); // first purchase BAD CODE = 20
   upgrade.purchase(player); // second purchase BAD CODE = 0
@@ -44,12 +49,12 @@ test("purchase throws error if player cannot afford upgrade", () => {
   }).toThrow(InsufficientBadCodeError);
 });
 
-test("AI chatbot upgrade cost remains constant", () => {
+test("Vibe Coding upgrade cost remains constant", () => {
   const upgrade = new VibeCodingIntern();
   const player = new Player();
 
-  player.increaseClickPower(19);
-  player.increment(); // badCode = 20
+  // give player exactly 20 badCode
+  givePlayerBadCode(player, 20);
 
   upgrade.purchase(player);
 

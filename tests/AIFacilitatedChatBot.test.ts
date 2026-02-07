@@ -3,12 +3,18 @@ import Player from "../src/model/Player/Player";
 import AIFacilitatedChatBot from "../src/model/Upgrade/AIFacilitatedChatBot";
 import InsufficientBadCodeError from "../src/model/Player/InsufficientBadCodeError";
 
+//Helper function to increase click power and increment bad code
+function givePlayerBadCode(player: Player, amount: number) {
+  player.increaseClickPower(amount - 1);
+  player.increment();
+}
+
 test("AI chatbot upgrade increases click power by 2", () => {
   const player = new Player();
   const upgrade = new AIFacilitatedChatBot();
 
-  player.increaseClickPower(49);
-  player.increment(); // badCode = 50
+  givePlayerBadCode(player, 50);
+  // badCode = 50
 
   upgrade.purchase(player);
 
@@ -22,8 +28,8 @@ test("upgrade can be purchased multiple times", () => {
   const upgrade = new AIFacilitatedChatBot();
 
   // give enough badCode for two purchases
-  player.increaseClickPower(99);
-  player.increment(); // badCode = 100
+  givePlayerBadCode(player, 100);
+
   upgrade.purchase(player); // first purchase BAD CODE = 50
   upgrade.purchase(player); // second purchase BAD CODE = 0
 
@@ -46,8 +52,8 @@ test("AI chatbot upgrade cost remains constant", () => {
   const upgrade = new AIFacilitatedChatBot();
   const player = new Player();
 
-  player.increaseClickPower(49);
-  player.increment(); // badCode = 50
+  //badCode = 50
+  givePlayerBadCode(player, 50);
 
   upgrade.purchase(player);
 

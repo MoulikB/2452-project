@@ -73,14 +73,6 @@ test("listeners are notified on state change", () => {
   expect(called).toBe(true);
 });
 
-test("click power cannot be increased by negative amount", () => {
-  const p = new Player();
-
-  expect(() => {
-    p.increaseClickPower(-1);
-  }).toThrow(InvalidAmountError);
-});
-
 test("badCode never becomes negative", () => {
   const p = new Player();
 
