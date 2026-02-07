@@ -25,20 +25,20 @@ export default class GameView implements Listener {
     this.#player.registerListener(this);
 
     document.querySelector("#app")!.innerHTML = `
-      <button id="click-btn">Click</button>
+      <button id="click-btn">Buy More Bad Code!</button>
       <div>Bad Code: <span id="bad-code"></span></div>
 
       <hr />
 
       <button id="intern-btn">
-        Buy Intern (Cost: <span id="intern-cost"></span>)
+        Buy Vibe-Coding Intern (Cost: <span id="intern-cost"></span>)
       </button>
       <span>Owned: <span id="intern-count"></span></span>
-
+      
       <br />
 
       <button id="ai-btn">
-        Buy AI Bot (Cost: <span id="ai-cost"></span>)
+        Buy AI Facilitated Chat Bot (Cost: <span id="ai-cost"></span>)
       </button>
       <span>Owned: <span id="ai-count"></span></span>
     `;
