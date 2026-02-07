@@ -1,7 +1,5 @@
 import type Listener from "../listener";
 import InvalidAmountError from "./InvalidAmountError";
-import BadCodeCountError from "./BadCodeCountError";
-import { InvalidClickPowerError } from "./InvalidClickPowerError";
 import InsufficientBadCodeError from "./InsufficientBadCodeError";
 
 export default class Player {
@@ -64,10 +62,10 @@ export default class Player {
 
   #checkInvariants() {
     if (this.#badCode < 0) {
-      throw new BadCodeCountError();
+      throw new Error();
     }
     if (this.#clickPower < 1) {
-      throw new InvalidClickPowerError();
+      throw new Error();
     }
   }
 }
