@@ -1,6 +1,7 @@
 import type Listener from "../listener";
 import InvalidAmountError from "./InvalidAmountError";
 import InsufficientBadCodeError from "./InsufficientBadCodeError";
+import { assert } from "../../assertion";
 
 export default class Player {
   #badCode: number;
@@ -61,11 +62,13 @@ export default class Player {
   }
 
   #checkInvariants() {
-    if (this.#badCode < 0) {
-      throw new Error();
-    }
-    if (this.#clickPower < 1) {
-      throw new Error();
-    }
+    assert(
+      this.#badCode >= 0,
+      "Bad Code must always be greather than or equal to 0",
+    );
+    assert(
+      this.#clickPower >= 1,
+      "Click Power must always be greater than or equal to 1",
+    );
   }
 }
