@@ -80,15 +80,13 @@ export default class GameView implements Listener {
     document.querySelector("#intern-count")!.textContent =
       this.#intern.upgradeCount.toString();
 
-    document.querySelector("#intern-cost")!.textContent = this.#intern
-      .costValue()
-      .toString();
+    document.querySelector("#intern-cost")!.textContent =
+      this.#intern.costValue.toString();
 
     document.querySelector("#ai-count")!.textContent =
       this.#aiBot.upgradeCount.toString();
 
-    document.querySelector("#ai-cost")!.textContent = this.#aiBot
-      .costValue()
-      .toString();
+    document.querySelector("#ai-cost")!.textContent =
+      this.#aiBot.costValue.toString();
   }
 }

@@ -1,16 +1,15 @@
 import Upgrade from "./Upgrade";
-import Player from "../Player/Player";
 
+// An upgrade that provides an AI-facilitated chatbot,
+// increasing the player's click power by 2 and allowing them to generate more bad code
 export default class AIFacilitatedChatBot extends Upgrade {
+  private static readonly CLICK_POWER_BONUS = 2; // The amount of click power this upgrade increases
+  private static readonly COST = 50; // The cost of the upgrade
+
+  // Initializes the AI-facilitated chatbot upgrade with predefined cost and power increase
   constructor() {
     super();
-    this.clickPowerIncrease = 2;
-    this.cost = 50;
-  }
-
-  protected apply(player: Player): void {
-    this.checkInvariants();
-    player.increaseClickPower(this.clickPowerIncrease);
-    this.checkInvariants();
+    this.clickPowerIncrease = AIFacilitatedChatBot.CLICK_POWER_BONUS;
+    this.cost = AIFacilitatedChatBot.COST;
   }
 }

@@ -54,5 +54,5 @@ test("AI chatbot upgrade cost remains constant", () => {
   expect(player.badCode).toBe(0);
 
   // After purchase, cost should remain the same
-  expect(upgrade.costValue()).toBe(50);
+  expect(upgrade.costValue).toBe(50);
 });
