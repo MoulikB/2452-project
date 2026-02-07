@@ -2,8 +2,6 @@ import { test, expect } from "vitest";
 import Player from "../src/model/Player/Player";
 import InvalidAmountError from "../src/model/Player/InvalidAmountError";
 import InsufficientBadCodeError from "../src/model/Player/InsufficientBadCodeError";
-import { InvalidClickPowerError } from "../src/model/Player/InvalidClickPowerError";
-import BadCodeCountError from "../src/model/Player/BadCodeCountError";
 
 test("player starts with valid initial state", () => {
   const p = new Player();
@@ -11,25 +9,6 @@ test("player starts with valid initial state", () => {
   expect(p.badCode).toBe(0);
   expect(p.clickPower).toBe(1);
 });
-
-// THE BELOW TESTS CANNOT DIRECTLY ACCESS PRIVATE METHODS/PROPERTIES SO THEY ARE COMMENTED
-// OUT FOR FUTURE REFERENCE IF ANY REFACTORING ALLOWS IT
-
-// test("badCode invariant throws InvalidClickPowerError if violated", () => {
-//   const p = new Player();
-//   expect(() => {
-//     p.#clickPower = -10; // force violation
-//     p.#checkInvariants();
-//   }).toThrow(InvalidClickPowerError);
-// });
-
-// test("badCode invariant throws BadCodeCountError if violated", () => {
-//   const p = new Player();
-//   expect(() => {
-//     p.#badCode = -5; // force violation
-//     p.#checkInvariants();
-//   }).toThrow(BadCodeCountError);
-// });
 
 test("increment increases badCode by 1 at default click power", () => {
   const p = new Player();
