@@ -28,6 +28,7 @@ note for Player "Class invariants:
 class Upgrade {
     <<abstract>>
     -count: number
+    -cost : number
     -clickPowerIncrease : number
     +purchase(Player) : void
     +apply(Player) : void
