@@ -3,6 +3,9 @@ import VibeCodingIntern from "../model/Upgrade/VibeCodingIntern";
 import AIFacilitatedChatBot from "../model/Upgrade/AIFacilitatedChatBot";
 import GameView from "../view/gameView";
 
+// Controller responsible for coordinating the game.
+// Creates model instances, connects them to the view,
+// and exposes user actions to the UI.
 export default class GameController {
   #player: Player;
   #intern: VibeCodingIntern;
@@ -16,15 +19,18 @@ export default class GameController {
     new GameView(this.#player, this.#intern, this.#aiBot, this);
   }
 
-  click() {
+  // Simulate a click and increment bad code by click Power
+  public click() {
     this.#player.increment();
   }
 
-  buyIntern() {
+  // Buy a new intern upgrade
+  public buyIntern() {
     this.#intern.purchase(this.#player);
   }
 
-  buyAIBot() {
+  // Buy a new AI Bot upgrade
+  public buyAIBot() {
     this.#aiBot.purchase(this.#player);
   }
 }

@@ -5,6 +5,9 @@ import VibeCodingIntern from "../model/Upgrade/VibeCodingIntern";
 import AIFacilitatedChatBot from "../model/Upgrade/AIFacilitatedChatBot";
 import InsufficientBadCodeError from "../model/Player/InsufficientBadCodeError";
 
+// View responsible for rendering the game UI and responding to model updates.
+// Delegates user interactions to the controller.
+
 export default class GameView implements Listener {
   #player: Player;
   #intern: VibeCodingIntern;
@@ -52,25 +55,28 @@ export default class GameView implements Listener {
       .querySelector("#click-btn")!
       .addEventListener("click", () => this.#controller.click());
 
-    document.querySelector("#intern-btn")!.addEventListener("click", () => {
-      try {
-        this.#controller.buyIntern();
-      } catch (e) {
-        if (e instanceof InsufficientBadCodeError) {
-          alert("Not enough bad code");
-        }
-      }
-    });
+    document
+      .querySelector("#intern-btn")!
+      .addEventListener("click", () =>
+        this.#attempt(() => this.#controller.buyIntern()),
+      );
 
-    document.querySelector("#ai-btn")!.addEventListener("click", () => {
-      try {
-        this.#controller.buyAIBot();
-      } catch (e) {
-        if (e instanceof InsufficientBadCodeError) {
-          alert("Not enough bad code");
-        }
+    document
+      .querySelector("#ai-btn")!
+      .addEventListener("click", () =>
+        this.#attempt(() => this.#controller.buyAIBot()),
+      );
+  }
+
+  // Avoids repetition of try/catch logic when attempting to buy new upgrades
+  #attempt(action: () => void): void {
+    try {
+      action();
+    } catch (e) {
+      if (e instanceof InsufficientBadCodeError) {
+        alert("Not enough bad code");
       }
-    });
+    }
   }
 
   notify(): void {
