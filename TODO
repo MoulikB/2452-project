@@ -1,6 +1,0 @@
-new views can be removed and added from the display
-handles exceptions
-uses input
-
-something which is adding a listener should not be a part of the controller or main should be a part of the view
-error should not be printing errros should be moved to view screen
