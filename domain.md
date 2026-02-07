@@ -9,18 +9,18 @@ date: Januray 12 2026
 The domain model for the BadCode clicker game. You click to generate more and more bad code. You have a player class which keeps account of current stats and info and an abstract Upgrade class on which all upgrades are built. Each click is modified by the upgrades : the multipliers you own. The amount of upgrades you own also modifies the "clicking power".
 
 ```mermaid
-
 classDiagram
 
 class Player {
-    -name: string
     -clickPower: number
     -BadCodeCount: number
+    +increment() : void
+    +spend(amount): void
+    +increaseClickPower(amount): void
 }
 
 note for Player "Class invariants:
 <ul>
-<li>name is not null or empty</li>
 <li>clickPower >= 1</li>
 <li>BadCodeCount >= 0</li>
 </ul>"
@@ -37,11 +37,9 @@ note for Upgrade "Class invariants:
 <li>multiplier > 1</li>
 </ul>"
 
-class VibeCodingIntern {
-}
+class VibeCodingIntern
 
-class AIFacilitatedChatBot {
-}
+class AIFacilitatedChatBot
 
 note for VibeCodingIntern "Concrete class which inherits from abstract class upgrade"
 
@@ -50,5 +48,4 @@ Upgrade <|-- VibeCodingIntern
 Upgrade <|-- AIFacilitatedChatBot
 
 Player *-- Upgrade : owns
-
 ```

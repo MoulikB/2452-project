@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1770486661092" clover="3.2.0">
-  <project timestamp="1770486661092" name="All files">
-    <metrics statements="45" coveredstatements="43" conditionals="8" coveredconditionals="7" methods="21" coveredmethods="20" elements="74" coveredelements="70" complexity="0" loc="45" ncloc="45" packages="3" files="7" classes="7"/>
+<coverage generated="1770488347317" clover="3.2.0">
+  <project timestamp="1770488347317" name="All files">
+    <metrics statements="47" coveredstatements="45" conditionals="8" coveredconditionals="7" methods="21" coveredmethods="20" elements="76" coveredelements="72" complexity="0" loc="47" ncloc="47" packages="3" files="7" classes="7"/>
     <package name="src">
       <metrics statements="3" coveredstatements="1" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="1"/>
       <file name="assertion.ts" path="C:\Users\Moulik\Documents\CODING\2452-project\src\assertion.ts">
@@ -54,27 +54,29 @@
       </file>
     </package>
     <package name="src.model.Upgrade">
-      <metrics statements="12" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="7"/>
+      <metrics statements="14" coveredstatements="14" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="7"/>
       <file name="AIFacilitatedChatBot.ts" path="C:\Users\Moulik\Documents\CODING\2452-project\src\model\Upgrade\AIFacilitatedChatBot.ts">
-        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="6" count="4" type="stmt"/>
         <line num="7" count="4" type="stmt"/>
-        <line num="11" count="4" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="12" count="4" type="stmt"/>
       </file>
       <file name="Upgrade.ts" path="C:\Users\Moulik\Documents\CODING\2452-project\src\model\Upgrade\Upgrade.ts">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
-        <line num="5" count="8" type="stmt"/>
-        <line num="8" count="2" type="stmt"/>
-        <line num="12" count="4" type="stmt"/>
-        <line num="16" count="10" type="stmt"/>
+        <line num="6" count="8" type="stmt"/>
+        <line num="9" count="2" type="stmt"/>
+        <line num="13" count="4" type="stmt"/>
         <line num="17" count="10" type="stmt"/>
         <line num="18" count="10" type="stmt"/>
+        <line num="19" count="10" type="stmt"/>
       </file>
       <file name="VibeCodingIntern.ts" path="C:\Users\Moulik\Documents\CODING\2452-project\src\model\Upgrade\VibeCodingIntern.ts">
-        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="6" count="4" type="stmt"/>
         <line num="7" count="4" type="stmt"/>
-        <line num="11" count="4" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="12" count="4" type="stmt"/>
       </file>
     </package>
   </project>
