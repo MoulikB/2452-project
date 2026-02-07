@@ -9,6 +9,8 @@ export default class AIFacilitatedChatBot extends Upgrade {
   }
 
   protected apply(player: Player): void {
+    this.checkInvariants();
     player.increaseClickPower(this.clickPowerIncrease);
+    this.checkInvariants();
   }
 }

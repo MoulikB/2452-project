@@ -28,13 +28,16 @@ note for Player "Class invariants:
 class Upgrade {
     <<abstract>>
     -count: number
-    -multiplier: number
-}
+    -clickPowerIncrease : number
+    +purchase(Player) : void
+    +apply(Player) : void
+ }
 
 note for Upgrade "Class invariants:
 <ul>
 <li>count >= 0</li>
-<li>multiplier > 1</li>
+<li>clickPowerIncrease >= 1</li>
+<li>cost >= 1</li>
 </ul>"
 
 class VibeCodingIntern
