@@ -32,13 +32,13 @@ export default abstract class Upgrade {
 
     player.spend(this.cost);
     this.count++;
-    this.apply(player);
+    this.#apply(player);
 
     this.checkInvariants();
   }
 
   // Applies the effect of the upgrade to the player and increases their click power
-  private apply(player: Player): void {
+  #apply(player: Player): void {
     this.checkInvariants();
 
     player.increaseClickPower(this.clickPowerIncrease);

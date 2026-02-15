@@ -1,7 +1,7 @@
 import Player from "../model/Player/Player";
 import VibeCodingIntern from "../model/Upgrade/VibeCodingIntern";
 import AIFacilitatedChatBot from "../model/Upgrade/AIFacilitatedChatBot";
-import GameView from "../view/gameView";
+import GameView from "../view/GameView";
 
 // Controller responsible for coordinating the game.
 // Creates model instances, connects them to the view,
