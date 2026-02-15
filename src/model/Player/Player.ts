@@ -65,7 +65,7 @@ export default class Player {
 
   // Purchases this upgrade for the given player.
   // Deducts cost, increments upgrade count, and applies the upgrade effect
-  public purchase(upgrade: Upgrade) {
+  public purchase(upgrade: Upgrade): void {
     this.#checkInvariants();
 
     this.spend(upgrade.costValue); // Spend the total value needed to buy the upgrade. Also checks if we can afford the upgrade or not
@@ -86,7 +86,7 @@ export default class Player {
   }
 
   // Increments total bad code by current click power
-  public increment() {
+  public increment(): void {
     this.#checkInvariants();
 
     this.#badCode += this.#clickPower;
@@ -96,7 +96,7 @@ export default class Player {
   }
 
   // Check if we can spend the given amount to buy more upgrades
-  public spend(amount: number) {
+  public spend(amount: number): void {
     this.#checkInvariants();
 
     if (amount < 0) {
@@ -113,7 +113,7 @@ export default class Player {
   }
 
   // Function used by upgrade class to increase click power for every purchase by a given amount
-  public increaseClickPower(amount: number) {
+  public increaseClickPower(amount: number): void {
     this.#checkInvariants();
 
     if (amount < 0) {
@@ -126,12 +126,12 @@ export default class Player {
   }
 
   //Register given listener to the player
-  public registerListener(listener: Listener) {
+  public registerListener(listener: Listener): void {
     this.#listeners.push(listener);
   }
 
   //Notify all listeners for any changes made
-  #notifyAll() {
+  #notifyAll(): void {
     this.#listeners.forEach((l) => l.notify());
   }
 }

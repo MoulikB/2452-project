@@ -14,8 +14,14 @@ classDiagram
 class Player {
     -clickPower: number
     -badCode: number
+    -AIBotUpgrade : AIFacilitatedChatBot
+    -InternUpgrade: VibeCodingIntern
     +increment() : void
     +spend(amount): void
+    +purchaseInternUpgrade(): void
+    +purchaseBotUpgrade(): void
+    +purchase(upgrade): void
+    -apply(upgrade): void
     +increaseClickPower(amount): void
 }
 
@@ -29,10 +35,9 @@ class Upgrade {
     <<abstract>>
     -count: number
     -cost : number
-    -clickPowerIncrease : number
-    +purchase(Player) : void
-    -apply(Player) : void
- }
+    -clickPowerIncrease: number
+    +increaseCount(): void
+}
 
 note for Upgrade "Class invariants:
 <ul>
@@ -51,6 +56,6 @@ note for AIFacilitatedChatBot "Concrete class which inherits from abstract class
 Upgrade <|-- VibeCodingIntern
 Upgrade <|-- AIFacilitatedChatBot
 
-Player --> Upgrade : interacts with
+Player --* Upgrade : composed of
 
 ```
