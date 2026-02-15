@@ -22,24 +22,54 @@ export default class GameView implements Listener {
 
     this.#player.registerListener(this);
 
+    this.#renderIntro();
+  }
+
+  #renderIntro(): void {
     document.querySelector("#app")!.innerHTML = `
-      <button id="click-btn">Buy More Bad Code!</button>
-      <div>Bad Code: <span id="bad-code"></span></div>
+    <h1>Welcome to Bad Code Clicker</h1>
+    <input id="name-input" type="text" placeholder="Enter your name" />
+    <br /><br />
+    <button id="start-btn">Start Game</button>
+  `;
 
-      <hr />
+    document.querySelector("#start-btn")!.addEventListener("click", () => {
+      const name = (
+        document.querySelector("#name-input") as HTMLInputElement
+      ).value.trim();
 
-      <button id="intern-btn">
-        Buy Vibe-Coding Intern (Cost: <span id="intern-cost"></span>)
-      </button>
-      <span>Owned: <span id="intern-count"></span></span>
+      if (name.length === 0) {
+        alert("Please enter your name.");
+        return;
+      }
+
+      this.#player.name = name;
+
+      this.#renderGame();
+    });
+  }
+
+  #renderGame(): void {
+    document.querySelector("#app")!.innerHTML = `
+    <h2>Welcome, <span id="name"></span>!</h2>
+
+    <button id="click-btn">Buy More Bad Code!</button>
+    <div>Bad Code: <span id="bad-code"></span></div>
+
+    <hr />
+
+    <button id="intern-btn">
+      Buy Vibe-Coding Intern (Cost: <span id="intern-cost"></span>)
+    </button>
+    <span>Owned: <span id="intern-count"></span></span>
       
-      <br />
+    <br />
 
-      <button id="ai-btn">
-        Buy AI Facilitated Chat Bot (Cost: <span id="ai-cost"></span>)
-      </button>
-      <span>Owned: <span id="ai-count"></span></span>
-    `;
+    <button id="ai-btn">
+      Buy AI Facilitated Chat Bot (Cost: <span id="ai-cost"></span>)
+    </button>
+    <span>Owned: <span id="ai-count"></span></span>
+  `;
 
     this.#wireEvents();
     this.notify();
@@ -75,6 +105,7 @@ export default class GameView implements Listener {
   }
 
   notify(): void {
+    document.querySelector("#name")!.textContent = this.#player.name.toString();
     document.querySelector("#bad-code")!.textContent =
       this.#player.badCode.toString();
 

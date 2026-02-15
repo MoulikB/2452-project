@@ -1,6 +1,5 @@
 import { test, expect } from "vitest";
 import Player from "../src/model/Player/Player";
-import VibeCodingIntern from "../src/model/Upgrade/VibeCodingIntern";
 import InsufficientBadCodeError from "../src/model/Player/InsufficientBadCodeError";
 
 //Helper function to increase click power and increment bad code

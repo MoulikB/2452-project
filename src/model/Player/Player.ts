@@ -5,11 +5,13 @@ import { assert } from "../../assertion";
 import Upgrade from "../Upgrade/Upgrade";
 import AIFacilitatedChatBot from "../Upgrade/AIFacilitatedChatBot";
 import VibeCodingIntern from "../Upgrade/VibeCodingIntern";
+import db from "../connection.ts";
 
 // Represents the player state in the game.
 // Tracks accumulated bad code, click power, and notifies listeners on state changes.
 
 export default class Player {
+  #name!: string;
   #badCode: number;
   #clickPower: number;
   #listeners: Array<Listener>;
@@ -35,6 +37,29 @@ export default class Player {
     this.#AIBotUpgrade = new AIFacilitatedChatBot();
     this.#InternUpgrade = new VibeCodingIntern();
     this.#checkInvariants();
+  }
+
+  static async getAllPlayers(): Promise<Array<Player>> {
+    const allPlayers = new Array<Player>();
+
+    let results = await db().query<{ name: string }>("select name from player");
+
+    // we need transform the rows into instances of Player
+    results.rows.forEach((row) => {
+      let newPlayer = new Player();
+      newPlayer.name = this.name;
+      allPlayers.push();
+    });
+
+    return allPlayers;
+  }
+
+  get name(): string {
+    return this.#name;
+  }
+
+  set name(name: string) {
+    this.#name = name;
   }
 
   get badCode(): number {

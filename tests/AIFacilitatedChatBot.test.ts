@@ -1,6 +1,5 @@
 import { test, expect } from "vitest";
 import Player from "../src/model/Player/Player";
-import AIFacilitatedChatBot from "../src/model/Upgrade/AIFacilitatedChatBot";
 import InsufficientBadCodeError from "../src/model/Player/InsufficientBadCodeError";
 
 //Helper function to increase click power and increment bad code
