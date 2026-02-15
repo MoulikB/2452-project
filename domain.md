@@ -56,6 +56,5 @@ note for AIFacilitatedChatBot "Concrete class which inherits from abstract class
 Upgrade <|-- VibeCodingIntern
 Upgrade <|-- AIFacilitatedChatBot
 
-Player --* Upgrade : composed of
-
+Player --* Upgrade : composed of concrete implementations of abstract class
 ```

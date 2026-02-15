@@ -16,7 +16,7 @@ export default class Player {
   #AIBotUpgrade: AIFacilitatedChatBot;
   #InternUpgrade: VibeCodingIntern;
 
-  #checkInvariants() {
+  #checkInvariants(): void {
     assert(
       this.#badCode >= 0,
       "Bad Code must always be greater than or equal to 0",
