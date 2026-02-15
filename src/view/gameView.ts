@@ -14,15 +14,10 @@ export default class GameView implements Listener {
   #aiBot: AIFacilitatedChatBot;
   #controller: GameController;
 
-  constructor(
-    player: Player,
-    intern: VibeCodingIntern,
-    aiBot: AIFacilitatedChatBot,
-    controller: GameController,
-  ) {
+  constructor(player: Player, controller: GameController) {
     this.#player = player;
-    this.#intern = intern;
-    this.#aiBot = aiBot;
+    this.#intern = player.Intern;
+    this.#aiBot = player.AIBot;
     this.#controller = controller;
 
     this.#player.registerListener(this);

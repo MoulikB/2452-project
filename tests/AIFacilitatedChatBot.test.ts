@@ -11,54 +11,50 @@ function givePlayerBadCode(player: Player, amount: number) {
 
 test("AI chatbot upgrade increases click power by 2", () => {
   const player = new Player();
-  const upgrade = new AIFacilitatedChatBot();
 
   givePlayerBadCode(player, 50);
   // badCode = 50
 
-  upgrade.purchase(player);
+  player.purchaseBotUpgrade();
 
   expect(player.badCode).toBe(0);
   expect(player.clickPower).toBe(52); // PREVIOUS 49 + 2 + 1 (default)
-  expect(upgrade.upgradeCount).toBe(1);
+  expect(player.AIBot.upgradeCount).toBe(1);
 });
 
 test("upgrade can be purchased multiple times", () => {
   const player = new Player();
-  const upgrade = new AIFacilitatedChatBot();
 
   // give enough badCode for two purchases
   givePlayerBadCode(player, 100);
 
-  upgrade.purchase(player); // first purchase BAD CODE = 50
-  upgrade.purchase(player); // second purchase BAD CODE = 0
+  player.purchaseBotUpgrade(); // first purchase BAD CODE = 50
+  player.purchaseBotUpgrade(); // second purchase BAD CODE = 0
 
   expect(player.badCode).toBe(0);
 
-  expect(upgrade.upgradeCount).toBe(2);
+  expect(player.AIBot.upgradeCount).toBe(2);
   expect(player.clickPower).toBe(104); // 99 from increment +4 from AI chatbot +1 default
 });
 
 test("AI chatbot purchase fails without enough badCode", () => {
   const player = new Player();
-  const upgrade = new AIFacilitatedChatBot();
 
   expect(() => {
-    upgrade.purchase(player);
+    player.purchaseBotUpgrade();
   }).toThrow(InsufficientBadCodeError);
 });
 
 test("AI chatbot upgrade cost remains constant", () => {
-  const upgrade = new AIFacilitatedChatBot();
   const player = new Player();
 
   //badCode = 50
   givePlayerBadCode(player, 50);
 
-  upgrade.purchase(player);
+  player.purchaseBotUpgrade();
 
   expect(player.badCode).toBe(0);
 
   // After purchase, cost should remain the same
-  expect(upgrade.costValue).toBe(50);
+  expect(player.AIBot.costValue).toBe(50);
 });
