@@ -47,7 +47,7 @@ export default class Player {
     // we need transform the rows into instances of Player
     results.rows.forEach((row) => {
       let newPlayer = new Player();
-      newPlayer.name = this.name;
+      newPlayer.name = row.name;
       allPlayers.push();
     });
 
