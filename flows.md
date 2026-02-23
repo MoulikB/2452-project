@@ -52,3 +52,26 @@ flowchart TD
     fail --> endUpgrade
 
 ```
+
+## Purchase Building
+
+The player may choose to purchase an building to which enables an auto clicker which gives you your current Click power per 'x' mount of seconds.
+It emulates you clicking the create bad code game.
+If they do not have enough Bad Code, an error message is shown.
+
+```mermaid
+flowchart TD
+    view[[Player views available buildings]]
+    select([Player selects building])
+    process{Process building purchase}
+    success[Auto Click amount increased]
+    fail[Not enough BadCode message shown]
+    endUpgrade[[Return to game]]
+
+    view --> select
+    select -- selected upgrade and current BadCode --> process
+    process -- purchase successful --> success
+    process -- insufficient BadCode --> fail
+    success --> endUpgrade
+    fail --> endUpgrade
+```

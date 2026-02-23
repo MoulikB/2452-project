@@ -53,8 +53,41 @@ class AIFacilitatedChatBot
 note for VibeCodingIntern "Concrete class which inherits from abstract class upgrade"
 
 note for AIFacilitatedChatBot "Concrete class which inherits from abstract class upgrade"
-Upgrade <|-- VibeCodingIntern
+
+
+VibeCodingIntern --|> Upgrade
 Upgrade <|-- AIFacilitatedChatBot
 
-Player --* Upgrade : composed of concrete implementations of abstract class
+
+
+Player --* Upgrade : composed of concrete implementations of abstract class that increase click power and help in generating more clicks per second
+
+class Building {
+    <<abstract>>
+    -count: number
+    -cost : number
+    -autoClick: number
+    +increaseCount(): void
+}
+
+class DataCentre
+
+class Building2
+
+note for Upgrade "Class invariants:
+<ul>
+<li>count >= 0</li>
+<li>autoClick >= 1</li>
+<li>cost >= 1</li>
+</ul>"
+
+note for DataCentre "Concrete class which inherits from abstract class building"
+note for Building2 "Concrete class which inherits from abstract class building"
+
+Building <|-- DataCentre
+Building <|-- Building2
+
+
+
+Player --* Building : composed of concrete implementations of building class that generates bad code per second
 ```
