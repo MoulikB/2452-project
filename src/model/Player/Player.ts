@@ -1,4 +1,4 @@
-import type Listener from "../listener";
+import type Listener from "../Listener";
 import InvalidAmountError from "./InvalidAmountError";
 import InsufficientBadCodeError from "./InsufficientBadCodeError";
 import { assert } from "../../assertion";
@@ -39,20 +39,20 @@ export default class Player {
     this.#checkInvariants();
   }
 
-  static async getAllPlayers(): Promise<Array<Player>> {
-    const allPlayers = new Array<Player>();
+  // static async getAllPlayers(): Promise<Array<Player>> {
+  //   const allPlayers = new Array<Player>();
 
-    let results = await db().query<{ name: string }>("select name from player");
+  //   let results = await db().query<{ name: string }>("select name from player");
 
-    // we need transform the rows into instances of Player
-    results.rows.forEach((row) => {
-      let newPlayer = new Player();
-      newPlayer.name = row.name;
-      allPlayers.push();
-    });
+  //   // we need transform the rows into instances of Player
+  //   results.rows.forEach((row) => {
+  //     let newPlayer = new Player();
+  //     newPlayer.name = row.name;
+  //     allPlayers.push();
+  //   });
 
-    return allPlayers;
-  }
+  //   return allPlayers;
+  // }
 
   get name(): string {
     return this.#name;

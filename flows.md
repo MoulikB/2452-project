@@ -55,8 +55,8 @@ flowchart TD
 
 ## Purchase Building
 
-The player may choose to purchase an building to which enables an auto clicker which gives you your current Click power per 'x' mount of seconds.
-It emulates you clicking the create bad code game.
+The player may choose to purchase an building which enables an auto clicker which gives you your current click power power 'x' times per 10 seconds.
+It emulates you clicking the create bad code button.
 If they do not have enough Bad Code, an error message is shown.
 
 ```mermaid
@@ -64,7 +64,7 @@ flowchart TD
     view[[Player views available buildings]]
     select([Player selects building])
     process{Process building purchase}
-    success[Auto Click amount increased]
+    success[ProductionPerSecond amount increased]
     fail[Not enough BadCode message shown]
     endUpgrade[[Return to game]]
 
@@ -74,4 +74,20 @@ flowchart TD
     process -- insufficient BadCode --> fail
     success --> endUpgrade
     fail --> endUpgrade
+```
+
+## Passive Production
+How the passive production works in the current game flow
+```mermaid
+flowchart TD
+    timer[[Game timer triggers every X seconds]]
+    calculate{Calculate total passive income}
+    update[Increase BadCode total]
+    notify[Update view display]
+    loop[[Continue game loop]]
+
+    timer --> calculate
+    calculate --> update
+    update --> notify
+    notify --> loop
 ```

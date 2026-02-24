@@ -1,14 +1,15 @@
 ---
 title: Bad Code Clicker
 author: Moulik Bhatia (bhatiam3@myumanitoba.ca)
-date: February 06 2026
+date: February 24 2026
 ---
 
 # Overview
 
 Bad Code Clicker is a simple clicker game created for
 COMP 2452. The player clicks on an item to generate Bad Code and can
-purchase upgrades to increase their terrible coding power.
+purchase upgrades to increase their terrible coding power. They can now also purchase buildings
+that emulate an autoclicker
 
 # Running the project
 

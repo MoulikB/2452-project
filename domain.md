@@ -14,8 +14,11 @@ classDiagram
 class Player {
     -clickPower: number
     -badCode: number
+    -ProductionPerSecond: number
     -AIBotUpgrade : AIFacilitatedChatBot
     -InternUpgrade: VibeCodingIntern
+    -DataCentreBuilding: DataCentre
+    -MemoryLeak : MemoryLeak
     +increment() : void
     +spend(amount): void
     +purchaseInternUpgrade(): void
@@ -23,12 +26,14 @@ class Player {
     +purchase(upgrade): void
     -apply(upgrade): void
     +increaseClickPower(amount): void
+    +increaseProductionPerSecond(amount): void
 }
 
 note for Player "Class invariants:
 <ul>
 <li>clickPower >= 1</li>
 <li>badCode >= 0</li>
+<li>ProductionPerSecond >=0 </li>
 </ul>"
 
 class Upgrade {
@@ -66,26 +71,26 @@ class Building {
     <<abstract>>
     -count: number
     -cost : number
-    -autoClick: number
+    -ProductionPerSecond: number
     +increaseCount(): void
 }
 
 class DataCentre
 
-class Building2
+class MemoryLeak
 
 note for Upgrade "Class invariants:
 <ul>
-<li>count >= 0</li>
-<li>autoClick >= 1</li>
-<li>cost >= 1</li>
+<li> count >= 0</li>
+<li> autoClick >= 1</li>
+<li> ProductionPerSecond >= 1 </li>
 </ul>"
 
 note for DataCentre "Concrete class which inherits from abstract class building"
-note for Building2 "Concrete class which inherits from abstract class building"
+note for MemoryLeak "Concrete class which inherits from abstract class building"
 
 Building <|-- DataCentre
-Building <|-- Building2
+Building <|-- MemoryLeak
 
 
 
