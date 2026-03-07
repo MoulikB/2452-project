@@ -11,33 +11,41 @@ The domain model for the BadCode clicker game. You click to generate more and mo
 ```mermaid
 classDiagram
 
+class Account {
+    -~username: string
+    -password: string
+    -player : Player
+    +authenticate(password): boolean
+}
+
+note for Account "Class invariants:
+<ul>
+<li>username is not empty</li>
+<li>password is not empty</li>
+</ul>"
+
 class Player {
-    -clickPower: number
     -badCode: number
-    -ProductionPerSecond: number
-    -AIBotUpgrade : AIFacilitatedChatBot
-    -InternUpgrade: VibeCodingIntern
-    -DataCentreBuilding: DataCentre
-    -MemoryLeak : MemoryLeak
-    +increment() : void
+    -clickPower: number
+    -productionPerSecond: number
+    +increment(): void
     +spend(amount): void
-    +purchaseInternUpgrade(): void
-    +purchaseBotUpgrade(): void
-    +purchase(upgrade): void
-    -apply(upgrade): void
+    +purchaseUpgrade(upgrade): void
+    +purchaseBuilding(building): void
     +increaseClickPower(amount): void
     +increaseProductionPerSecond(amount): void
 }
 
 note for Player "Class invariants:
 <ul>
-<li>clickPower >= 1</li>
 <li>badCode >= 0</li>
-<li>ProductionPerSecond >=0 </li>
+<li>clickPower >= 1</li>
+<li>productionPerSecond >= 0</li>
 </ul>"
 
 class Upgrade {
     <<abstract>>
+    -~name: string
     -count: number
     -cost : number
     -clickPowerIncrease: number
@@ -46,6 +54,7 @@ class Upgrade {
 
 note for Upgrade "Class invariants:
 <ul>
+<li>name is not empty</li>
 <li>count >= 0</li>
 <li>clickPowerIncrease >= 1</li>
 <li>cost >= 1</li>
@@ -55,44 +64,46 @@ class VibeCodingIntern
 
 class AIFacilitatedChatBot
 
-note for VibeCodingIntern "Concrete class which inherits from abstract class upgrade"
-
-note for AIFacilitatedChatBot "Concrete class which inherits from abstract class upgrade"
-
-
-VibeCodingIntern --|> Upgrade
-Upgrade <|-- AIFacilitatedChatBot
+note for VibeCodingIntern "Concrete upgrade that increases click power."
+note for AIFacilitatedChatBot "Concrete upgrade that increases click power."
 
 
 
-Player --* Upgrade : composed of concrete implementations of abstract class that increase click power and help in generating more clicks per second
+
+
+Player "1" --* "*" Upgrade : composed of concrete implementations of abstract class that increase click power and help in generating more clicks per second
 
 class Building {
     <<abstract>>
+    -~name: string
     -count: number
     -cost : number
-    -ProductionPerSecond: number
+    -productionPerSecond: number
     +increaseCount(): void
 }
+
+note for Building "Class invariants:
+<ul>
+<li>name is not empty</li>
+<li>count >= 0</li>
+<li>productionPerSecond >= 1</li>
+<li>cost >= 1</li>
+</ul>"
 
 class DataCentre
 
 class MemoryLeak
 
-note for Upgrade "Class invariants:
-<ul>
-<li> count >= 0</li>
-<li> autoClick >= 1</li>
-<li> ProductionPerSecond >= 1 </li>
-</ul>"
+Account "1" -- "1" Player : owns game state
 
-note for DataCentre "Concrete class which inherits from abstract class building"
-note for MemoryLeak "Concrete class which inherits from abstract class building"
+note for DataCentre "Concrete building that produces Bad Code per second."
+note for MemoryLeak "Concrete building that produces Bad Code faster."
+
+Upgrade <|-- VibeCodingIntern
+Upgrade <|-- AIFacilitatedChatBot
 
 Building <|-- DataCentre
 Building <|-- MemoryLeak
 
-
-
-Player --* Building : composed of concrete implementations of building class that generates bad code per second
+Player "1" --* "*" Building : composed of concrete implementations of building class that generates bad code per second
 ```

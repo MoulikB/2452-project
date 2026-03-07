@@ -1,8 +1,14 @@
+create table if not exists account (
+    username varchar(255) primary key,
+    password varchar(255) not null
+);
+
 create table if not exists player (
-    name varchar(255) primary key,
+    username varchar(255) primary key,
     badCode integer not null default 0,
     clickPower integer not null default 1,
     productionPerSecond integer not null default 0
+    foreign key (username) references account(username) on delete cascade
 );
 
 create table if not exists upgrade_type (

@@ -4,7 +4,7 @@ author: Moulik Bhatia (bhatiam3@myumanitoba.ca)
 date: January 12 2026
 ---
 
-# Flows of interaction
+# Flows of interaction for phase 1
 
 This document describes how a person interacts with the Bad Code Clicker
 application. Each flow represents a task that the user can perform while
@@ -39,7 +39,7 @@ power. If they do not have enough Bad Code, an error message is shown.
 flowchart TD
     view[[Player views available upgrades]]
     select([Player selects upgrade])
-    process{Process upgrade purchase}
+    process{Check cost and apply upgrade}
     success[Click power increased]
     fail[Not enough BadCode message shown]
     endUpgrade[[Return to game]]
@@ -53,9 +53,50 @@ flowchart TD
 
 ```
 
+# Flows of Interaction for Phase 2
+
+Focusing on buying buildings and account persistence
+
+## Create Account
+
+```mermaid
+flowchart TD
+    start[[User opens game]]
+    create([Enter username and password])
+    process{Create account}
+    success[Account created successfully]
+    fail[Username already exists]
+    login[[Go to login screen]]
+
+    start --> create
+    create --> process
+    process -- success --> success
+    process -- duplicate username --> fail
+    success --> login
+    fail --> login
+```
+
+## Sign in
+
+```mermaid
+flowchart TD
+    login[[Login screen]]
+    input([Enter username and password])
+    process{Validate credentials}
+    success[Load player game state]
+    fail[Invalid credentials message]
+    home[[Game screen]]
+
+    login --> input
+    input --> process
+    process -- valid credentials --> success
+    success --> home
+    process -- invalid credentials --> fail
+```
+
 ## Purchase Building
 
-The player may choose to purchase an building which enables an auto clicker which gives you your current click power power 'x' times per 10 seconds.
+The player may choose to purchase a building which enables an auto clicker and generates badCode automatically based on productionPerSecond.
 It emulates you clicking the create bad code button.
 If they do not have enough Bad Code, an error message is shown.
 
@@ -63,8 +104,8 @@ If they do not have enough Bad Code, an error message is shown.
 flowchart TD
     view[[Player views available buildings]]
     select([Player selects building])
-    process{Process building purchase}
-    success[ProductionPerSecond amount increased]
+    process{Check cost and purchase building}
+    success[ProductionPerSecond increased]
     fail[Not enough BadCode message shown]
     endUpgrade[[Return to game]]
 
@@ -77,17 +118,18 @@ flowchart TD
 ```
 
 ## Passive Production
+
 How the passive production works in the current game flow
+
 ```mermaid
 flowchart TD
-    timer[[Game timer triggers every X seconds]]
+    timer[[setInterval triggers passive production]]
     calculate{Calculate total passive income}
     update[Increase BadCode total]
     notify[Update view display]
-    loop[[Continue game loop]]
 
     timer --> calculate
     calculate --> update
     update --> notify
-    notify --> loop
+    notify --> timer
 ```
