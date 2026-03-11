@@ -14,8 +14,7 @@ classDiagram
 class Account {
     -~username: string
     -password: string
-    -player : Player
-    +authenticate(password): boolean
+    -~player : Player
 }
 
 note for Account "Class invariants:
@@ -28,6 +27,7 @@ class Player {
     -badCode: number
     -clickPower: number
     -productionPerSecond: number
+    -~account : Account
     +increment(): void
     +spend(amount): void
     +purchaseUpgrade(upgrade): void
@@ -43,10 +43,14 @@ note for Player "Class invariants:
 <li>productionPerSecond >= 0</li>
 </ul>"
 
+Account "1" --* "1" Player : owns
+Player "1" --> "1" Account : belongs to
+
 class Upgrade {
     <<abstract>>
     -~name: string
     -count: number
+    -player: Player
     -cost : number
     -clickPowerIncrease: number
     +increaseCount(): void
@@ -72,12 +76,14 @@ note for AIFacilitatedChatBot "Concrete upgrade that increases click power."
 
 
 Player "1" --* "*" Upgrade : composed of concrete implementations of abstract class that increase click power and help in generating more clicks per second
+Upgrade "*" --> "1" Player : belongs to
 
 class Building {
     <<abstract>>
     -~name: string
     -count: number
     -cost : number
+    -player: Player
     -productionPerSecond: number
     +increaseCount(): void
 }
@@ -94,7 +100,7 @@ class DataCentre
 
 class MemoryLeak
 
-Account "1" -- "1" Player : owns game state
+
 
 note for DataCentre "Concrete building that produces Bad Code per second."
 note for MemoryLeak "Concrete building that produces Bad Code faster."
@@ -106,4 +112,5 @@ Building <|-- DataCentre
 Building <|-- MemoryLeak
 
 Player "1" --* "*" Building : composed of concrete implementations of building class that generates bad code per second
+Building "*" --> "1" Player : belongs to
 ```

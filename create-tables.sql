@@ -7,7 +7,7 @@ create table if not exists player (
     username varchar(255) primary key,
     badCode integer not null default 0,
     clickPower integer not null default 1,
-    productionPerSecond integer not null default 0
+    productionPerSecond integer not null default 0,
     foreign key (username) references account(username) on delete cascade
 );
 
@@ -23,7 +23,7 @@ create table if not exists player_upgrade (
     upgrade_name varchar(255) not null,
     quantity integer not null default 0,
 
-    foreign key (player_name) references player(name) on delete cascade,
+    foreign key (player_name) references player(username) on delete cascade,
     foreign key (upgrade_name) references upgrade_type(name),
 
     unique (player_name, upgrade_name)
@@ -41,7 +41,7 @@ create table if not exists player_building (
     building_name varchar(255) not null,
     quantity integer not null default 0,
 
-    foreign key (player_name) references player(name) on delete cascade,
+    foreign key (player_name) references player(username) on delete cascade,
     foreign key (building_name) references building_type(name),
 
     unique (player_name, building_name)
