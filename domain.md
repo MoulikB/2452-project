@@ -71,10 +71,6 @@ class AIFacilitatedChatBot
 note for VibeCodingIntern "Concrete upgrade that increases click power."
 note for AIFacilitatedChatBot "Concrete upgrade that increases click power."
 
-
-
-
-
 Player "1" --* "*" Upgrade : composed of concrete implementations of abstract class that increase click power and help in generating more clicks per second
 Upgrade "*" --> "1" Player : belongs to
 
