@@ -12,7 +12,7 @@ import db from "../connection.ts";
 // Tracks accumulated bad code, click power, and notifies listeners on state changes.
 
 export default class Player {
-  #name!: string;
+  #name: string;
   #badCode: number;
   #clickPower: number;
   #listeners: Array<Listener>;
@@ -32,8 +32,9 @@ export default class Player {
     );
   }
 
-  constructor() {
+  constructor(name: string) {
     // Initial values and initialisation
+    this.#name = name;
     this.#badCode = 0;
     this.#clickPower = 1;
     this.#listeners = [];
@@ -44,8 +45,10 @@ export default class Player {
   }
 
   public static async savePlayer(player: Player): Promise<Player> {
-    let results = await db().query<{ username: string }>(
-      "insert into player(username, badCode, clickPower, productionPerSecond)",
+    const results = await db().query<{ username: string }>(
+      `insert into player(username, badCode, clickPower, productionPerSecond)
+     values ($1, $2, $3, $4)
+     returning username`,
       [
         player.name,
         player.badCode,
@@ -54,12 +57,8 @@ export default class Player {
       ],
     );
 
-    // there would only ever be one value returned from this in results, so
-    // results.rows[0] would be functionally identical to a forEach.
-    results.rows.forEach((row) => {
-      player.name = row["username"];
-      console.log(`Player got username ${player.name}`);
-    });
+    player.name = results.rows[0].username;
+    console.log(`Player got username ${player.name}`);
 
     return player;
   }

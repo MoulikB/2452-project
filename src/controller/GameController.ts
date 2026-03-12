@@ -1,4 +1,5 @@
 import Account from "../model/Account";
+import Player from "../model/Player/Player";
 import GameView from "../view/GameView";
 
 // Controller responsible for coordinating the game.
@@ -14,6 +15,8 @@ export default class GameController {
   // Called by the view after user enters username/password
   public login(username: string, password: string): void {
     this.#account = new Account(username, password);
+    Account.saveAccount(this.#account);
+    Player.savePlayer(this.#account.player);
 
     // give the player to the view once the account exists
     this.#view.startGame(this.#account.player);
