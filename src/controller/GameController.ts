@@ -1,30 +1,40 @@
-import Player from "../model/Player/Player";
+import Account from "../model/Account";
 import GameView from "../view/GameView";
 
 // Controller responsible for coordinating the game.
 // Creates model instances, connects them to the view,
 // and exposes user actions to the UI.
 export default class GameController {
-  #player: Player;
-
+  #account!: Account;
+  #view: GameView;
   constructor() {
-    this.#player = new Player();
+    this.#view = new GameView(this);
+  }
 
-    new GameView(this.#player, this);
+  // Called by the view after user enters username/password
+  public login(username: string, password: string): void {
+    this.#account = new Account(username, password);
+
+    // give the player to the view once the account exists
+    this.#view.startGame(this.#account.player);
   }
 
   // Simulate a click and increment bad code by click Power
   public click() {
-    this.#player.increment();
+    this.#account.player.increment();
   }
 
   // Buy a new intern upgrade
   public buyIntern() {
-    this.#player.purchaseInternUpgrade();
+    this.#account.player.purchaseInternUpgrade();
   }
 
   // Buy a new AI Bot upgrade
   public buyAIBot() {
-    this.#player.purchaseBotUpgrade();
+    this.#account.player.purchaseBotUpgrade();
+  }
+
+  get account(): Account {
+    return this.#account;
   }
 }

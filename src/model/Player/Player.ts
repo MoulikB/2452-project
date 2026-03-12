@@ -1,10 +1,11 @@
-import type Listener from "../Listener";
+import type Listener from "../listener";
 import InvalidAmountError from "./InvalidAmountError";
 import InsufficientBadCodeError from "./InsufficientBadCodeError";
 import { assert } from "../../assertion";
 import Upgrade from "../Upgrade/Upgrade";
 import AIFacilitatedChatBot from "../Upgrade/AIFacilitatedChatBot";
 import VibeCodingIntern from "../Upgrade/VibeCodingIntern";
+import Account from "../Account";
 import db from "../connection.ts";
 
 // Represents the player state in the game.
@@ -17,6 +18,8 @@ export default class Player {
   #listeners: Array<Listener>;
   #AIBotUpgrade: AIFacilitatedChatBot;
   #InternUpgrade: VibeCodingIntern;
+  #productionPerSecond: number;
+  #account!: Account;
 
   #checkInvariants(): void {
     assert(
@@ -36,23 +39,34 @@ export default class Player {
     this.#listeners = [];
     this.#AIBotUpgrade = new AIFacilitatedChatBot();
     this.#InternUpgrade = new VibeCodingIntern();
+    this.#productionPerSecond = 0;
     this.#checkInvariants();
   }
 
-  // static async getAllPlayers(): Promise<Array<Player>> {
-  //   const allPlayers = new Array<Player>();
+  public static async savePlayer(player: Player): Promise<Player> {
+    let results = await db().query<{ username: string }>(
+      "insert into player(username, badCode, clickPower, productionPerSecond)",
+      [
+        player.name,
+        player.badCode,
+        player.clickPower,
+        player.productionPerSecond,
+      ],
+    );
 
-  //   let results = await db().query<{ name: string }>("select name from player");
+    // there would only ever be one value returned from this in results, so
+    // results.rows[0] would be functionally identical to a forEach.
+    results.rows.forEach((row) => {
+      player.name = row["username"];
+      console.log(`Player got username ${player.name}`);
+    });
 
-  //   // we need transform the rows into instances of Player
-  //   results.rows.forEach((row) => {
-  //     let newPlayer = new Player();
-  //     newPlayer.name = row.name;
-  //     allPlayers.push();
-  //   });
+    return player;
+  }
 
-  //   return allPlayers;
-  // }
+  get productionPerSecond(): number {
+    return this.#productionPerSecond;
+  }
 
   get name(): string {
     return this.#name;
