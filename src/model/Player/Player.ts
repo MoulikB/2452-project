@@ -19,7 +19,7 @@ export default class Player {
   #AIBotUpgrade: AIFacilitatedChatBot;
   #InternUpgrade: VibeCodingIntern;
   #productionPerSecond: number;
-  #account!: Account;
+  #account: Account;
 
   #checkInvariants(): void {
     assert(
@@ -32,7 +32,7 @@ export default class Player {
     );
   }
 
-  constructor(name: string) {
+  constructor(name: string, account: Account) {
     // Initial values and initialisation
     this.#name = name;
     this.#badCode = 0;
@@ -41,6 +41,7 @@ export default class Player {
     this.#AIBotUpgrade = new AIFacilitatedChatBot();
     this.#InternUpgrade = new VibeCodingIntern();
     this.#productionPerSecond = 0;
+    this.#account = account;
     this.#checkInvariants();
   }
 

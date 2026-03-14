@@ -8,7 +8,7 @@ export default class Account {
   constructor(username: string, password: string) {
     this.#username = username;
     this.#password = password;
-    this.#player = new Player(username);
+    this.#player = new Player(username, this);
   }
 
   get username(): string {
