@@ -5,7 +5,7 @@ import { assert } from "../../assertion";
 import Upgrade from "../Upgrade/Upgrade";
 import AIFacilitatedChatBot from "../Upgrade/AIFacilitatedChatBot";
 import VibeCodingIntern from "../Upgrade/VibeCodingIntern";
-import Account from "../Account";
+import Account from "../../Account/Account.ts";
 import db from "../connection.ts";
 
 // Represents the player state in the game.

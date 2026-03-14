@@ -1,5 +1,5 @@
-import Player from "./Player/Player";
-import db from "./connection.ts";
+import Player from "../model/Player/Player.ts";
+import db from "../model/connection.ts";
 export default class Account {
   #username: string;
   #password: string;

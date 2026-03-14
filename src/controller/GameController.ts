@@ -1,4 +1,4 @@
-import Account from "../model/Account";
+import Account from "../Account/Account";
 import Player from "../model/Player/Player";
 import GameView from "../view/GameView";
 
