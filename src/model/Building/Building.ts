@@ -1,19 +1,13 @@
-// Abstract base class representing a purchasable building.
-// All Buildings increase emulate a click every x amount of seconds and track how many times they were bought
-import { assert } from "../../assertion";
+import db from "../connection";
 
 export default abstract class Building {
+  protected name!: string;
   protected cost!: number;
-  protected ProductionPerSecond!: number;
+  protected productionPerSecond!: number;
   protected count: number = 0;
 
-  #checkInvariants(): void {
-    assert(this.count >= 0, "Count must always be greater than or equal to 0");
-    assert(
-      this.ProductionPerSecond >= 1,
-      "Increase must be greather than or equal to 1",
-    );
-    assert(this.cost >= 1, "Upgrade cannot be free");
+  public get buildingName(): string {
+    return this.name;
   }
 
   public get costValue(): number {
@@ -24,13 +18,26 @@ export default abstract class Building {
     return this.count;
   }
 
-  public get getProductionPerSecond(): number {
-    return this.ProductionPerSecond;
+  public get productionValue(): number {
+    return this.productionPerSecond;
   }
 
   public increaseCount(): void {
-    this.#checkInvariants;
     this.count++;
-    this.#checkInvariants;
+  }
+
+  public loadCount(quantity: number): void {
+    this.count = quantity;
+  }
+
+  public static async saveBuildingType(building: Building): Promise<void> {
+    await db().query(
+      `insert into building_type(name, baseCost, productionPerSecond)
+       values ($1, $2, $3)
+       on conflict (name) do update set
+         baseCost = excluded.baseCost,
+         productionPerSecond = excluded.productionPerSecond`,
+      [building.buildingName, building.costValue, building.productionValue],
+    );
   }
 }

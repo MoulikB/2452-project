@@ -7,6 +7,9 @@ import AIFacilitatedChatBot from "../Upgrade/AIFacilitatedChatBot";
 import VibeCodingIntern from "../Upgrade/VibeCodingIntern";
 import Account from "../../Account/Account.ts";
 import db from "../connection.ts";
+import Building from "../Building/Building.ts";
+import DataCentre from "../Building/DataCentre";
+import MemoryLeak from "../Building/MemoryLeak";
 
 // Represents the player state in the game.
 // Tracks accumulated bad code, click power, and notifies listeners on state changes.
@@ -18,6 +21,8 @@ export default class Player {
   #listeners: Array<Listener>;
   #AIBotUpgrade: AIFacilitatedChatBot;
   #InternUpgrade: VibeCodingIntern;
+  #dataCentre: DataCentre;
+  #memoryLeak: MemoryLeak;
   #productionPerSecond: number;
   #account: Account;
 
@@ -42,6 +47,8 @@ export default class Player {
     this.#InternUpgrade = new VibeCodingIntern();
     this.#productionPerSecond = 0;
     this.#account = account;
+    this.#dataCentre = new DataCentre();
+    this.#memoryLeak = new MemoryLeak();
     this.#checkInvariants();
   }
 
@@ -49,6 +56,21 @@ export default class Player {
     await Player.savePlayer(this);
     await Player.savePlayerUpgrade(this, this.#AIBotUpgrade);
     await Player.savePlayerUpgrade(this, this.#InternUpgrade);
+    await Player.savePlayerBuilding(this, this.#dataCentre);
+    await Player.savePlayerBuilding(this, this.#memoryLeak);
+  }
+
+  public static async savePlayerBuilding(
+    player: Player,
+    building: Building,
+  ): Promise<void> {
+    await db().query(
+      `insert into player_building(player_name, building_name, quantity)
+     values ($1, $2, $3)
+     on conflict (player_name, building_name) do update set
+       quantity = excluded.quantity`,
+      [player.name, building.buildingName, building.buildingCount],
+    );
   }
 
   public static async savePlayer(player: Player): Promise<Player> {
@@ -124,6 +146,7 @@ export default class Player {
     player.loadData(row.badcode, row.clickpower, row.productionpersecond);
 
     await player.loadUpgradeCounts();
+    await player.loadBuildingCounts();
 
     return player;
   }
@@ -144,6 +167,26 @@ export default class Player {
         this.AIBot.loadCount(row.quantity);
       } else if (row.upgrade_name === this.Intern.upgradeName) {
         this.Intern.loadCount(row.quantity);
+      }
+    }
+  }
+
+  public async loadBuildingCounts(): Promise<void> {
+    const results = await db().query<{
+      building_name: string;
+      quantity: number;
+    }>(
+      `select building_name, quantity
+     from player_building
+     where player_name = $1`,
+      [this.name],
+    );
+
+    for (const row of results.rows) {
+      if (row.building_name === this.dataCentre.buildingName) {
+        this.dataCentre.loadCount(row.quantity);
+      } else if (row.building_name === this.memoryLeak.buildingName) {
+        this.memoryLeak.loadCount(row.quantity);
       }
     }
   }
@@ -176,6 +219,14 @@ export default class Player {
     return this.#InternUpgrade;
   }
 
+  get dataCentre(): DataCentre {
+    return this.#dataCentre;
+  }
+
+  get memoryLeak(): MemoryLeak {
+    return this.#memoryLeak;
+  }
+
   public purchaseInternUpgrade(): void {
     this.purchase(this.#InternUpgrade);
     this.#notifyAll();
@@ -183,6 +234,16 @@ export default class Player {
 
   public purchaseBotUpgrade(): void {
     this.purchase(this.#AIBotUpgrade);
+    this.#notifyAll();
+  }
+
+  public purchaseDataCentre(): void {
+    this.purchaseBuilding(this.#dataCentre);
+    this.#notifyAll();
+  }
+
+  public purchaseMemoryLeak(): void {
+    this.purchaseBuilding(this.#memoryLeak);
     this.#notifyAll();
   }
 
@@ -218,6 +279,30 @@ export default class Player {
     this.#notifyAll();
   }
 
+  public purchaseBuilding(building: Building): void {
+    this.#checkInvariants();
+
+    this.spend(building.costValue);
+    building.increaseCount();
+    this.increaseProductionPerSecond(building.productionValue);
+
+    this.#checkInvariants();
+    this.#notifyAll();
+  }
+
+  public increaseProductionPerSecond(amount: number): void {
+    this.#checkInvariants();
+
+    if (amount < 0) {
+      throw new InvalidAmountError();
+    }
+
+    this.#productionPerSecond += amount;
+
+    this.#checkInvariants();
+    this.#notifyAll();
+  }
+
   // Check if we can spend the given amount to buy more upgrades
   public spend(amount: number): void {
     this.#checkInvariants();
@@ -230,6 +315,15 @@ export default class Player {
     }
 
     this.#badCode -= amount;
+
+    this.#checkInvariants();
+    this.#notifyAll();
+  }
+
+  public produceBadCode(): void {
+    this.#checkInvariants();
+
+    this.#badCode += this.#productionPerSecond;
 
     this.#checkInvariants();
     this.#notifyAll();
