@@ -17,17 +17,18 @@ create table if not exists upgrade_type (
     clickPowerIncrease integer not null
 );
 
+
 create table if not exists player_upgrade (
-    id serial primary key,
-    player_name varchar(255) not null,
+    username varchar(255) not null,
     upgrade_name varchar(255) not null,
     quantity integer not null default 0,
 
-    foreign key (player_name) references player(username) on delete cascade,
-    foreign key (upgrade_name) references upgrade_type(name),
+    foreign key (username) references player(username) on delete cascade,
+    foreign key (upgrade_name) references upgrade_type(name) on delete cascade,
 
-    unique (player_name, upgrade_name)
+    primary key (username, upgrade_name)
 );
+
 
 create table if not exists building_type (
     name varchar(255) primary key,

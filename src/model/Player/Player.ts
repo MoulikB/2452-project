@@ -45,10 +45,20 @@ export default class Player {
     this.#checkInvariants();
   }
 
+  public async saveAll(): Promise<void> {
+    await Player.savePlayer(this);
+    await Player.savePlayerUpgrade(this, this.#AIBotUpgrade);
+    await Player.savePlayerUpgrade(this, this.#InternUpgrade);
+  }
+
   public static async savePlayer(player: Player): Promise<Player> {
     const results = await db().query<{ username: string }>(
       `insert into player(username, badCode, clickPower, productionPerSecond)
      values ($1, $2, $3, $4)
+     on conflict (username) do update set
+       badCode = excluded.badCode,
+       clickPower = excluded.clickPower,
+       productionPerSecond = excluded.productionPerSecond
      returning username`,
       [
         player.name,
@@ -59,9 +69,83 @@ export default class Player {
     );
 
     player.name = results.rows[0].username;
-    console.log(`Player got username ${player.name}`);
+    return player;
+  }
+
+  public static async savePlayerUpgrade(
+    player: Player,
+    upgrade: Upgrade,
+  ): Promise<void> {
+    await db().query(
+      `insert into player_upgrade(username, upgrade_name, quantity)
+     values ($1, $2, $3)
+     on conflict (username, upgrade_name) do update set
+       quantity = excluded.quantity`,
+      [player.name, upgrade.upgradeName, upgrade.upgradeCount],
+    );
+
+    console.log(
+      `Saved upgrade ${upgrade.upgradeName} for player ${player.name} with quantity ${upgrade.upgradeCount}`,
+    );
+  }
+
+  public loadData(
+    badCode: number,
+    clickPower: number,
+    productionPerSecond: number,
+  ): void {
+    this.#badCode = badCode;
+    this.#clickPower = clickPower;
+    this.#productionPerSecond = productionPerSecond;
+  }
+
+  public static async loadPlayer(
+    username: string,
+    account: Account,
+  ): Promise<Player | null> {
+    const results = await db().query<{
+      username: string;
+      badcode: number;
+      clickpower: number;
+      productionpersecond: number;
+    }>(
+      `select username, badCode, clickPower, productionPerSecond
+     from player
+     where username = $1`,
+      [username],
+    );
+
+    if (results.rows.length === 0) {
+      return null;
+    }
+
+    const row = results.rows[0];
+    const player = new Player(row.username, account);
+    player.loadData(row.badcode, row.clickpower, row.productionpersecond);
+
+    await player.loadUpgradeCounts();
 
     return player;
+  }
+
+  public async loadUpgradeCounts(): Promise<void> {
+    const results = await db().query<{
+      upgrade_name: string;
+      quantity: number;
+    }>(
+      `select upgrade_name, quantity
+     from player_upgrade
+     where username = $1`,
+      [this.name],
+    );
+
+    for (const row of results.rows) {
+      if (row.upgrade_name === this.AIBot.upgradeName) {
+        this.AIBot.loadCount(row.quantity);
+      } else if (row.upgrade_name === this.Intern.upgradeName) {
+        this.Intern.loadCount(row.quantity);
+      }
+    }
   }
 
   get productionPerSecond(): number {

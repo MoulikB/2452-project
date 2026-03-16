@@ -10,6 +10,7 @@ export default class VibeCodingIntern extends Upgrade {
   // Initializes the Vibe Coding Intern upgrade with predefined cost and power increase
   constructor() {
     super();
+    this.name = "Vibe Coding Intern";
     this.clickPowerIncrease = VibeCodingIntern.#CLICK_POWER_BONUS;
     this.cost = VibeCodingIntern.#COST;
   }

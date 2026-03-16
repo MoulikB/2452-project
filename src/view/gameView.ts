@@ -2,7 +2,7 @@ import type Listener from "../model/listener";
 import Player from "../model/Player/Player";
 import GameController from "../controller/GameController";
 import InsufficientBadCodeError from "../model/Player/InsufficientBadCodeError";
-
+import IncorrectPasswordException from "../controller/IncorrectPasswordException";
 export default class GameView implements Listener {
   #player!: Player;
   #controller: GameController;
@@ -31,15 +31,23 @@ export default class GameView implements Listener {
       <button id="start-btn">Start Game</button>
     `;
 
-    document.querySelector("#start-btn")!.addEventListener("click", () => {
-      const name = (document.querySelector("#name-input") as HTMLInputElement)
-        .value;
-      const password = (
-        document.querySelector("#password-input") as HTMLInputElement
-      ).value;
+    document
+      .querySelector("#start-btn")!
+      .addEventListener("click", async () => {
+        const name = (document.querySelector("#name-input") as HTMLInputElement)
+          .value;
+        const password = (
+          document.querySelector("#password-input") as HTMLInputElement
+        ).value;
 
-      this.#controller.login(name, password);
-    });
+        try {
+          await this.#controller.login(name, password);
+        } catch (e) {
+          if (e instanceof IncorrectPasswordException) {
+            alert(e.message);
+          }
+        }
+      });
   }
 
   #renderGame() {

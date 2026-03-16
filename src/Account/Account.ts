@@ -19,6 +19,14 @@ export default class Account {
     return this.#player;
   }
 
+  get password(): string {
+    return this.#password;
+  }
+
+  set player(player: Player) {
+    this.#player = player;
+  }
+
   public static async saveAccount(account: Account): Promise<Account> {
     const existing = await db().query(
       "select username from account where username = $1",
@@ -33,5 +41,24 @@ export default class Account {
     }
 
     return account;
+  }
+
+  public static async loadAccount(username: string): Promise<Account | null> {
+    const results = await db().query<{
+      username: string;
+      password: string;
+    }>(
+      `select username, password
+     from account
+     where username = $1`,
+      [username],
+    );
+
+    if (results.rows.length === 0) {
+      return null;
+    }
+
+    const row = results.rows[0];
+    return new Account(row.username, row.password);
   }
 }
