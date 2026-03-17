@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "NODE_ENV=test vitest"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^4.0.18",

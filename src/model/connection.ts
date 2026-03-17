@@ -1,15 +1,18 @@
 import { PGlite } from "@electric-sql/pglite";
 import ddl from "../../create-tables.sql?raw";
 
-// idb://BadCodeClicker says to use IndexedDB as the backing storage for PGlite,
-// this is "permanent" storage for us.
-let src = import.meta.env.VITE_DATABASE_URL;
-console.log(`Using ${src} for database URL`);
-const pgliteDb = await PGlite.create(src);
+const dbUrl =
+  import.meta.env.MODE === "test"
+    ? "memory://"
+    : import.meta.env.VITE_DATABASE_URL;
 
-if (src == "memory://") {
-  // we're going to load the DDL here, we're doing tests.
-  db().exec(ddl);
+console.log(`Using ${dbUrl} for database URL`);
+
+const pgliteDb = await PGlite.create(dbUrl);
+
+if (dbUrl === "memory://") {
+  // load schema for tests
+  await pgliteDb.exec(ddl);
 }
 
 export default function db() {
