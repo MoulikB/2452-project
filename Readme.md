@@ -33,11 +33,11 @@ To check the testing coverage
 npx vitest --coverage
 ```
 
-There are three different testing files testing the domain model classes and their logic. Player , AI Facilitated Chat Bot and Vibe-Coding Intern respectively.
+There are 6 different testing files testing the domain model classes and their logic. Account , Data Centre, Memory Leak mPlayer , AI Facilitated Chat Bot and Vibe-Coding Intern respectively.
 
 # Design documentation
 
-The design artifacts for Phase 1 can be found here:
+The design artifacts for Phase 2 can be found here:
 
 - **Domain model:** `domain.md`
 - **Flows of interaction:** `flows.md`

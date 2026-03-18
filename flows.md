@@ -65,7 +65,7 @@ flowchart TD
     create([Enter username and password])
     process{Create account}
     success[Account created successfully]
-    fail[Username already exists]
+    fail[Username already exists : Incorrect Password Error]
     login[[Go to login screen]]
 
     start --> create
@@ -105,16 +105,16 @@ flowchart TD
     view[[Player views available buildings]]
     select([Player selects building])
     process{Check cost and purchase building}
-    success[ProductionPerSecond increased]
-    fail[Not enough BadCode message shown]
-    endUpgrade[[Return to game]]
+    success[Production per second increased]
+    fail[Insufficient Bad Code message]
+    endFlow[[Return to game]]
 
     view --> select
-    select -- selected upgrade and current BadCode --> process
-    process -- purchase successful --> success
-    process -- insufficient BadCode --> fail
-    success --> endUpgrade
-    fail --> endUpgrade
+    select --> process
+    process -- success --> success
+    process -- failure --> fail
+    success --> endFlow
+    fail --> endFlow
 ```
 
 ## Passive Production
@@ -123,10 +123,10 @@ How the passive production works in the current game flow
 
 ```mermaid
 flowchart TD
-    timer[[setInterval triggers passive production]]
-    calculate{Calculate total passive income}
-    update[Increase BadCode total]
-    notify[Update view display]
+    timer[[Timer triggers every second]]
+    calculate{Calculate total production per second}
+    update[Increase Bad Code]
+    notify[Update view]
 
     timer --> calculate
     calculate --> update

@@ -24,9 +24,9 @@ note for Account "Class invariants:
 </ul>"
 
 class Player {
-    -badCode: number
-    -clickPower: number
-    -productionPerSecond: number
+    -~badCode: number
+    -~clickPower: number
+    -~productionPerSecond: number
     -~account : Account
     +increment(): void
     +spend(amount): void
@@ -43,16 +43,16 @@ note for Player "Class invariants:
 <li>productionPerSecond >= 0</li>
 </ul>"
 
-Account "1" --* "1" Player : owns
-Player "1" --> "1" Account : belongs to
+Account "1" *-- "1" Player : composition; Account owns Player; Player lifecycle depends on Account
+
+Player "1" --> "1" Account : association; Player holds reference to Account for persistence and access
 
 class Upgrade {
     <<abstract>>
     -~name: string
-    -count: number
-    -player: Player
-    -cost : number
-    -clickPowerIncrease: number
+    -~count: number
+    -~cost : number
+    -~clickPowerIncrease: number
     +increaseCount(): void
 }
 
@@ -64,6 +64,10 @@ note for Upgrade "Class invariants:
 <li>cost >= 1</li>
 </ul>"
 
+Player "1" *-- "*" Upgrade : composition; Player owns multiple Upgrade instances;each Upgrade is dependent on Player and cannot exist independently;lifecycle of Upgrade is tied to Player
+
+Upgrade "*" --> "1" Player : association; Upgrade maintains reference to Player to apply effects such as increasing click power
+
 class VibeCodingIntern
 
 class AIFacilitatedChatBot
@@ -71,15 +75,13 @@ class AIFacilitatedChatBot
 note for VibeCodingIntern "Concrete upgrade that increases click power."
 note for AIFacilitatedChatBot "Concrete upgrade that increases click power."
 
-Player "1" --* "*" Upgrade : composed of concrete implementations of abstract class that increase click power and help in generating more clicks per second
-Upgrade "*" --> "1" Player : belongs to
+
 
 class Building {
     <<abstract>>
     -~name: string
     -count: number
     -cost : number
-    -player: Player
     -productionPerSecond: number
     +increaseCount(): void
 }
@@ -107,6 +109,7 @@ Upgrade <|-- AIFacilitatedChatBot
 Building <|-- DataCentre
 Building <|-- MemoryLeak
 
-Player "1" --* "*" Building : composed of concrete implementations of building class that generates bad code per second
+Player "1" --* "*" Building : composed of concrete implementations of building class that generates bad code per second each building is dependent on Player and cannot exist independently; lifecycle of building is tied to Player
+
 Building "*" --> "1" Player : belongs to
 ```
