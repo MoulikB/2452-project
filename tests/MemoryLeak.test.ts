@@ -23,21 +23,6 @@ test("MemoryLeak inherits count behavior", () => {
   expect(building.buildingCount).toBe(3);
 });
 
-test("MemoryLeak can be saved to database", async () => {
-  const building = new MemoryLeak();
-
-  await Building.saveBuildingType(building);
-
-  const result = await db().query(
-    "select name, baseCost, productionPerSecond from building_type where name = $1",
-    [building.buildingName],
-  );
-
-  expect(result.rows.length).toBe(1);
-  expect(result.rows[0].name).toBe("Memory Leak");
-  expect(result.rows[0].basecost).toBe(200);
-  expect(result.rows[0].productionpersecond).toBe(15);
-});
 test("purchasing MemoryLeak increases productionPerSecond", () => {
   const p = new Account("test_" + Math.random(), "pw").player;
 

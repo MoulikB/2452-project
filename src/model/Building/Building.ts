@@ -29,15 +29,4 @@ export default abstract class Building {
   public loadCount(quantity: number): void {
     this.count = quantity;
   }
-
-  public static async saveBuildingType(building: Building): Promise<void> {
-    await db().query(
-      `insert into building_type(name, baseCost, productionPerSecond)
-       values ($1, $2, $3)
-       on conflict (name) do update set
-         baseCost = excluded.baseCost,
-         productionPerSecond = excluded.productionPerSecond`,
-      [building.buildingName, building.costValue, building.productionValue],
-    );
-  }
 }

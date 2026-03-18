@@ -22,21 +22,6 @@ test("DataCentre inherits count behavior", () => {
   expect(building.buildingCount).toBe(2);
 });
 
-test("DataCentre can be saved to database", async () => {
-  const building = new DataCentre();
-
-  await Building.saveBuildingType(building);
-
-  const result = await db().query(
-    "select name, baseCost, productionPerSecond from building_type where name = $1",
-    [building.buildingName],
-  );
-
-  expect(result.rows.length).toBe(1);
-  expect(result.rows[0].name).toBe("Data Centre");
-  expect(result.rows[0].basecost).toBe(100);
-  expect(result.rows[0].productionpersecond).toBe(5);
-});
 test("purchasing DataCentre increases productionPerSecond", () => {
   const p = new Account("test_" + Math.random(), "pw").player;
 

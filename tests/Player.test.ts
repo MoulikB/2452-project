@@ -114,12 +114,6 @@ test("player can be saved and loaded from database", async () => {
 
   const player = account.player;
 
-  // Insert master rows required by foreign keys
-  await Upgrade.saveUpgradeType(player.AIBot);
-  await Upgrade.saveUpgradeType(player.Intern);
-  await Building.saveBuildingType(player.dataCentre);
-  await Building.saveBuildingType(player.memoryLeak);
-
   player.increaseClickPower(9);
   player.increment(); // badCode = 10
 
@@ -139,11 +133,6 @@ test("building counts persist in database", async () => {
   await Account.saveAccount(account);
 
   const player = account.player;
-
-  await Upgrade.saveUpgradeType(player.AIBot);
-  await Upgrade.saveUpgradeType(player.Intern);
-  await Building.saveBuildingType(player.dataCentre);
-  await Building.saveBuildingType(player.memoryLeak);
 
   player.increaseClickPower(99);
   player.increment();

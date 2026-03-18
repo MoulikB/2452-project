@@ -1,49 +1,94 @@
-create table if not exists account (
+-- =========================
+-- ACCOUNT
+-- =========================
+create table account (
     username varchar(255) primary key,
-    password varchar(255) not null
+    password varchar(64) not null,  -- SHA-256 hash (hex)
+    salt varchar(32) not null       -- 16 bytes salt (hex)
 );
 
-create table if not exists player (
+-- =========================
+-- PLAYER
+-- =========================
+create table player (
     username varchar(255) primary key,
     badCode integer not null default 0,
     clickPower integer not null default 1,
     productionPerSecond integer not null default 0,
-    foreign key (username) references account(username) on delete cascade
+
+    foreign key (username)
+        references account(username)
+        on delete cascade
 );
 
-create table if not exists upgrade_type (
+-- =========================
+-- UPGRADE TYPES
+-- =========================
+create table upgrade_type (
     name varchar(255) primary key,
     baseCost integer not null,
     clickPowerIncrease integer not null
 );
 
-
-create table if not exists player_upgrade (
+-- =========================
+-- PLAYER UPGRADES
+-- =========================
+create table player_upgrade (
     username varchar(255) not null,
     upgrade_name varchar(255) not null,
     quantity integer not null default 0,
 
-    foreign key (username) references player(username) on delete cascade,
-    foreign key (upgrade_name) references upgrade_type(name) on delete cascade,
+    foreign key (username)
+        references player(username)
+        on delete cascade,
+
+    foreign key (upgrade_name)
+        references upgrade_type(name)
+        on delete cascade,
 
     primary key (username, upgrade_name)
 );
 
-
-create table if not exists building_type (
+-- =========================
+-- BUILDING TYPES
+-- =========================
+create table building_type (
     name varchar(255) primary key,
     baseCost integer not null,
     productionPerSecond integer not null
 );
 
-create table if not exists player_building (
+-- =========================
+-- PLAYER BUILDINGS
+-- =========================
+create table player_building (
     id serial primary key,
     player_name varchar(255) not null,
     building_name varchar(255) not null,
     quantity integer not null default 0,
 
-    foreign key (player_name) references player(username) on delete cascade,
-    foreign key (building_name) references building_type(name),
+    foreign key (player_name)
+        references player(username)
+        on delete cascade,
+
+    foreign key (building_name)
+        references building_type(name),
 
     unique (player_name, building_name)
 );
+
+-- =========================
+-- UPGRADE TYPES
+-- =========================
+insert into upgrade_type (name, baseCost, clickPowerIncrease) values
+('Vibe Coding Intern', 10, 1),
+('AI-facilitated chatbot', 100, 5)
+on conflict (name) do nothing;
+
+-- =========================
+-- BUILDING TYPES
+-- =========================
+insert into building_type (name, baseCost, productionPerSecond) values
+('Data Centre', 500, 10),
+('Memory Leak', 200, 2)
+on conflict (name) do nothing;

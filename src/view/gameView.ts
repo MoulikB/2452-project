@@ -44,6 +44,7 @@ export default class GameView implements Listener {
         try {
           await this.#controller.login(name, password);
         } catch (e) {
+          console.error(e);
           if (e instanceof IncorrectPasswordException) {
             alert(e.message);
           }

@@ -3,7 +3,7 @@ import Account from "../src/Account/Account";
 import db from "../src/model/connection";
 import Player from "../src/model/Player/Player";
 
-test("account initializes with username and password", () => {
+test("account initializes with username and password", async () => {
   const account = new Account("user1", "pass");
 
   expect(account.username).toBe("user1");
@@ -63,7 +63,34 @@ test("loadAccount returns account if it exists", async () => {
 
   expect(loaded).not.toBeNull();
   expect(loaded!.username).toBe(username);
-  expect(loaded!.password).toBe("pw");
+  const valid = await loaded!.verifyPassword("pw");
+  expect(valid).toBe(true);
+});
+
+test("verifyPassword returns true for correct password", async () => {
+  const username = "test_" + Math.random();
+
+  const account = new Account(username, "pw");
+  await Account.saveAccount(account);
+
+  const loaded = await Account.loadAccount(username);
+
+  const valid = await loaded!.verifyPassword("pw");
+
+  expect(valid).toBe(true);
+});
+
+test("verifyPassword returns false for incorrect password", async () => {
+  const username = "test_" + Math.random();
+
+  const account = new Account(username, "pw");
+  await Account.saveAccount(account);
+
+  const loaded = await Account.loadAccount(username);
+
+  const valid = await loaded!.verifyPassword("wrong");
+
+  expect(valid).toBe(false);
 });
 
 test("loadAccount returns null for non-existent account", async () => {

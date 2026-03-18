@@ -40,17 +40,6 @@ export default abstract class Upgrade {
     this.#checkInvariants();
   }
 
-  public static async saveUpgradeType(upgrade: Upgrade): Promise<void> {
-    await db().query(
-      `insert into upgrade_type(name, baseCost, clickPowerIncrease)
-     values ($1, $2, $3)
-     on conflict (name) do update set
-       baseCost = excluded.baseCost,
-       clickPowerIncrease = excluded.clickPowerIncrease`,
-      [upgrade.upgradeName, upgrade.costValue, upgrade.clickPowerIncreaseValue],
-    );
-  }
-
   public loadCount(count: number): void {
     this.count = count;
     this.#checkInvariants();
