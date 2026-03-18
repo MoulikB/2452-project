@@ -5,27 +5,31 @@ import { assert } from "../../assertion";
 import Upgrade from "../Upgrade/Upgrade";
 import AIFacilitatedChatBot from "../Upgrade/AIFacilitatedChatBot";
 import VibeCodingIntern from "../Upgrade/VibeCodingIntern";
-import Account from "../../Account/Account.ts";
-import db from "../connection.ts";
-import Building from "../Building/Building.ts";
+import Account from "../../Account/Account";
+import db from "../connection";
+import Building from "../Building/Building";
 import DataCentre from "../Building/DataCentre";
 import MemoryLeak from "../Building/MemoryLeak";
 
-// Represents the player state in the game.
-// Tracks accumulated bad code, click power, and notifies listeners on state changes.
-
+/**
+ * Represents the player state in the game.
+ * Manages resources, upgrades, buildings, and persistence.
+ */
 export default class Player {
-  #name: string;
-  #badCode: number;
-  #clickPower: number;
-  #listeners: Array<Listener>;
-  #AIBotUpgrade: AIFacilitatedChatBot;
-  #InternUpgrade: VibeCodingIntern;
-  #dataCentre: DataCentre;
-  #memoryLeak: MemoryLeak;
-  #productionPerSecond: number;
-  #account: Account;
+  #name: string; // player's username
+  #badCode: number; // total accumulated resource
+  #clickPower: number; // amount gained per click
+  #listeners: Array<Listener>; // observers for UI updates
+  #AIBotUpgrade: AIFacilitatedChatBot; // AI bot upgrade instance
+  #InternUpgrade: VibeCodingIntern; // intern upgrade instance
+  #dataCentre: DataCentre; // data centre building
+  #memoryLeak: MemoryLeak; // memory leak building
+  #productionPerSecond: number; // passive generation rate
+  #account: Account; // associated account
 
+  /**
+   * Ensures internal state remains valid.
+   */
   #checkInvariants(): void {
     assert(
       this.#badCode >= 0,
@@ -37,21 +41,30 @@ export default class Player {
     );
   }
 
+  /**
+   * Creates a new player with default values.
+   */
   constructor(name: string, account: Account) {
-    // Initial values and initialisation
     this.#name = name;
     this.#badCode = 0;
     this.#clickPower = 1;
     this.#listeners = [];
+
     this.#AIBotUpgrade = new AIFacilitatedChatBot();
     this.#InternUpgrade = new VibeCodingIntern();
+
     this.#productionPerSecond = 0;
     this.#account = account;
+
     this.#dataCentre = new DataCentre();
     this.#memoryLeak = new MemoryLeak();
+
     this.#checkInvariants();
   }
 
+  /**
+   * Saves player, upgrades, and buildings to database.
+   */
   public async saveAll(): Promise<void> {
     await Player.savePlayer(this);
     await Player.savePlayerUpgrade(this, this.#AIBotUpgrade);
@@ -60,28 +73,34 @@ export default class Player {
     await Player.savePlayerBuilding(this, this.#memoryLeak);
   }
 
+  /**
+   * Saves building quantity for a player.
+   */
   public static async savePlayerBuilding(
     player: Player,
     building: Building,
   ): Promise<void> {
     await db().query(
       `insert into player_building(player_name, building_name, quantity)
-     values ($1, $2, $3)
-     on conflict (player_name, building_name) do update set
-       quantity = excluded.quantity`,
+       values ($1, $2, $3)
+       on conflict (player_name, building_name) do update set
+         quantity = excluded.quantity`,
       [player.name, building.buildingName, building.buildingCount],
     );
   }
 
+  /**
+   * Saves core player stats.
+   */
   public static async savePlayer(player: Player): Promise<Player> {
     const results = await db().query<{ username: string }>(
       `insert into player(username, badCode, clickPower, productionPerSecond)
-     values ($1, $2, $3, $4)
-     on conflict (username) do update set
-       badCode = excluded.badCode,
-       clickPower = excluded.clickPower,
-       productionPerSecond = excluded.productionPerSecond
-     returning username`,
+       values ($1, $2, $3, $4)
+       on conflict (username) do update set
+         badCode = excluded.badCode,
+         clickPower = excluded.clickPower,
+         productionPerSecond = excluded.productionPerSecond
+       returning username`,
       [
         player.name,
         player.badCode,
@@ -94,23 +113,25 @@ export default class Player {
     return player;
   }
 
+  /**
+   * Saves upgrade count for a player.
+   */
   public static async savePlayerUpgrade(
     player: Player,
     upgrade: Upgrade,
   ): Promise<void> {
     await db().query(
       `insert into player_upgrade(username, upgrade_name, quantity)
-     values ($1, $2, $3)
-     on conflict (username, upgrade_name) do update set
-       quantity = excluded.quantity`,
+       values ($1, $2, $3)
+       on conflict (username, upgrade_name) do update set
+         quantity = excluded.quantity`,
       [player.name, upgrade.upgradeName, upgrade.upgradeCount],
-    );
-
-    console.log(
-      `Saved upgrade ${upgrade.upgradeName} for player ${player.name} with quantity ${upgrade.upgradeCount}`,
     );
   }
 
+  /**
+   * Loads core player values.
+   */
   public loadData(
     badCode: number,
     clickPower: number,
@@ -121,6 +142,9 @@ export default class Player {
     this.#productionPerSecond = productionPerSecond;
   }
 
+  /**
+   * Loads a player and all related data from database.
+   */
   public static async loadPlayer(
     username: string,
     account: Account,
@@ -131,9 +155,13 @@ export default class Player {
       clickpower: number;
       productionpersecond: number;
     }>(
-      `select username, badCode, clickPower, productionPerSecond
-     from player
-     where username = $1`,
+      `select 
+        username,
+        badCode as badcode,
+        clickPower as clickpower,
+        productionPerSecond as productionpersecond
+       from player
+       where username = $1`,
       [username],
     );
 
@@ -143,22 +171,26 @@ export default class Player {
 
     const row = results.rows[0];
     const player = new Player(row.username, account);
+
     player.loadData(row.badcode, row.clickpower, row.productionpersecond);
 
-    await player.loadUpgradeCounts();
-    await player.loadBuildingCounts();
+    await player.loadUpgradeCounts(); // restore upgrades
+    await player.loadBuildingCounts(); // restore buildings
 
     return player;
   }
 
+  /**
+   * Loads upgrade quantities from database.
+   */
   public async loadUpgradeCounts(): Promise<void> {
     const results = await db().query<{
       upgrade_name: string;
       quantity: number;
     }>(
       `select upgrade_name, quantity
-     from player_upgrade
-     where username = $1`,
+       from player_upgrade
+       where username = $1`,
       [this.name],
     );
 
@@ -171,14 +203,17 @@ export default class Player {
     }
   }
 
+  /**
+   * Loads building quantities from database.
+   */
   public async loadBuildingCounts(): Promise<void> {
     const results = await db().query<{
       building_name: string;
       quantity: number;
     }>(
       `select building_name, quantity
-     from player_building
-     where player_name = $1`,
+       from player_building
+       where player_name = $1`,
       [this.name],
     );
 
@@ -227,127 +262,125 @@ export default class Player {
     return this.#memoryLeak;
   }
 
+  /**
+   * Purchases intern upgrade.
+   */
   public purchaseInternUpgrade(): void {
     this.purchase(this.#InternUpgrade);
     this.#notifyAll();
   }
 
+  /**
+   * Purchases AI bot upgrade.
+   */
   public purchaseBotUpgrade(): void {
     this.purchase(this.#AIBotUpgrade);
     this.#notifyAll();
   }
 
+  /**
+   * Purchases data centre building.
+   */
   public purchaseDataCentre(): void {
     this.purchaseBuilding(this.#dataCentre);
     this.#notifyAll();
   }
 
+  /**
+   * Purchases memory leak building.
+   */
   public purchaseMemoryLeak(): void {
     this.purchaseBuilding(this.#memoryLeak);
     this.#notifyAll();
   }
 
-  // Purchases this upgrade for the given player.
-  // Deducts cost, increments upgrade count, and applies the upgrade effect
+  /**
+   * Purchases an upgrade and applies its effect.
+   */
   public purchase(upgrade: Upgrade): void {
     this.#checkInvariants();
 
-    this.spend(upgrade.costValue); // Spend the total value needed to buy the upgrade. Also checks if we can afford the upgrade or not
-
-    this.#apply(upgrade); // Apply the total increase it brings to our clickPower
-    upgrade.increaseCount(); // Increment total upgrade count by one
+    this.spend(upgrade.costValue); // deduct cost
+    this.#apply(upgrade); // apply effect
+    upgrade.increaseCount(); // increment count
 
     this.#checkInvariants();
   }
 
-  // Applies the effect of the upgrade to the player and increases their click power
+  /**
+   * Applies upgrade effect.
+   */
   #apply(upgrade: Upgrade): void {
-    this.#checkInvariants();
-
     this.increaseClickPower(upgrade.clickPowerIncreaseValue);
-
-    this.#checkInvariants();
   }
 
-  // Increments total bad code by current click power
+  /**
+   * Handles manual click.
+   */
   public increment(): void {
-    this.#checkInvariants();
-
-    this.#badCode += this.#clickPower;
-
-    this.#checkInvariants();
+    this.#badCode += this.#clickPower; // gain from click
     this.#notifyAll();
   }
 
+  /**
+   * Purchases a building and increases passive production.
+   */
   public purchaseBuilding(building: Building): void {
-    this.#checkInvariants();
-
     this.spend(building.costValue);
     building.increaseCount();
     this.increaseProductionPerSecond(building.productionValue);
-
-    this.#checkInvariants();
     this.#notifyAll();
   }
 
+  /**
+   * Increases passive production rate.
+   */
   public increaseProductionPerSecond(amount: number): void {
-    this.#checkInvariants();
-
-    if (amount < 0) {
-      throw new InvalidAmountError();
-    }
+    if (amount < 0) throw new InvalidAmountError();
 
     this.#productionPerSecond += amount;
-
-    this.#checkInvariants();
     this.#notifyAll();
   }
 
-  // Check if we can spend the given amount to buy more upgrades
+  /**
+   * Deducts bad code if sufficient balance exists.
+   */
   public spend(amount: number): void {
-    this.#checkInvariants();
-
-    if (amount < 0) {
-      throw new InvalidAmountError();
-    }
-    if (amount > this.#badCode) {
-      throw new InsufficientBadCodeError();
-    }
+    if (amount < 0) throw new InvalidAmountError();
+    if (amount > this.#badCode) throw new InsufficientBadCodeError();
 
     this.#badCode -= amount;
-
-    this.#checkInvariants();
     this.#notifyAll();
   }
 
+  /**
+   * Generates passive bad code over time.
+   */
   public produceBadCode(): void {
-    this.#checkInvariants();
-
     this.#badCode += this.#productionPerSecond;
-
-    this.#checkInvariants();
     this.#notifyAll();
   }
 
-  // Function used by upgrade class to increase click power for every purchase by a given amount
+  /**
+   * Increases click power.
+   */
   public increaseClickPower(amount: number): void {
-    this.#checkInvariants();
+    if (amount < 0) throw new InvalidAmountError();
 
-    if (amount < 0) {
-      throw new InvalidAmountError();
-    }
     this.#clickPower += amount;
-
-    this.#checkInvariants();
     this.#notifyAll();
   }
 
-  //Register given listener to the player
+  /**
+   * Registers a listener for updates.
+   */
   public registerListener(listener: Listener): void {
     this.#listeners.push(listener);
   }
 
-  //Notify all listeners for any changes made
+  /**
+   * Notifies all listeners of changes.
+   */
   #notifyAll(): void {
     this.#listeners.forEach((l) => l.notify());
   }

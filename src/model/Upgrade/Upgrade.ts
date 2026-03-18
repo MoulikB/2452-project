@@ -1,47 +1,61 @@
-// Abstract base class representing a purchasable upgrade.
-// All Upgrades increase player clickPower and track how many times they were bought
 import { assert } from "../../assertion";
-import db from "../connection.ts";
 
+/**
+ * Abstract base class for all upgrades in the game.
+ * Upgrades increase player click power and track how many times they are purchased.
+ */
 export default abstract class Upgrade {
-  protected name!: string;
-  protected cost!: number;
-  protected clickPowerIncrease!: number;
-  protected count: number = 0;
+  protected name!: string; // display name of the upgrade
+  protected cost!: number; // cost required to purchase the upgrade
+  protected clickPowerIncrease!: number; // amount of click power added per purchase
+  protected count: number = 0; // number of times this upgrade has been purchased
 
+  /**
+   * Ensures upgrade state remains valid.
+   */
   #checkInvariants(): void {
+    assert(
+      this.name != null || this.name != "",
+      "Name of upgrade is null or empty",
+    );
     assert(this.count >= 0, "Count must always be greater than or equal to 0");
     assert(
       this.clickPowerIncrease >= 1,
-      "Increase must be greather than or equal to 1",
+      "Increase must be greater than or equal to 1",
     );
     assert(this.cost >= 1, "Upgrade cannot be free");
   }
 
-  public get upgradeName(): string {
+  get upgradeName(): string {
     return this.name;
   }
 
-  public get costValue(): number {
+  get costValue(): number {
     return this.cost;
   }
 
-  public get upgradeCount(): number {
+  get upgradeCount(): number {
     return this.count;
   }
 
-  public get clickPowerIncreaseValue(): number {
+  get clickPowerIncreaseValue(): number {
     return this.clickPowerIncrease;
   }
 
+  /**
+   * Increases the number of upgrades owned.
+   */
   public increaseCount(): void {
     this.#checkInvariants();
-    this.count++;
+    this.count++; // increment purchase count
     this.#checkInvariants();
   }
 
+  /**
+   * Loads upgrade count from database.
+   */
   public loadCount(count: number): void {
-    this.count = count;
+    this.count = count; // set count from persisted value
     this.#checkInvariants();
   }
 }

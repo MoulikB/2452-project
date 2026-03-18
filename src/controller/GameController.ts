@@ -45,12 +45,8 @@ export default class GameController {
     // check if account already exists in DB
 
     if (existingAccount !== null) {
-      console.log("login attempt");
-
       const valid = await existingAccount.verifyPassword(password);
       // compare input password with stored hash
-
-      console.log("valid:", valid);
 
       if (!valid) {
         throw new IncorrectPasswordException();

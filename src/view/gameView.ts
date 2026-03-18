@@ -4,21 +4,34 @@ import GameController from "../controller/GameController";
 import InsufficientBadCodeError from "../model/Player/InsufficientBadCodeError";
 import IncorrectPasswordException from "../controller/IncorrectPasswordException";
 
+/**
+ * View layer of the game (MVC).
+ * Handles rendering UI and user interactions.
+ */
 export default class GameView implements Listener {
-  #player!: Player;
-  #controller: GameController;
+  #player!: Player; // current player being displayed
+  #controller: GameController; // controller to handle actions
 
+  /**
+   * Initializes the view and renders the intro screen.
+   */
   constructor(controller: GameController) {
     this.#controller = controller;
     this.#renderIntro();
   }
 
+  /**
+   * Starts the game UI after login.
+   */
   startGame(player: Player) {
     this.#player = player;
-    this.#player.registerListener(this);
+    this.#player.registerListener(this); // subscribe to player updates
     this.#renderGame();
   }
 
+  /**
+   * Renders login screen.
+   */
   #renderIntro() {
     document.querySelector("#app")!.innerHTML = `
       <h1>Bad Code Clicker</h1>
@@ -42,16 +55,18 @@ export default class GameView implements Listener {
         ).value;
 
         try {
-          await this.#controller.login(name, password);
+          await this.#controller.login(name, password); // attempt login
         } catch (e) {
-          console.error(e);
           if (e instanceof IncorrectPasswordException) {
-            alert(e.message);
+            alert(e.message); // notify user of incorrect password
           }
         }
       });
   }
 
+  /**
+   * Renders main game UI.
+   */
   #renderGame() {
     document.querySelector("#app")!.innerHTML = `
       <h2>Welcome <span id="name"></span></h2>
@@ -93,10 +108,12 @@ export default class GameView implements Listener {
       Owned: <span id="memory-leak-count"></span>
     `;
 
+    // manual click button
     document
       .querySelector("#click-btn")!
       .addEventListener("click", () => this.#controller.click());
 
+    // upgrade buttons
     document
       .querySelector("#intern-btn")!
       .addEventListener(
@@ -111,6 +128,7 @@ export default class GameView implements Listener {
         async () => await this.#attempt(() => this.#controller.buyAIBot()),
       );
 
+    // building buttons
     document
       .querySelector("#data-centre-btn")!
       .addEventListener(
@@ -125,27 +143,35 @@ export default class GameView implements Listener {
         async () => await this.#attempt(() => this.#controller.buyMemoryLeak()),
       );
 
-    this.notify();
+    this.notify(); // initial render of values
   }
 
+  /**
+   * Attempts an action and handles insufficient resource errors.
+   */
   async #attempt(action: () => Promise<void> | void): Promise<void> {
     try {
       await action();
     } catch (e) {
       if (e instanceof InsufficientBadCodeError) {
-        alert("Not enough bad code");
+        alert("Not enough bad code"); // notify user if they cannot afford action
       }
     }
   }
 
+  /**
+   * Updates UI when player state changes.
+   */
   notify(): void {
     document.querySelector("#name")!.textContent = this.#player.name;
+
     document.querySelector("#bad-code")!.textContent =
       this.#player.badCode.toString();
 
     document.querySelector("#pps")!.textContent =
       this.#player.productionPerSecond.toString();
 
+    // upgrades
     document.querySelector("#intern-count")!.textContent =
       this.#player.Intern.upgradeCount.toString();
 
@@ -158,6 +184,7 @@ export default class GameView implements Listener {
     document.querySelector("#ai-cost")!.textContent =
       this.#player.AIBot.costValue.toString();
 
+    // buildings
     document.querySelector("#data-centre-count")!.textContent =
       this.#player.dataCentre.buildingCount.toString();
 

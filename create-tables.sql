@@ -1,7 +1,7 @@
 -- =========================
 -- ACCOUNT
 -- =========================
-create table account (
+create table if not exists account  (
     username varchar(255) primary key,
     password varchar(64) not null,  -- SHA-256 hash (hex)
     salt varchar(32) not null       -- 16 bytes salt (hex)
@@ -10,7 +10,7 @@ create table account (
 -- =========================
 -- PLAYER
 -- =========================
-create table player (
+create table if not exists player (
     username varchar(255) primary key,
     badCode integer not null default 0,
     clickPower integer not null default 1,
@@ -24,7 +24,7 @@ create table player (
 -- =========================
 -- UPGRADE TYPES
 -- =========================
-create table upgrade_type (
+create table if not exists upgrade_type (
     name varchar(255) primary key,
     baseCost integer not null,
     clickPowerIncrease integer not null
@@ -33,7 +33,7 @@ create table upgrade_type (
 -- =========================
 -- PLAYER UPGRADES
 -- =========================
-create table player_upgrade (
+create table if not exists player_upgrade (
     username varchar(255) not null,
     upgrade_name varchar(255) not null,
     quantity integer not null default 0,
@@ -52,7 +52,7 @@ create table player_upgrade (
 -- =========================
 -- BUILDING TYPES
 -- =========================
-create table building_type (
+create table if not exists building_type (
     name varchar(255) primary key,
     baseCost integer not null,
     productionPerSecond integer not null
@@ -61,7 +61,7 @@ create table building_type (
 -- =========================
 -- PLAYER BUILDINGS
 -- =========================
-create table player_building (
+create table if not exists player_building (
     id serial primary key,
     player_name varchar(255) not null,
     building_name varchar(255) not null,
