@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1773850375052" clover="3.2.0">
-  <project timestamp="1773850375052" name="All files">
-    <metrics statements="193" coveredstatements="190" conditionals="28" coveredconditionals="22" methods="70" coveredmethods="69" elements="291" coveredelements="281" complexity="0" loc="193" ncloc="193" packages="7" files="13" classes="13"/>
+<coverage generated="1773855264618" clover="3.2.0">
+  <project timestamp="1773855264618" name="All files">
+    <metrics statements="194" coveredstatements="191" conditionals="32" coveredconditionals="24" methods="70" coveredmethods="69" elements="296" coveredelements="284" complexity="0" loc="194" ncloc="194" packages="7" files="13" classes="13"/>
     <package name="2452-project">
       <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="create-tables.sql" path="C:\Users\Moulik\Documents\CODING\2452-project\create-tables.sql">
@@ -12,7 +12,7 @@
       <metrics statements="3" coveredstatements="1" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="1"/>
       <file name="assertion.ts" path="C:\Users\Moulik\Documents\CODING\2452-project\src\assertion.ts">
         <metrics statements="3" coveredstatements="1" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="1"/>
-        <line num="2" count="176" type="cond" truecount="1" falsecount="1"/>
+        <line num="2" count="244" type="cond" truecount="1" falsecount="1"/>
         <line num="3" count="0" type="stmt"/>
         <line num="9" count="0" type="stmt"/>
       </file>
@@ -77,22 +77,22 @@
       </file>
     </package>
     <package name="2452-project.src.model.Building">
-      <metrics statements="25" coveredstatements="25" conditionals="0" coveredconditionals="0" methods="9" coveredmethods="9"/>
+      <metrics statements="25" coveredstatements="25" conditionals="2" coveredconditionals="1" methods="9" coveredmethods="9"/>
       <file name="Building.ts" path="C:\Users\Moulik\Documents\CODING\2452-project\src\model\Building\Building.ts">
-        <metrics statements="13" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="7"/>
-        <line num="12" count="84" type="stmt"/>
-        <line num="15" count="12" type="stmt"/>
-        <line num="16" count="12" type="stmt"/>
-        <line num="17" count="12" type="stmt"/>
+        <metrics statements="13" coveredstatements="13" conditionals="2" coveredconditionals="1" methods="7" coveredmethods="7"/>
+        <line num="11" count="84" type="stmt"/>
+        <line num="14" count="12" type="stmt"/>
         <line num="18" count="12" type="stmt"/>
+        <line num="22" count="12" type="stmt"/>
         <line num="23" count="12" type="stmt"/>
-        <line num="28" count="7" type="stmt"/>
-        <line num="33" count="11" type="stmt"/>
-        <line num="38" count="5" type="stmt"/>
-        <line num="45" count="8" type="stmt"/>
-        <line num="46" count="8" type="stmt"/>
-        <line num="54" count="4" type="stmt"/>
-        <line num="55" count="4" type="stmt"/>
+        <line num="28" count="12" type="stmt"/>
+        <line num="33" count="7" type="stmt"/>
+        <line num="38" count="11" type="stmt"/>
+        <line num="43" count="5" type="stmt"/>
+        <line num="50" count="8" type="stmt"/>
+        <line num="51" count="8" type="stmt"/>
+        <line num="59" count="4" type="stmt"/>
+        <line num="60" count="4" type="stmt"/>
       </file>
       <file name="DataCentre.ts" path="C:\Users\Moulik\Documents\CODING\2452-project\src\model\Building\DataCentre.ts">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
@@ -219,7 +219,7 @@
       </file>
     </package>
     <package name="2452-project.src.model.Upgrade">
-      <metrics statements="25" coveredstatements="25" conditionals="0" coveredconditionals="0" methods="9" coveredmethods="9"/>
+      <metrics statements="26" coveredstatements="26" conditionals="2" coveredconditionals="1" methods="9" coveredmethods="9"/>
       <file name="AIFacilitatedChatBot.ts" path="C:\Users\Moulik\Documents\CODING\2452-project\src\model\Upgrade\AIFacilitatedChatBot.ts">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="8" count="6" type="stmt"/>
@@ -230,20 +230,21 @@
         <line num="23" count="40" type="stmt"/>
       </file>
       <file name="Upgrade.ts" path="C:\Users\Moulik\Documents\CODING\2452-project\src\model\Upgrade\Upgrade.ts">
-        <metrics statements="13" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="7"/>
-        <line num="12" count="80" type="stmt"/>
-        <line num="18" count="20" type="stmt"/>
-        <line num="19" count="20" type="stmt"/>
-        <line num="23" count="20" type="stmt"/>
-        <line num="27" count="10" type="stmt"/>
-        <line num="31" count="12" type="stmt"/>
-        <line num="35" count="8" type="stmt"/>
-        <line num="39" count="8" type="stmt"/>
-        <line num="46" count="8" type="stmt"/>
-        <line num="47" count="8" type="stmt"/>
-        <line num="48" count="8" type="stmt"/>
-        <line num="55" count="4" type="stmt"/>
-        <line num="56" count="4" type="stmt"/>
+        <metrics statements="14" coveredstatements="14" conditionals="2" coveredconditionals="1" methods="7" coveredmethods="7"/>
+        <line num="11" count="80" type="stmt"/>
+        <line num="17" count="20" type="stmt"/>
+        <line num="21" count="20" type="stmt"/>
+        <line num="22" count="20" type="stmt"/>
+        <line num="26" count="20" type="stmt"/>
+        <line num="30" count="10" type="stmt"/>
+        <line num="34" count="12" type="stmt"/>
+        <line num="38" count="8" type="stmt"/>
+        <line num="42" count="8" type="stmt"/>
+        <line num="49" count="8" type="stmt"/>
+        <line num="50" count="8" type="stmt"/>
+        <line num="51" count="8" type="stmt"/>
+        <line num="58" count="4" type="stmt"/>
+        <line num="59" count="4" type="stmt"/>
       </file>
       <file name="VibeCodingIntern.ts" path="C:\Users\Moulik\Documents\CODING\2452-project\src\model\Upgrade\VibeCodingIntern.ts">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>

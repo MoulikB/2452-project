@@ -3,8 +3,6 @@ import Player from "../src/model/Player/Player";
 import InvalidAmountError from "../src/model/Player/InvalidAmountError";
 import InsufficientBadCodeError from "../src/model/Player/InsufficientBadCodeError";
 import Account from "../src/Account/Account";
-import Upgrade from "../src/model/Upgrade/Upgrade";
-import Building from "../src/model/Building/Building";
 
 test("player starts with valid initial state", () => {
   const p = new Account("test", "test").player;

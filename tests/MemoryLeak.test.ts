@@ -1,7 +1,5 @@
 import { test, expect } from "vitest";
 import MemoryLeak from "../src/model/Building/MemoryLeak";
-import Building from "../src/model/Building/Building";
-import db from "../src/model/connection";
 import Account from "../src/Account/Account";
 
 test("MemoryLeak initializes with correct values", () => {

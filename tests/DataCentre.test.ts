@@ -1,7 +1,5 @@
 import { test, expect } from "vitest";
 import DataCentre from "../src/model/Building/DataCentre";
-import Building from "../src/model/Building/Building";
-import db from "../src/model/connection";
 import Account from "../src/Account/Account";
 
 test("DataCentre initializes with correct values", () => {
