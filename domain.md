@@ -1,7 +1,7 @@
 ---
 title: Bad Code Clicker
 author: Moulik Bhatia (bhatiam3@myumanitoba.ca)
-date: March 7 2026
+date: March 18 2026
 ---
 
 # Domain model
@@ -43,11 +43,7 @@ note for Player "Class invariants:
 <li>productionPerSecond >= 0</li>
 </ul>"
 
-<<<<<<< HEAD
 Account "1" *-- "1" Player : composition Account owns Player Player lifecycle depends on Account
-=======
-Account "1" *-- "1" Player : "composition; Account owns Player; Player lifecycle depends on Account"
->>>>>>> 3c27af401e4ae53a9973f86259058ddb564656a1
 
 Player "1" --> "1" Account : association Player holds reference to Account for persistence and access
 
@@ -68,11 +64,7 @@ note for Upgrade "Class invariants:
 <li>cost >= 1</li>
 </ul>"
 
-<<<<<<< HEAD
 Player "1" *-- "*" Upgrade : composition Player owns multiple Upgrade instances each Upgrade is dependent on Player and cannot exist independently lifecycle of Upgrade is tied to Player
-=======
-Player "1" *-- "*" Upgrade : "composition Player owns multiple Upgrade instances each Upgrade is dependent on Player and cannot exist independently lifecycle of Upgrade is tied to Player"
->>>>>>> 3c27af401e4ae53a9973f86259058ddb564656a1
 
 Upgrade "*" --> "1" Player : association Upgrade maintains reference to Player to apply effects such as increasing click power
 

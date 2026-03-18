@@ -1,7 +1,7 @@
 ---
 title: Bad Code Clicker
 author: Moulik Bhatia (bhatiam3@myumanitoba.ca)
-date: March 07 2026
+date: March 18 2026
 ---
 
 # Overview

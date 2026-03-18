@@ -1,15 +1,13 @@
 -- =========================
 -- ACCOUNT
--- =========================
 create table if not exists account  (
     username varchar(255) primary key,
-    password varchar(64) not null,  -- SHA-256 hash (hex)
+    password varchar(64) not null,  -- SHA-256 hash (hex) this is for hashing using PBKDF2
     salt varchar(32) not null       -- 16 bytes salt (hex)
 );
 
 -- =========================
 -- PLAYER
--- =========================
 create table if not exists player (
     username varchar(255) primary key,
     badCode integer not null default 0,
@@ -23,7 +21,6 @@ create table if not exists player (
 
 -- =========================
 -- UPGRADE TYPES
--- =========================
 create table if not exists upgrade_type (
     name varchar(255) primary key,
     baseCost integer not null,
@@ -32,7 +29,6 @@ create table if not exists upgrade_type (
 
 -- =========================
 -- PLAYER UPGRADES
--- =========================
 create table if not exists player_upgrade (
     username varchar(255) not null,
     upgrade_name varchar(255) not null,
@@ -51,7 +47,6 @@ create table if not exists player_upgrade (
 
 -- =========================
 -- BUILDING TYPES
--- =========================
 create table if not exists building_type (
     name varchar(255) primary key,
     baseCost integer not null,
@@ -60,7 +55,6 @@ create table if not exists building_type (
 
 -- =========================
 -- PLAYER BUILDINGS
--- =========================
 create table if not exists player_building (
     id serial primary key,
     player_name varchar(255) not null,
@@ -79,7 +73,6 @@ create table if not exists player_building (
 
 -- =========================
 -- UPGRADE TYPES
--- =========================
 insert into upgrade_type (name, baseCost, clickPowerIncrease) values
 ('Vibe Coding Intern', 10, 1),
 ('AI-facilitated chatbot', 100, 5)
@@ -87,7 +80,6 @@ on conflict (name) do nothing;
 
 -- =========================
 -- BUILDING TYPES
--- =========================
 insert into building_type (name, baseCost, productionPerSecond) values
 ('Data Centre', 500, 10),
 ('Memory Leak', 200, 2)
