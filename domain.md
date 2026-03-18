@@ -43,9 +43,9 @@ note for Player "Class invariants:
 <li>productionPerSecond >= 0</li>
 </ul>"
 
-Account "1" *-- "1" Player : composition; Account owns Player; Player lifecycle depends on Account
+Account "1" *-- "1" Player : composition Account owns Player Player lifecycle depends on Account
 
-Player "1" --> "1" Account : association; Player holds reference to Account for persistence and access
+Player "1" --> "1" Account : association Player holds reference to Account for persistence and access
 
 class Upgrade {
     <<abstract>>
@@ -64,9 +64,9 @@ note for Upgrade "Class invariants:
 <li>cost >= 1</li>
 </ul>"
 
-Player "1" *-- "*" Upgrade : composition; Player owns multiple Upgrade instances;each Upgrade is dependent on Player and cannot exist independently;lifecycle of Upgrade is tied to Player
+Player "1" *-- "*" Upgrade : composition Player owns multiple Upgrade instances each Upgrade is dependent on Player and cannot exist independently lifecycle of Upgrade is tied to Player
 
-Upgrade "*" --> "1" Player : association; Upgrade maintains reference to Player to apply effects such as increasing click power
+Upgrade "*" --> "1" Player : association Upgrade maintains reference to Player to apply effects such as increasing click power
 
 class VibeCodingIntern
 
@@ -109,7 +109,7 @@ Upgrade <|-- AIFacilitatedChatBot
 Building <|-- DataCentre
 Building <|-- MemoryLeak
 
-Player "1" --* "*" Building : composed of concrete implementations of building class that generates bad code per second each building is dependent on Player and cannot exist independently; lifecycle of building is tied to Player
+Player "1" --* "*" Building : Each building is dependent on Player and cannot exist independently lifecycle of building is tied to Player
 
 Building "*" --> "1" Player : belongs to
 ```
