@@ -43,7 +43,7 @@ note for Player "Class invariants:
 <li>productionPerSecond >= 0</li>
 </ul>"
 
-Account "1" *-- "1" Player : composition; Account owns Player; Player lifecycle depends on Account
+Account "1" *-- "1" Player : "composition; Account owns Player; Player lifecycle depends on Account"
 
 Player "1" --> "1" Account : association; Player holds reference to Account for persistence and access
 
