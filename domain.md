@@ -64,7 +64,7 @@ note for Upgrade "Class invariants:
 <li>cost >= 1</li>
 </ul>"
 
-Player "1" *-- "*" Upgrade : composition; Player owns multiple Upgrade instances;each Upgrade is dependent on Player and cannot exist independently;lifecycle of Upgrade is tied to Player
+Player "1" *-- "*" Upgrade : "composition; Player owns multiple Upgrade instances;each Upgrade is dependent on Player and cannot exist independently;lifecycle of Upgrade is tied to Player"
 
 Upgrade "*" --> "1" Player : association; Upgrade maintains reference to Player to apply effects such as increasing click power
 
