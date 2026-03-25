@@ -4,36 +4,36 @@ import InvalidAmountError from "../src/model/Player/InvalidAmountError";
 import InsufficientBadCodeError from "../src/model/Player/InsufficientBadCodeError";
 import Account from "../src/Account/Account";
 
-test("player starts with valid initial state", () => {
-  const p = new Account("test", "test").player;
+test("player starts with valid initial state", async () => {
+  const p = (await Account.create("test", "test")).player;
 
   expect(p.badCode).toBe(0);
   expect(p.clickPower).toBe(1);
 });
 
-test("increment increases badCode by 1 at default click power", () => {
-  const p = new Account("test", "test").player;
+test("increment increases badCode by 1 at default click power", async () => {
+  const p = (await Account.create("test", "test")).player;
   p.increment();
   expect(p.badCode).toBe(1);
 });
 
-test("increment uses current click power", () => {
-  const p = new Account("test", "test").player;
+test("increment uses current click power", async () => {
+  const p = (await Account.create("test", "test")).player;
   p.increaseClickPower(4);
   p.increment();
   expect(p.badCode).toBe(5);
 });
 
-test("spend decreases bad code by amount", () => {
-  const p = new Account("test", "test").player;
+test("spend decreases bad code by amount", async () => {
+  const p = (await Account.create("test", "test")).player;
   p.increaseClickPower(4);
   p.increment(); // badCode = 5
   p.spend(3);
   expect(p.badCode).toBe(2);
 });
 
-test("click power invariant throws InvalidAmountError if violated", () => {
-  const p = new Account("test", "test").player;
+test("click power invariant throws InvalidAmountError if violated", async () => {
+  const p = (await Account.create("test", "test")).player;
 
   expect(() => {
     // force violation indirectly
@@ -41,25 +41,25 @@ test("click power invariant throws InvalidAmountError if violated", () => {
   }).toThrow(InvalidAmountError);
 });
 
-test("spend throws InsufficientBadCodeError if amount > badCode", () => {
-  const p = new Account("test", "test").player;
+test("spend throws InsufficientBadCodeError if amount > badCode", async () => {
+  const p = (await Account.create("test", "test")).player;
   p.increment(); // badCode = 1
   expect(() => p.spend(2)).toThrow(InsufficientBadCodeError);
 });
 
-test("spend throws InvalidAmountError if amount is negative", () => {
-  const p = new Account("test", "test").player;
+test("spend throws InvalidAmountError if amount is negative", async () => {
+  const p = (await Account.create("test", "test")).player;
   expect(() => p.spend(-1)).toThrow(InvalidAmountError);
 });
 
-test("increaseClickPower increases click power by amount", () => {
-  const p = new Account("test", "test").player;
+test("increaseClickPower increases click power by amount", async () => {
+  const p = (await Account.create("test", "test")).player;
   p.increaseClickPower(4);
   expect(p.clickPower).toBe(5);
 });
 
-test("listeners are notified on state change", () => {
-  const p = new Account("test", "test").player;
+test("listeners are notified on state change", async () => {
+  const p = (await Account.create("test", "test")).player;
 
   let called = false;
 
@@ -74,32 +74,29 @@ test("listeners are notified on state change", () => {
   expect(called).toBe(true);
 });
 
-test("badCode never becomes negative", () => {
-  const p = new Account("test", "test").player;
-
+test("badCode never becomes negative", async () => {
+  const p = (await Account.create("test", "test")).player;
   expect(() => {
     p.spend(1);
   }).toThrow(InsufficientBadCodeError);
 });
-test("produceBadCode adds productionPerSecond to badCode", () => {
-  const p = new Account("test_" + Math.random(), "pw").player;
-
+test("produceBadCode adds productionPerSecond to badCode", async () => {
+  const p = (await Account.create("test", "test")).player;
   p.increaseProductionPerSecond(10);
   p.produceBadCode();
 
   expect(p.badCode).toBe(10);
 });
 
-test("increaseProductionPerSecond increases production rate", () => {
-  const p = new Account("test_" + Math.random(), "pw").player;
-
+test("increaseProductionPerSecond increases production rate", async () => {
+  const p = (await Account.create("test", "test")).player;
   p.increaseProductionPerSecond(5);
 
   expect(p.productionPerSecond).toBe(5);
 });
 
-test("increaseProductionPerSecond throws InvalidAmountError for negative values", () => {
-  const p = new Account("test_" + Math.random(), "pw").player;
+test("increaseProductionPerSecond throws InvalidAmountError for negative values", async () => {
+  const p = (await Account.create("test", "test")).player;
 
   expect(() => p.increaseProductionPerSecond(-5)).toThrow();
 });
@@ -107,7 +104,7 @@ test("increaseProductionPerSecond throws InvalidAmountError for negative values"
 test("player can be saved and loaded from database", async () => {
   const username = "test_" + Math.random();
 
-  const account = new Account(username, "pw");
+  const account = await Account.create(username, "pw");
   await Account.saveAccount(account);
 
   const player = account.player;
@@ -127,7 +124,7 @@ test("player can be saved and loaded from database", async () => {
 test("building counts persist in database", async () => {
   const username = "test_" + Math.random();
 
-  const account = new Account(username, "pw");
+  const account = await Account.create(username, "pw");
   await Account.saveAccount(account);
 
   const player = account.player;

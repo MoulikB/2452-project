@@ -11,16 +11,16 @@ export default class AIFacilitatedChatBot extends Upgrade {
   /**
    * Initializes the chatbot upgrade with predefined values.
    */
-  constructor() {
+  constructor(name: string, cost: number, clickPowerIncrease: number) {
     super();
 
-    this.name = "AI-facilitated chatbot";
-    // display name used for identification in UI and database
+    this.name = name;
+    // display name used in UI and database
 
-    this.clickPowerIncrease = AIFacilitatedChatBot.CLICK_POWER_BONUS;
+    this.clickPowerIncrease = clickPowerIncrease;
     // amount added to player's click power
 
-    this.cost = AIFacilitatedChatBot.COST;
-    // cost required to purchase upgrade
+    this.cost = cost;
+    // cost required to purchase the upgrade
   }
 }

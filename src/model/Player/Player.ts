@@ -19,10 +19,10 @@ export default class Player {
   #badCode: number; // total accumulated resource
   #clickPower: number; // amount gained per click
   #listeners: Array<Listener>; // observers for UI updates
-  #AIBotUpgrade: AIFacilitatedChatBot; // AI bot upgrade instance
-  #InternUpgrade: VibeCodingIntern; // intern upgrade instance
-  #dataCentre: DataCentre; // data centre building
-  #memoryLeak: MemoryLeak; // memory leak building
+  #AIBotUpgrade!: AIFacilitatedChatBot; // AI bot upgrade instance
+  #InternUpgrade!: VibeCodingIntern; // intern upgrade instance
+  #dataCentre!: DataCentre; // data centre building
+  #memoryLeak!: MemoryLeak; // memory leak building
   #productionPerSecond: number; // passive generation rate
 
   /**
@@ -42,21 +42,80 @@ export default class Player {
   /**
    * Creates a new player with default values.
    */
-  constructor(name: string) {
+  private constructor(name: string) {
     this.#name = name;
     this.#badCode = 0;
     this.#clickPower = 1;
     this.#listeners = [];
 
-    this.#AIBotUpgrade = new AIFacilitatedChatBot();
-    this.#InternUpgrade = new VibeCodingIntern();
-
     this.#productionPerSecond = 0;
 
-    this.#dataCentre = new DataCentre();
-    this.#memoryLeak = new MemoryLeak();
-
     this.#checkInvariants();
+  }
+
+  public static async create(name: string): Promise<Player> {
+    const player = new Player(name);
+
+    await player.loadUpgrade();
+    await player.loadBuilding();
+
+    return player;
+  }
+
+  public async loadUpgrade(): Promise<void> {
+    const results = await db().query<{
+      name: string;
+      basecost: number;
+      clickpowerincrease: number;
+    }>(
+      `select 
+        * from upgrade_type
+      `,
+    );
+
+    for (const row of results.rows) {
+      if (row.name === "AI-facilitated chatbot") {
+        this.#AIBotUpgrade = new AIFacilitatedChatBot(
+          row.name,
+          row.basecost,
+          row.clickpowerincrease,
+        );
+      } else if (row.name === "Vibe Coding Intern") {
+        this.#InternUpgrade = new VibeCodingIntern(
+          row.name,
+          row.basecost,
+          row.clickpowerincrease,
+        );
+      }
+    }
+  }
+
+  public async loadBuilding(): Promise<void> {
+    const results = await db().query<{
+      name: string;
+      basecost: number;
+      productionpersecond: number;
+    }>(
+      `select 
+        * from building_type
+      `,
+    );
+
+    for (const row of results.rows) {
+      if (row.name === "Data Centre") {
+        this.#dataCentre = new DataCentre(
+          row.name,
+          row.basecost,
+          row.productionpersecond,
+        );
+      } else if (row.name === "Memory Leak") {
+        this.#memoryLeak = new MemoryLeak(
+          row.name,
+          row.basecost,
+          row.productionpersecond,
+        );
+      }
+    }
   }
 
   /**
@@ -169,7 +228,8 @@ export default class Player {
       player = new Player(row.username);
 
       player.loadData(row.badcode, row.clickpower, row.productionpersecond);
-
+      await player.loadUpgrade();
+      await player.loadBuilding();
       await player.loadUpgradeCounts(); // restore upgrades
       await player.loadBuildingCounts(); // restore buildings
     }

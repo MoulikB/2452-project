@@ -9,17 +9,27 @@ export default class Account {
   #username: string;
   #password: string; // raw password (only used temporarily)
   #passwordHash!: string; // stored hashed password
-  #player: Player;
+  #player!: Player;
   salt!: string; // stored salt (hex format)
 
   /**
    * Creates a new Account instance.
    * Also initializes a Player tied to this account.
    */
-  constructor(username: string, password: string) {
+  private constructor(username: string, password: string) {
     this.#username = username;
     this.#password = password;
-    this.#player = new Player(username);
+  }
+
+  public static async create(
+    username: string,
+    password: string,
+  ): Promise<Account> {
+    const account = new Account(username, password);
+
+    account.#player = await Player.create(username);
+
+    return account;
   }
 
   // Returns the username of the account

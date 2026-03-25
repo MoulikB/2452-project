@@ -4,17 +4,17 @@ import db from "../src/model/connection";
 import Player from "../src/model/Player/Player";
 
 test("account initializes with username and password", async () => {
-  const account = new Account("user1", "pass");
+  const account = await Account.create("user1", "pw");
 
   expect(account.username).toBe("user1");
-  expect(account.password).toBe("pass");
+  expect(account.password).toBe("pw");
   expect(account.player).toBeDefined();
 });
 
 test("saveAccount inserts account into database", async () => {
   const username = "test_" + Math.random();
 
-  const account = new Account(username, "pw");
+  const account = await Account.create(username, "pw");
 
   await Account.saveAccount(account);
 
@@ -27,10 +27,10 @@ test("saveAccount inserts account into database", async () => {
   expect(result.rows[0].username).toBe(username);
 });
 
-test("set player updates the account player reference", () => {
-  const account = new Account("user1", "pw");
+test("set player updates the account player reference", async () => {
+  const account = await Account.create("user1", "pw");
 
-  const newPlayer = new Player("p1", account);
+  const newPlayer = await Player.create("name");
 
   account.player = newPlayer;
 
@@ -40,7 +40,7 @@ test("set player updates the account player reference", () => {
 test("saveAccount does not duplicate existing accounts", async () => {
   const username = "test_" + Math.random();
 
-  const account = new Account(username, "pw");
+  const account = await Account.create(username, "pw");
 
   await Account.saveAccount(account);
   await Account.saveAccount(account);
@@ -56,7 +56,7 @@ test("saveAccount does not duplicate existing accounts", async () => {
 test("loadAccount returns account if it exists", async () => {
   const username = "test_" + Math.random();
 
-  const account = new Account(username, "pw");
+  const account = await Account.create(username, "pw");
   await Account.saveAccount(account);
 
   const loaded = await Account.loadAccount(username);
@@ -70,7 +70,7 @@ test("loadAccount returns account if it exists", async () => {
 test("verifyPassword returns true for correct password", async () => {
   const username = "test_" + Math.random();
 
-  const account = new Account(username, "pw");
+  const account = await Account.create(username, "pw");
   await Account.saveAccount(account);
 
   const loaded = await Account.loadAccount(username);
@@ -83,7 +83,7 @@ test("verifyPassword returns true for correct password", async () => {
 test("verifyPassword returns false for incorrect password", async () => {
   const username = "test_" + Math.random();
 
-  const account = new Account(username, "pw");
+  const account = await Account.create(username, "pw");
   await Account.saveAccount(account);
 
   const loaded = await Account.loadAccount(username);

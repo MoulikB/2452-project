@@ -5,25 +5,19 @@ import Building from "./Building";
  * Provides moderate cost with steady passive production.
  */
 export default class DataCentre extends Building {
-  static readonly #COST = 100;
-  // fixed cost for purchasing one Data Centre
-
-  static readonly #PRODUCTION_PER_SECOND = 5;
-  // passive production generated per second
-
   /**
    * Initializes a Data Centre with predefined cost and production values.
    */
-  public constructor() {
+  public constructor(name: string, cost: number, productionPerSecond: number) {
     super();
 
-    this.name = "Data Centre";
+    this.name = name;
     // display name used in UI and database
 
-    this.productionPerSecond = DataCentre.#PRODUCTION_PER_SECOND;
+    this.productionPerSecond = productionPerSecond;
     // assign constant production value
 
-    this.cost = DataCentre.#COST;
+    this.cost = cost;
     // assign constant cost
   }
 }

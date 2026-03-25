@@ -74,13 +74,13 @@ create table if not exists player_building (
 -- =========================
 -- UPGRADE TYPES
 insert into upgrade_type (name, baseCost, clickPowerIncrease) values
-('Vibe Coding Intern', 10, 1),
-('AI-facilitated chatbot', 100, 5)
+('Vibe Coding Intern', 20, 1),
+('AI-facilitated chatbot', 50, 2)
 on conflict (name) do nothing;
 
 -- =========================
 -- BUILDING TYPES
 insert into building_type (name, baseCost, productionPerSecond) values
-('Data Centre', 500, 10),
-('Memory Leak', 200, 2)
+('Data Centre', 100, 5),
+('Memory Leak', 200, 15 )
 on conflict (name) do nothing;

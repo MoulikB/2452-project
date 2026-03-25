@@ -3,7 +3,7 @@ import DataCentre from "../src/model/Building/DataCentre";
 import Account from "../src/Account/Account";
 
 test("DataCentre initializes with correct values", () => {
-  const building = new DataCentre();
+  const building = new DataCentre("Data Centre", 100, 5);
 
   expect(building.buildingName).toBe("Data Centre");
   expect(building.costValue).toBe(100);
@@ -12,7 +12,7 @@ test("DataCentre initializes with correct values", () => {
 });
 
 test("DataCentre inherits count behavior", () => {
-  const building = new DataCentre();
+  const building = new DataCentre("Data Centre", 100, 5);
 
   building.increaseCount();
   building.increaseCount();
@@ -20,8 +20,8 @@ test("DataCentre inherits count behavior", () => {
   expect(building.buildingCount).toBe(2);
 });
 
-test("purchasing DataCentre increases productionPerSecond", () => {
-  const p = new Account("test_" + Math.random(), "pw").player;
+test("purchasing DataCentre increases productionPerSecond", async () => {
+  const p = (await Account.create("test_" + Math.random(), "pw")).player;
 
   p.increaseClickPower(99);
   p.increment(); // badCode = 100
@@ -32,8 +32,9 @@ test("purchasing DataCentre increases productionPerSecond", () => {
   expect(p.productionPerSecond).toBe(5);
   expect(p.dataCentre.buildingCount).toBe(1);
 });
-test("purchaseDataCentre throws if player cannot afford it", () => {
-  const p = new Account("test_" + Math.random(), "pw").player;
+
+test("purchaseDataCentre throws if player cannot afford it", async () => {
+  const p = (await Account.create("test_" + Math.random(), "pw")).player;
 
   expect(() => p.purchaseDataCentre()).toThrow();
 });

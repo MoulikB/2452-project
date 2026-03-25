@@ -96,6 +96,7 @@ export default class GameView implements Listener {
 
       <button id="click-btn">Write Bad Code</button>
       <div>Bad Code: <span id="bad-code"></span></div>
+      <div>Click power: <span id="cpower"></span></div>
       <div>Production Per Second: <span id="pps"></span></div>
 
       <hr>
@@ -190,6 +191,9 @@ export default class GameView implements Listener {
 
     document.querySelector("#bad-code")!.textContent =
       this.#player.badCode.toString();
+
+    document.querySelector("#cpower")!.textContent =
+      this.#player.clickPower.toString();
 
     document.querySelector("#pps")!.textContent =
       this.#player.productionPerSecond.toString();

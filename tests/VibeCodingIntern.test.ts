@@ -3,10 +3,10 @@ import Player from "../src/model/Player/Player";
 import InsufficientBadCodeError from "../src/model/Player/InsufficientBadCodeError";
 import Account from "../src/Account/Account";
 
-// helper to create fresh player each time
-function createPlayer(): Player {
+async function createPlayer(): Promise<Player> {
   const username = "test_" + Math.random();
-  return new Account(username, "password").player;
+  const account = await Account.create(username, "pw");
+  return account.player;
 }
 
 // helper to give player badCode
@@ -15,8 +15,8 @@ function givePlayerBadCode(player: Player, amount: number) {
   player.increment();
 }
 
-test("purchase increases click power and upgrade count", () => {
-  const player = createPlayer();
+test("purchase increases click power and upgrade count", async () => {
+  const player = await createPlayer();
 
   givePlayerBadCode(player, 20);
 
@@ -27,8 +27,8 @@ test("purchase increases click power and upgrade count", () => {
   expect(player.Intern.upgradeCount).toBe(1);
 });
 
-test("upgrade can be purchased multiple times", () => {
-  const player = createPlayer();
+test("upgrade can be purchased multiple times", async () => {
+  const player = await createPlayer();
 
   givePlayerBadCode(player, 40);
 
@@ -40,16 +40,16 @@ test("upgrade can be purchased multiple times", () => {
   expect(player.clickPower).toBe(42);
 });
 
-test("purchase throws error if player cannot afford upgrade", () => {
-  const player = createPlayer();
+test("purchase throws error if player cannot afford upgrade", async () => {
+  const player = await createPlayer();
 
   expect(() => {
     player.purchaseInternUpgrade();
   }).toThrow(InsufficientBadCodeError);
 });
 
-test("Intern upgrade cost remains constant", () => {
-  const player = createPlayer();
+test("Intern upgrade cost remains constant", async () => {
+  const player = await createPlayer();
 
   givePlayerBadCode(player, 20);
 

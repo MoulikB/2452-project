@@ -3,9 +3,10 @@ import Player from "../src/model/Player/Player";
 import InsufficientBadCodeError from "../src/model/Player/InsufficientBadCodeError";
 import Account from "../src/Account/Account";
 
-function createPlayer(): Player {
+async function createPlayer(): Promise<Player> {
   const username = "test_" + Math.random();
-  return new Account(username, "password").player;
+  const account = await Account.create(username, "pw");
+  return account.player;
 }
 
 function givePlayerBadCode(player: Player, amount: number) {
@@ -13,8 +14,8 @@ function givePlayerBadCode(player: Player, amount: number) {
   player.increment();
 }
 
-test("AI chatbot upgrade increases click power by 2", () => {
-  const player = createPlayer();
+test("AI chatbot upgrade increases click power by 2", async () => {
+  const player = await createPlayer();
 
   givePlayerBadCode(player, 50);
 
@@ -25,8 +26,8 @@ test("AI chatbot upgrade increases click power by 2", () => {
   expect(player.AIBot.upgradeCount).toBe(1);
 });
 
-test("upgrade can be purchased multiple times", () => {
-  const player = createPlayer();
+test("upgrade can be purchased multiple times", async () => {
+  const player = await createPlayer();
 
   givePlayerBadCode(player, 100);
 
@@ -38,16 +39,16 @@ test("upgrade can be purchased multiple times", () => {
   expect(player.clickPower).toBe(104);
 });
 
-test("AI chatbot purchase fails without enough badCode", () => {
-  const player = createPlayer();
+test("AI chatbot purchase fails without enough badCode", async () => {
+  const player = await createPlayer();
 
   expect(() => {
     player.purchaseBotUpgrade();
   }).toThrow(InsufficientBadCodeError);
 });
 
-test("AI chatbot upgrade cost remains constant", () => {
-  const player = createPlayer();
+test("AI chatbot upgrade cost remains constant", async () => {
+  const player = await createPlayer();
 
   givePlayerBadCode(player, 50);
 

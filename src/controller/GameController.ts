@@ -52,7 +52,7 @@ export default class GameController {
 
     if (!flag) {
       // If account does not exist → create new account
-      this.#account = new Account(username, password);
+      this.#account = await Account.create(username, password);
 
       await Account.saveAccount(this.#account);
       // hash + store credentials
