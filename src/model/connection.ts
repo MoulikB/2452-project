@@ -6,8 +6,6 @@ const dbUrl =
     ? "memory://"
     : import.meta.env.VITE_DATABASE_URL;
 
-console.log(`Using ${dbUrl} for database URL`);
-
 const pgliteDb = await PGlite.create(dbUrl);
 
 if (dbUrl === "memory://") {
