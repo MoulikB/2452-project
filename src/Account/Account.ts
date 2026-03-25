@@ -19,7 +19,7 @@ export default class Account {
   constructor(username: string, password: string) {
     this.#username = username;
     this.#password = password;
-    this.#player = new Player(username, this);
+    this.#player = new Player(username);
   }
 
   // Returns the username of the account

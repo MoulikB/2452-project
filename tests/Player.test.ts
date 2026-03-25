@@ -117,7 +117,7 @@ test("player can be saved and loaded from database", async () => {
 
   await player.saveAll();
 
-  const loaded = await Player.loadPlayer(username, account);
+  const loaded = await Player.loadPlayer(username);
 
   expect(loaded).not.toBeNull();
   expect(loaded!.badCode).toBe(10);
@@ -139,7 +139,7 @@ test("building counts persist in database", async () => {
 
   await player.saveAll();
 
-  const loaded = await Player.loadPlayer(username, account);
+  const loaded = await Player.loadPlayer(username);
 
   expect(loaded!.dataCentre.buildingCount).toBe(1);
 });

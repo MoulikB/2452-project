@@ -5,7 +5,6 @@ import { assert } from "../../assertion";
 import Upgrade from "../Upgrade/Upgrade";
 import AIFacilitatedChatBot from "../Upgrade/AIFacilitatedChatBot";
 import VibeCodingIntern from "../Upgrade/VibeCodingIntern";
-import Account from "../../Account/Account";
 import db from "../connection";
 import Building from "../Building/Building";
 import DataCentre from "../Building/DataCentre";
@@ -25,7 +24,6 @@ export default class Player {
   #dataCentre: DataCentre; // data centre building
   #memoryLeak: MemoryLeak; // memory leak building
   #productionPerSecond: number; // passive generation rate
-  #account: Account; // associated account
 
   /**
    * Ensures internal state remains valid.
@@ -44,7 +42,7 @@ export default class Player {
   /**
    * Creates a new player with default values.
    */
-  constructor(name: string, account: Account) {
+  constructor(name: string) {
     this.#name = name;
     this.#badCode = 0;
     this.#clickPower = 1;
@@ -54,7 +52,6 @@ export default class Player {
     this.#InternUpgrade = new VibeCodingIntern();
 
     this.#productionPerSecond = 0;
-    this.#account = account;
 
     this.#dataCentre = new DataCentre();
     this.#memoryLeak = new MemoryLeak();
@@ -145,10 +142,9 @@ export default class Player {
   /**
    * Loads a player and all related data from database.
    */
-  public static async loadPlayer(
-    username: string,
-    account: Account,
-  ): Promise<Player | null> {
+  public static async loadPlayer(username: string): Promise<Player | null> {
+    let player = null;
+    let flag = true;
     const results = await db().query<{
       username: string;
       badcode: number;
@@ -166,16 +162,17 @@ export default class Player {
     );
 
     if (results.rows.length === 0) {
-      return null;
+      flag = false;
     }
+    if (flag) {
+      const row = results.rows[0];
+      player = new Player(row.username);
 
-    const row = results.rows[0];
-    const player = new Player(row.username, account);
+      player.loadData(row.badcode, row.clickpower, row.productionpersecond);
 
-    player.loadData(row.badcode, row.clickpower, row.productionpersecond);
-
-    await player.loadUpgradeCounts(); // restore upgrades
-    await player.loadBuildingCounts(); // restore buildings
+      await player.loadUpgradeCounts(); // restore upgrades
+      await player.loadBuildingCounts(); // restore buildings
+    }
 
     return player;
   }

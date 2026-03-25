@@ -10,28 +10,9 @@ import IncorrectPasswordException from "./IncorrectPasswordException";
 export default class GameController {
   #account!: Account; // currently logged-in account
   #view: GameView; // UI layer
-  #autoProductionTimer: number | null = null; // interval for passive production
 
   constructor() {
     this.#view = new GameView(this);
-  }
-
-  /**
-   * Starts automatic bad code production every second.
-   * Prevents multiple timers from being created.
-   */
-  public startAutoProduction(): void {
-    if (this.#autoProductionTimer !== null) {
-      return; // already running, avoid duplicate intervals
-    }
-
-    this.#autoProductionTimer = window.setInterval(() => {
-      this.#account.player.produceBadCode();
-      // generates passive income each second
-    }, 1000);
-
-    this.account.player.saveAll();
-    // persist state after starting production
   }
 
   /**
@@ -41,6 +22,7 @@ export default class GameController {
    * - Starts game session
    */
   public async login(username: string, password: string): Promise<void> {
+    let flag = false;
     const existingAccount = await Account.loadAccount(username);
     // check if account already exists in DB
 
@@ -53,7 +35,7 @@ export default class GameController {
         // stop login if password is incorrect
       }
 
-      const loadedPlayer = await Player.loadPlayer(username, existingAccount);
+      const loadedPlayer = await Player.loadPlayer(username);
       // load persisted player data
 
       if (loadedPlayer !== null) {
@@ -65,24 +47,21 @@ export default class GameController {
 
       this.#view.startGame(this.#account.player);
       // initialize UI with player state
-
-      this.startAutoProduction();
-      // start passive income loop
-
-      return;
+      flag = true;
     }
 
-    // If account does not exist → create new account
-    this.#account = new Account(username, password);
+    if (!flag) {
+      // If account does not exist → create new account
+      this.#account = new Account(username, password);
 
-    await Account.saveAccount(this.#account);
-    // hash + store credentials
+      await Account.saveAccount(this.#account);
+      // hash + store credentials
 
-    await this.#account.player.saveAll();
-    // save initial player state
+      await this.#account.player.saveAll();
+      // save initial player state
 
-    this.#view.startGame(this.#account.player);
-    this.startAutoProduction();
+      this.#view.startGame(this.#account.player);
+    }
   }
 
   /**

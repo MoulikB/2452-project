@@ -11,6 +11,7 @@ import IncorrectPasswordException from "../controller/IncorrectPasswordException
 export default class GameView implements Listener {
   #player!: Player; // current player being displayed
   #controller: GameController; // controller to handle actions
+  #autoProductionTimer: number | null = null; // interval for passive production
 
   /**
    * Initializes the view and renders the intro screen.
@@ -18,6 +19,26 @@ export default class GameView implements Listener {
   constructor(controller: GameController) {
     this.#controller = controller;
     this.#renderIntro();
+  }
+
+  /**
+   * Starts automatic bad code production every second.
+   * Prevents multiple timers from being created.
+   */
+  public startAutoProduction(): void {
+    let flag = false;
+    if (this.#autoProductionTimer !== null) {
+      flag = true;
+    }
+    if (!flag) {
+      this.#autoProductionTimer = window.setInterval(() => {
+        this.#controller.account.player.produceBadCode();
+        // generates passive income each second
+      }, 1000);
+
+      this.#controller.account.player.saveAll();
+      // persist state after starting production
+    }
   }
 
   /**
@@ -68,6 +89,8 @@ export default class GameView implements Listener {
    * Renders main game UI.
    */
   #renderGame() {
+    this.startAutoProduction();
+    // start passive income loop
     document.querySelector("#app")!.innerHTML = `
       <h2>Welcome <span id="name"></span></h2>
 
