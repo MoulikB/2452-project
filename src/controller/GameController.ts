@@ -1,6 +1,6 @@
 import Player from "../model/Player/Player";
-import Account from "../Account/Account";
-import GameView from "../view/GameView";
+import Account from "../model/Account/Account";
+import GameView from "../view/gameView";
 import IncorrectPasswordException from "./IncorrectPasswordException";
 
 /**

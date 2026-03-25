@@ -2,7 +2,7 @@ import { test, expect } from "vitest";
 import Player from "../src/model/Player/Player";
 import InvalidAmountError from "../src/model/Player/InvalidAmountError";
 import InsufficientBadCodeError from "../src/model/Player/InsufficientBadCodeError";
-import Account from "../src/Account/Account";
+import Account from "../src/model/Account/Account";
 
 test("player starts with valid initial state", async () => {
   const p = (await Account.create("test", "test")).player;

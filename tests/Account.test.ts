@@ -1,5 +1,5 @@
 import { test, expect } from "vitest";
-import Account from "../src/Account/Account";
+import Account from "../src/model/Account/Account";
 import db from "../src/model/connection";
 import Player from "../src/model/Player/Player";
 

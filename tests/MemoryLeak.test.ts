@@ -1,6 +1,6 @@
 import { test, expect } from "vitest";
 import MemoryLeak from "../src/model/Building/MemoryLeak";
-import Account from "../src/Account/Account";
+import Account from "../src/model/Account/Account";
 
 test("MemoryLeak initializes with correct values", () => {
   const building = new MemoryLeak("Memory Leak", 200, 15);

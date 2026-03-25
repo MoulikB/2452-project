@@ -1,6 +1,6 @@
 import { test, expect } from "vitest";
 import DataCentre from "../src/model/Building/DataCentre";
-import Account from "../src/Account/Account";
+import Account from "../src/model/Account/Account";
 
 test("DataCentre initializes with correct values", () => {
   const building = new DataCentre("Data Centre", 100, 5);
