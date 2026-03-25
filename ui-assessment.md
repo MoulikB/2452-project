@@ -1,7 +1,7 @@
 ---
-title: An assessment of my project's UI
-author: me (me@myumanitoba.ca)
-date: Winter 2026
+title: An assessment of my bad code clicker's UI
+author: Moulik Bhatia (bhatiam3@myumanitoba.ca)
+date: March 25 2026
 ---
 
 # Phase 1
