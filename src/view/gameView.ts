@@ -1,4 +1,4 @@
-import type Listener from "../model/listener";
+import type Listener from "../model/Listener";
 import Player from "../model/Player/Player";
 import GameController from "../controller/GameController";
 import InsufficientBadCodeError from "../model/Player/InsufficientBadCodeError";

@@ -1,4 +1,4 @@
-import type Listener from "../listener";
+import type Listener from "../Listener";
 import InvalidAmountError from "./InvalidAmountError";
 import InsufficientBadCodeError from "./InsufficientBadCodeError";
 import { assert } from "../../assertion";

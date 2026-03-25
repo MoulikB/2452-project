@@ -1,5 +1,5 @@
-import Player from "../model/Player/Player.ts";
-import db from "../model/connection.ts";
+import Player from "../Player/Player.ts";
+import db from "../connection.ts";
 
 /**
  * Represents a user account in the system.
