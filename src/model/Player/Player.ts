@@ -53,6 +53,13 @@ export default class Player {
     this.#checkInvariants();
   }
 
+  /**
+   * Creates a new Player and initializes all upgrade and building types
+   * from the database.
+   *
+   * @param name the username of the player
+   * @returns a fully initialized promise of a Player with upgrades and buildings loaded
+   */
   public static async create(name: string): Promise<Player> {
     const player = new Player(name);
 
@@ -62,16 +69,16 @@ export default class Player {
     return player;
   }
 
+  /**
+   * Loads all upgrade types from the database and creates corresponding
+   * upgrade objects for this player.
+   */
   public async loadUpgrade(): Promise<void> {
     const results = await db().query<{
       name: string;
       basecost: number;
       clickpowerincrease: number;
-    }>(
-      `select 
-        * from upgrade_type
-      `,
-    );
+    }>(`select * from upgrade_type`);
 
     for (const row of results.rows) {
       if (row.name === "AI-facilitated chatbot") {
@@ -90,6 +97,10 @@ export default class Player {
     }
   }
 
+  /**
+   * Loads all building types from the database and creates corresponding
+   * building objects for this player.
+   */
   public async loadBuilding(): Promise<void> {
     const results = await db().query<{
       name: string;

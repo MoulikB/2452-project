@@ -5,9 +5,6 @@ import Upgrade from "./Upgrade";
  * Increases the player's click power when purchased.
  */
 export default class AIFacilitatedChatBot extends Upgrade {
-  static readonly COST = 50; // fixed cost of the upgrade
-  static readonly CLICK_POWER_BONUS = 2; // click power increase provided
-
   /**
    * Initializes the chatbot upgrade with predefined values.
    */
