@@ -17,6 +17,7 @@ export default class Account {
    * Also initializes a Player tied to this account.
    */
   private constructor(username: string, password: string) {
+    // Initialised through the create public function
     this.#username = username;
     this.#password = password;
   }

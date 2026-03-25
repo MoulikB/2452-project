@@ -19,7 +19,7 @@ export default class Player {
   #badCode: number; // total accumulated resource
   #clickPower: number; // amount gained per click
   #listeners: Array<Listener>; // observers for UI updates
-  #AIBotUpgrade!: AIFacilitatedChatBot; // AI bot upgrade instance
+  #AIBotUpgrade!: AIFacilitatedChatBot; // AI bot upgrade instance , initiliased through their respective functions below the contructor
   #InternUpgrade!: VibeCodingIntern; // intern upgrade instance
   #dataCentre!: DataCentre; // data centre building
   #memoryLeak!: MemoryLeak; // memory leak building
@@ -42,7 +42,7 @@ export default class Player {
   /**
    * Creates a new player with default values.
    */
-  private constructor(name: string) {
+  private constructor(name: string) { // Initialised through the create public function
     this.#name = name;
     this.#badCode = 0;
     this.#clickPower = 1;
