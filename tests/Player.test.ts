@@ -109,7 +109,7 @@ test("player can be saved and loaded from database", async () => {
 
   const player = account.player;
 
-  player.increaseClickPower(9);
+  player.increaseClickPower(9999);
   player.increment(); // badCode = 10
 
   await player.saveAll();
@@ -117,8 +117,8 @@ test("player can be saved and loaded from database", async () => {
   const loaded = await Player.loadPlayer(username);
 
   expect(loaded).not.toBeNull();
-  expect(loaded!.badCode).toBe(10);
-  expect(loaded!.clickPower).toBe(10);
+  expect(loaded!.badCode).toBe(10000);
+  expect(loaded!.clickPower).toBe(10000);
 });
 
 test("building counts persist in database", async () => {
@@ -129,14 +129,16 @@ test("building counts persist in database", async () => {
 
   const player = account.player;
 
-  player.increaseClickPower(99);
+  player.increaseClickPower(19999);
   player.increment();
 
-  player.purchaseDataCentre();
+  player.purchaseBuilding("Skipping Classes");
 
   await player.saveAll();
 
   const loaded = await Player.loadPlayer(username);
 
-  expect(loaded!.dataCentre.buildingCount).toBe(1);
+  const list = loaded!.buildingsList;
+
+  expect(list.at(-1)!.buildingCount).toBe(1);
 });

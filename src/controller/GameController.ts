@@ -73,35 +73,19 @@ export default class GameController {
   }
 
   /**
-   * Purchases intern upgrade and saves state.
+   * Purchases upgrade and saves state.
    */
-  public async buyIntern(): Promise<void> {
-    this.#account.player.purchaseInternUpgrade();
+  public async buyUpgrade(name: string): Promise<void> {
+    this.#account.player.purchaseUpgrade(name);
     await this.#account.player.saveAll();
     // persist upgrade
   }
 
   /**
-   * Purchases AI bot upgrade and saves state.
+   * Purchases building and saves state.
    */
-  public async buyAIBot(): Promise<void> {
-    this.#account.player.purchaseBotUpgrade();
-    await this.#account.player.saveAll();
-  }
-
-  /**
-   * Purchases data centre upgrade and saves state.
-   */
-  public async buyDataCentre(): Promise<void> {
-    this.#account.player.purchaseDataCentre();
-    await this.#account.player.saveAll();
-  }
-
-  /**
-   * Purchases memory leak upgrade and saves state.
-   */
-  public async buyMemoryLeak(): Promise<void> {
-    this.#account.player.purchaseMemoryLeak();
+  public async buyBuilding(name: string): Promise<void> {
+    this.#account.player.purchaseBuilding(name);
     await this.#account.player.saveAll();
   }
 

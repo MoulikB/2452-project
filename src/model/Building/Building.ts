@@ -4,11 +4,22 @@ import { assert } from "../../assertion";
  * Abstract base class for all buildings in the game.
  * Defines shared properties like cost, production, and quantity owned.
  */
-export default abstract class Building {
+export default class Building {
   protected name!: string; // display name of the building
   protected cost!: number; // cost to purchase one unit
   protected productionPerSecond!: number; // passive production generated per second
   protected count: number = 0; // number of this building owned by the player
+
+  public constructor(name: string, cost: number, productionPerSecond: number) {
+    this.name = name;
+    // display name used in UI and database
+
+    this.productionPerSecond = productionPerSecond;
+    // assign constant production value
+
+    this.cost = cost;
+    // assign constant cost
+  }
 
   #checkInvariants(): void {
     assert(

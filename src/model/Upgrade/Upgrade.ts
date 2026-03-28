@@ -4,11 +4,22 @@ import { assert } from "../../assertion";
  * Abstract base class for all upgrades in the game.
  * Upgrades increase player click power and track how many times they are purchased.
  */
-export default abstract class Upgrade {
+export default class Upgrade {
   protected name!: string; // display name of the upgrade
   protected cost!: number; // cost required to purchase the upgrade
   protected clickPowerIncrease!: number; // amount of click power added per purchase
   protected count: number = 0; // number of times this upgrade has been purchased
+
+  constructor(name: string, cost: number, clickPowerIncrease: number) {
+    this.name = name;
+    // display name used in UI and database
+
+    this.clickPowerIncrease = clickPowerIncrease;
+    // amount added to player's click power
+
+    this.cost = cost;
+    // cost required to purchase the upgrade
+  }
 
   /**
    * Ensures upgrade state remains valid.

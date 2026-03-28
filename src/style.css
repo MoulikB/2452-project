@@ -22,8 +22,8 @@ body {
 
 /* Main Game Card */
 #app {
-  width: 420px;
-  padding: 2rem;
+  width: 1080px;
+  padding: 1.5rem;
   background-color: #1e1e1e;
   border-radius: 16px;
   text-align: center;
@@ -42,7 +42,7 @@ h1 {
   margin-top: 0.5rem;
   font-size: 2.5rem;
   font-weight: bold;
-  color: #646cff;
+  color: #555def;
 }
 
 /* Divider */
@@ -62,9 +62,22 @@ button {
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  background-color: #2d2d2d;
-  color: white;
+  background-color: #f30404;
+  color: rgb(0, 0, 0);
   transition: all 0.2s ease;
+}
+
+.container {
+  display: flex;
+  gap: 80px;
+  margin-top: 2%;
+}
+
+.box {
+  flex: 1;
+  border: 2px solid #ccc;
+  padding: 15px;
+  border-radius: 10px;
 }
 
 button:hover {
@@ -77,7 +90,7 @@ button:active {
 }
 
 button:disabled {
-  background-color: #2a2a2a;
+  background-color: #ebebeb;
   color: #666;
   cursor: not-allowed;
   transform: none;

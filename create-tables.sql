@@ -75,22 +75,22 @@ create table if not exists player_building (
 -- UPGRADE TYPES
 insert into upgrade_type (name, baseCost, clickPowerIncrease) values
 ('Vibe Coding Intern', 20, 1),
-('AI-facilitated chatbot', 50, 2),
-('50 if-else statement', 100, 3),
-('Implement backend in JavaScript', 500, 5),
-('Implement frontend in Brainrot python', 1000, 10),
-('Buying more claude tokens', 5000, 20),
-('Calling all variables var', 100000, 100)
+('AI-facilitated chatbot', 50, 5),
+('Fifty if-else statement', 100, 50),
+('Implement backend in JavaScript', 500, 300),
+('Implement frontend in Brainrot python', 1000, 800),
+('Buying more claude tokens', 5000, 2000),
+('Calling all variables var', 10000, 100)
 on conflict (name) do nothing;
 
 -- =========================
 -- BUILDING TYPES
 insert into building_type (name, baseCost, productionPerSecond) values
 ('Data Centre', 100, 5),
-('Memory Leak', 500, 15 ),
-('Using magic numbers', 1000, 50 ),
-('Remove comments', 2000, 100 ),
-('Reusing code', 5000, 200 ),
-('No error catching', 10000, 400 ),
-('Skipping Classes', 20000, 1000 )
+('Memory Leak', 500, 30 ),
+('Using magic numbers', 1000, 70 ),
+('Remove comments', 2000, 120 ),
+('Reusing code', 5000, 250 ),
+('No error catching', 10000, 600 ),
+('Skipping Classes', 20000, 1500 )
 on conflict (name) do nothing;

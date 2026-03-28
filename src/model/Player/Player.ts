@@ -1,14 +1,10 @@
-import type Listener from "../Listener";
+import type Listener from "../listener";
 import InvalidAmountError from "./InvalidAmountError";
 import InsufficientBadCodeError from "./InsufficientBadCodeError";
 import { assert } from "../../assertion";
 import Upgrade from "../Upgrade/Upgrade";
-import AIFacilitatedChatBot from "../Upgrade/AIFacilitatedChatBot";
-import VibeCodingIntern from "../Upgrade/VibeCodingIntern";
 import db from "../connection";
 import Building from "../Building/Building";
-import DataCentre from "../Building/DataCentre";
-import MemoryLeak from "../Building/MemoryLeak";
 
 /**
  * Represents the player state in the game.
@@ -19,11 +15,9 @@ export default class Player {
   #badCode: number; // total accumulated resource
   #clickPower: number; // amount gained per click
   #listeners: Array<Listener>; // observers for UI updates
-  #AIBotUpgrade!: AIFacilitatedChatBot; // AI bot upgrade instance , initiliased through their respective functions below the contructor
-  #InternUpgrade!: VibeCodingIntern; // intern upgrade instance
-  #dataCentre!: DataCentre; // data centre building
-  #memoryLeak!: MemoryLeak; // memory leak building
   #productionPerSecond: number; // passive generation rate
+  #upgrades: Upgrade[];
+  #buildings: Building[];
 
   /**
    * Ensures internal state remains valid.
@@ -42,11 +36,14 @@ export default class Player {
   /**
    * Creates a new player with default values.
    */
-  private constructor(name: string) { // Initialised through the create public function
+  private constructor(name: string) {
+    // Initialised through the create public function
     this.#name = name;
     this.#badCode = 0;
     this.#clickPower = 1;
     this.#listeners = [];
+    this.#upgrades = [];
+    this.#buildings = [];
 
     this.#productionPerSecond = 0;
 
@@ -79,22 +76,13 @@ export default class Player {
       basecost: number;
       clickpowerincrease: number;
     }>(`select * from upgrade_type`);
-
+    const upgrades = [];
     for (const row of results.rows) {
-      if (row.name === "AI-facilitated chatbot") {
-        this.#AIBotUpgrade = new AIFacilitatedChatBot(
-          row.name,
-          row.basecost,
-          row.clickpowerincrease,
-        );
-      } else if (row.name === "Vibe Coding Intern") {
-        this.#InternUpgrade = new VibeCodingIntern(
-          row.name,
-          row.basecost,
-          row.clickpowerincrease,
-        );
-      }
+      upgrades.push(
+        new Upgrade(row.name, row.basecost, row.clickpowerincrease),
+      );
     }
+    this.#upgrades = upgrades;
   }
 
   /**
@@ -111,22 +99,13 @@ export default class Player {
         * from building_type
       `,
     );
-
+    const buildings = [];
     for (const row of results.rows) {
-      if (row.name === "Data Centre") {
-        this.#dataCentre = new DataCentre(
-          row.name,
-          row.basecost,
-          row.productionpersecond,
-        );
-      } else if (row.name === "Memory Leak") {
-        this.#memoryLeak = new MemoryLeak(
-          row.name,
-          row.basecost,
-          row.productionpersecond,
-        );
-      }
+      buildings.push(
+        new Building(row.name, row.basecost, row.productionpersecond),
+      );
     }
+    this.#buildings = buildings;
   }
 
   /**
@@ -134,10 +113,12 @@ export default class Player {
    */
   public async saveAll(): Promise<void> {
     await Player.savePlayer(this);
-    await Player.savePlayerUpgrade(this, this.#AIBotUpgrade);
-    await Player.savePlayerUpgrade(this, this.#InternUpgrade);
-    await Player.savePlayerBuilding(this, this.#dataCentre);
-    await Player.savePlayerBuilding(this, this.#memoryLeak);
+    for (const myUpgrade of this.#upgrades) {
+      await Player.savePlayerUpgrade(this, myUpgrade);
+    }
+    for (const myBuilding of this.#buildings) {
+      await Player.savePlayerBuilding(this, myBuilding);
+    }
   }
 
   /**
@@ -261,12 +242,12 @@ export default class Player {
        where username = $1`,
       [this.name],
     );
-
     for (const row of results.rows) {
-      if (row.upgrade_name === this.AIBot.upgradeName) {
-        this.AIBot.loadCount(row.quantity);
-      } else if (row.upgrade_name === this.Intern.upgradeName) {
-        this.Intern.loadCount(row.quantity);
+      for (const myUpgrade of this.#upgrades) {
+        if (row.upgrade_name === myUpgrade.upgradeName) {
+          myUpgrade.loadCount(row.quantity);
+          break;
+        }
       }
     }
   }
@@ -286,16 +267,25 @@ export default class Player {
     );
 
     for (const row of results.rows) {
-      if (row.building_name === this.dataCentre.buildingName) {
-        this.dataCentre.loadCount(row.quantity);
-      } else if (row.building_name === this.memoryLeak.buildingName) {
-        this.memoryLeak.loadCount(row.quantity);
+      for (const myBuilding of this.#buildings) {
+        if (row.building_name === myBuilding.buildingName) {
+          myBuilding.loadCount(row.quantity);
+          break;
+        }
       }
     }
   }
 
   get productionPerSecond(): number {
     return this.#productionPerSecond;
+  }
+
+  get buildingsList(): Building[] {
+    return this.#buildings;
+  }
+
+  get UpgradesList(): Upgrade[] {
+    return this.#upgrades;
   }
 
   get name(): string {
@@ -314,63 +304,52 @@ export default class Player {
     return this.#clickPower;
   }
 
-  get AIBot(): AIFacilitatedChatBot {
-    return this.#AIBotUpgrade;
-  }
-
-  get Intern(): VibeCodingIntern {
-    return this.#InternUpgrade;
-  }
-
-  get dataCentre(): DataCentre {
-    return this.#dataCentre;
-  }
-
-  get memoryLeak(): MemoryLeak {
-    return this.#memoryLeak;
-  }
-
   /**
-   * Purchases intern upgrade.
+   * Purchases mentioned upgrade.
    */
-  public purchaseInternUpgrade(): void {
-    this.purchase(this.#InternUpgrade);
+  public purchaseUpgrade(name: string): void {
+    for (const myUpgrade of this.#upgrades) {
+      if (name == myUpgrade.upgradeName) {
+        this.purchaseUpgradeHelper(myUpgrade);
+      }
+    }
     this.#notifyAll();
   }
 
   /**
-   * Purchases AI bot upgrade.
+   * Purchases a building and increases passive production.
    */
-  public purchaseBotUpgrade(): void {
-    this.purchase(this.#AIBotUpgrade);
-    this.#notifyAll();
-  }
-
-  /**
-   * Purchases data centre building.
-   */
-  public purchaseDataCentre(): void {
-    this.purchaseBuilding(this.#dataCentre);
-    this.#notifyAll();
-  }
-
-  /**
-   * Purchases memory leak building.
-   */
-  public purchaseMemoryLeak(): void {
-    this.purchaseBuilding(this.#memoryLeak);
+  public purchaseBuilding(name: string): void {
+    for (const myBuilding of this.#buildings) {
+      if (name == myBuilding.buildingName) {
+        this.purchaseBuildingHelper(myBuilding);
+      }
+    }
     this.#notifyAll();
   }
 
   /**
    * Purchases an upgrade and applies its effect.
    */
-  public purchase(upgrade: Upgrade): void {
+  public purchaseUpgradeHelper(upgrade: Upgrade): void {
     this.#checkInvariants();
 
     this.spend(upgrade.costValue); // deduct cost
     this.#apply(upgrade); // apply effect
     upgrade.increaseCount(); // increment count
+
+    this.#checkInvariants();
+  }
+
+  /**
+   * Purchases a building and applies its effect.
+   */
+  public purchaseBuildingHelper(building: Building): void {
+    this.#checkInvariants();
+
+    this.spend(building.costValue);
+    building.increaseCount();
+    this.increaseProductionPerSecond(building.productionValue);
 
     this.#checkInvariants();
   }
@@ -387,16 +366,6 @@ export default class Player {
    */
   public increment(): void {
     this.#badCode += this.#clickPower; // gain from click
-    this.#notifyAll();
-  }
-
-  /**
-   * Purchases a building and increases passive production.
-   */
-  public purchaseBuilding(building: Building): void {
-    this.spend(building.costValue);
-    building.increaseCount();
-    this.increaseProductionPerSecond(building.productionValue);
     this.#notifyAll();
   }
 

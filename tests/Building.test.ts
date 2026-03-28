@@ -1,9 +1,9 @@
 import { test, expect } from "vitest";
-import MemoryLeak from "../src/model/Building/MemoryLeak";
 import Account from "../src/model/Account/Account";
+import Building from "../src/model/Building/Building";
 
 test("MemoryLeak initializes with correct values", () => {
-  const building = new MemoryLeak("Memory Leak", 200, 15);
+  const building = new Building("Memory Leak", 200, 15);
 
   expect(building.buildingName).toBe("Memory Leak");
   expect(building.costValue).toBe(200);
@@ -12,7 +12,7 @@ test("MemoryLeak initializes with correct values", () => {
 });
 
 test("MemoryLeak inherits count behavior", () => {
-  const building = new MemoryLeak("Memory Leak", 200, 15);
+  const building = new Building("Memory Leak", 200, 15);
 
   building.increaseCount();
   building.increaseCount();
@@ -24,17 +24,17 @@ test("MemoryLeak inherits count behavior", () => {
 test("purchasing MemoryLeak increases productionPerSecond", async () => {
   const p = (await Account.create("test_" + Math.random(), "pw")).player;
 
-  p.increaseClickPower(199);
-  p.increment(); // badCode = 200
+  p.increaseClickPower(499);
+  p.increment(); // badCode = 500
 
-  p.purchaseMemoryLeak();
+  p.purchaseBuildingHelper(p.buildingsList[1]);
 
   expect(p.badCode).toBe(0);
   expect(p.productionPerSecond).toBe(15);
-  expect(p.memoryLeak.buildingCount).toBe(1);
+  expect(p.buildingsList[1].buildingCount).toBe(1);
 });
 
 test("purchaseDataCentre throws if player cannot afford it", async () => {
   const p = (await Account.create("test_" + Math.random(), "pw")).player;
-  expect(() => p.purchaseDataCentre()).toThrow();
+  expect(() => p.purchaseBuildingHelper(p.memoryLeak)).toThrow();
 });

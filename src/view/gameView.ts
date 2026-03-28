@@ -1,4 +1,4 @@
-import type Listener from "../model/Listener";
+import type Listener from "../model/listener";
 import Player from "../model/Player/Player";
 import GameController from "../controller/GameController";
 import InsufficientBadCodeError from "../model/Player/InsufficientBadCodeError";
@@ -91,7 +91,8 @@ export default class GameView implements Listener {
   #renderGame() {
     this.startAutoProduction();
     // start passive income loop
-    document.querySelector("#app")!.innerHTML = `
+
+    let innerHTML = `
       <h2>Welcome <span id="name"></span></h2>
 
       <button id="click-btn">Write Bad Code</button>
@@ -100,37 +101,48 @@ export default class GameView implements Listener {
       <div>Production Per Second: <span id="pps"></span></div>
 
       <hr>
-
-      <h3>Upgrades</h3>
-
-      <button id="intern-btn">
-        Buy Intern (Cost: <span id="intern-cost"></span>)
-      </button>
-      Owned: <span id="intern-count"></span>
-
-      <br><br>
-
-      <button id="ai-btn">
-        Buy AI Bot (Cost: <span id="ai-cost"></span>)
-      </button>
-      Owned: <span id="ai-count"></span>
-
-      <hr>
-
-      <h3>Buildings</h3>
-
-      <button id="data-centre-btn">
-        Buy Data Centre (Cost: <span id="data-centre-cost"></span>)
-      </button>
-      Owned: <span id="data-centre-count"></span>
-
-      <br><br>
-
-      <button id="memory-leak-btn">
-        Buy Memory Leak (Cost: <span id="memory-leak-cost"></span>)
-      </button>
-      Owned: <span id="memory-leak-count"></span>
     `;
+
+    let upgradesHTML = "<h3>Upgrades</h3>";
+
+    for (const upgrade of this.#player.UpgradesList) {
+      const id = upgrade.upgradeName.replace(/\s+/g, "-").toLowerCase();
+
+      upgradesHTML += ` 
+    <button id="${id}-btn">
+      Buy ${upgrade.upgradeName} (Cost: <span id="${id}-cost"></span>)
+    </button>
+    Owned: <span id="${id}-count"></span>
+    <br><br>
+  `;
+    }
+
+    let buildingHTML = "<h3>Buildings</h3>";
+
+    for (const building of this.#player.buildingsList) {
+      const id = building.buildingName.replace(/\s+/g, "-").toLowerCase();
+
+      buildingHTML += `
+    <button id="${id}-btn">
+      Buy ${building.buildingName} (Cost: <span id="${id}-cost"></span>)
+    </button>
+    Owned: <span id="${id}-count"></span>
+    <br><br>
+  `;
+    }
+    document.querySelector("#app")!.innerHTML = `
+  ${innerHTML}
+
+  <div class="container">
+    <div class="box">
+      ${upgradesHTML}
+    </div>
+
+    <div class="box">
+      ${buildingHTML}
+    </div>
+  </div>
+`;
 
     // manual click button
     document
@@ -138,34 +150,34 @@ export default class GameView implements Listener {
       .addEventListener("click", () => this.#controller.click());
 
     // upgrade buttons
-    document
-      .querySelector("#intern-btn")!
-      .addEventListener(
-        "click",
-        async () => await this.#attempt(() => this.#controller.buyIntern()),
-      );
+    for (const upgrade of this.#player.UpgradesList) {
+      const id = upgrade.upgradeName.replace(/\s+/g, "-").toLowerCase();
 
-    document
-      .querySelector("#ai-btn")!
-      .addEventListener(
-        "click",
-        async () => await this.#attempt(() => this.#controller.buyAIBot()),
-      );
+      document
+        .querySelector(`#${id}-btn`)!
+        .addEventListener(
+          "click",
+          async () =>
+            await this.#attempt(() =>
+              this.#controller.buyUpgrade(upgrade.upgradeName),
+            ),
+        );
+    }
 
     // building buttons
-    document
-      .querySelector("#data-centre-btn")!
-      .addEventListener(
-        "click",
-        async () => await this.#attempt(() => this.#controller.buyDataCentre()),
-      );
+    for (const building of this.#player.buildingsList) {
+      const id = building.buildingName.replace(/\s+/g, "-").toLowerCase();
 
-    document
-      .querySelector("#memory-leak-btn")!
-      .addEventListener(
-        "click",
-        async () => await this.#attempt(() => this.#controller.buyMemoryLeak()),
-      );
+      document
+        .querySelector(`#${id}-btn`)!
+        .addEventListener(
+          "click",
+          async () =>
+            await this.#attempt(() =>
+              this.#controller.buyBuilding(building.buildingName),
+            ),
+        );
+    }
 
     this.notify(); // initial render of values
   }
@@ -199,29 +211,25 @@ export default class GameView implements Listener {
       this.#player.productionPerSecond.toString();
 
     // upgrades
-    document.querySelector("#intern-count")!.textContent =
-      this.#player.Intern.upgradeCount.toString();
+    for (const upgrade of this.#player.UpgradesList) {
+      const id = upgrade.upgradeName.replace(/\s+/g, "-").toLowerCase();
 
-    document.querySelector("#intern-cost")!.textContent =
-      this.#player.Intern.costValue.toString();
+      document.querySelector(`#${id}-count`)!.textContent =
+        upgrade.upgradeCount.toString();
 
-    document.querySelector("#ai-count")!.textContent =
-      this.#player.AIBot.upgradeCount.toString();
-
-    document.querySelector("#ai-cost")!.textContent =
-      this.#player.AIBot.costValue.toString();
+      document.querySelector(`#${id}-cost`)!.textContent =
+        upgrade.costValue.toString();
+    }
 
     // buildings
-    document.querySelector("#data-centre-count")!.textContent =
-      this.#player.dataCentre.buildingCount.toString();
+    for (const building of this.#player.buildingsList) {
+      const id = building.buildingName.replace(/\s+/g, "-").toLowerCase();
 
-    document.querySelector("#data-centre-cost")!.textContent =
-      this.#player.dataCentre.costValue.toString();
+      document.querySelector(`#${id}-count`)!.textContent =
+        building.buildingCount.toString();
 
-    document.querySelector("#memory-leak-count")!.textContent =
-      this.#player.memoryLeak.buildingCount.toString();
-
-    document.querySelector("#memory-leak-cost")!.textContent =
-      this.#player.memoryLeak.costValue.toString();
+      document.querySelector(`#${id}-cost`)!.textContent =
+        building.costValue.toString();
+    }
   }
 }

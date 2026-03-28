@@ -19,11 +19,11 @@ test("AI chatbot upgrade increases click power by 2", async () => {
 
   givePlayerBadCode(player, 50);
 
-  player.purchaseBotUpgrade();
+  player.purchaseUpgrade("AI-facilitated chatbot");
 
   expect(player.badCode).toBe(0);
   expect(player.clickPower).toBe(52);
-  expect(player.AIBot.upgradeCount).toBe(1);
+  expect(player.UpgradesList[1].upgradeCount).toBe(1);
 });
 
 test("upgrade can be purchased multiple times", async () => {
@@ -31,11 +31,11 @@ test("upgrade can be purchased multiple times", async () => {
 
   givePlayerBadCode(player, 100);
 
-  player.purchaseBotUpgrade();
-  player.purchaseBotUpgrade();
+  player.purchaseUpgrade("AI-facilitated chatbot");
+  player.purchaseUpgrade("AI-facilitated chatbot");
 
   expect(player.badCode).toBe(0);
-  expect(player.AIBot.upgradeCount).toBe(2);
+  expect(player.UpgradesList[1].upgradeCount).toBe(2);
   expect(player.clickPower).toBe(104);
 });
 
@@ -43,7 +43,7 @@ test("AI chatbot purchase fails without enough badCode", async () => {
   const player = await createPlayer();
 
   expect(() => {
-    player.purchaseBotUpgrade();
+    player.purchaseUpgrade("AI-facilitated chatbot");
   }).toThrow(InsufficientBadCodeError);
 });
 
@@ -52,8 +52,8 @@ test("AI chatbot upgrade cost remains constant", async () => {
 
   givePlayerBadCode(player, 50);
 
-  player.purchaseBotUpgrade();
+  player.purchaseUpgradeHelper(player.UpgradesList[1]);
 
   expect(player.badCode).toBe(0);
-  expect(player.AIBot.costValue).toBe(50);
+  expect(player.UpgradesList[1].costValue).toBe(50);
 });
