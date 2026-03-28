@@ -28,6 +28,8 @@ class Player {
     -~clickPower: number
     -~productionPerSecond: number
     -~account : Account
+    -buildings[] : Building
+    -Upgrades[] : upgrades
     +increment(): void
     +spend(amount): void
     +purchaseUpgrade(upgrade): void
@@ -68,12 +70,6 @@ Player "1" *-- "*" Upgrade : composition Player owns multiple Upgrade instances 
 
 Upgrade "*" --> "1" Player : association Upgrade maintains reference to Player to apply effects such as increasing click power
 
-class VibeCodingIntern
-
-class AIFacilitatedChatBot
-
-note for VibeCodingIntern "Concrete upgrade that increases click power."
-note for AIFacilitatedChatBot "Concrete upgrade that increases click power."
 
 
 
@@ -94,14 +90,6 @@ note for Building "Class invariants:
 <li>cost >= 1</li>
 </ul>"
 
-class DataCentre
-
-class MemoryLeak
-
-
-
-note for DataCentre "Concrete building that produces Bad Code per second."
-note for MemoryLeak "Concrete building that produces Bad Code faster."
 
 Upgrade <|-- VibeCodingIntern
 Upgrade <|-- AIFacilitatedChatBot
