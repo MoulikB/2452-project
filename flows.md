@@ -133,3 +133,36 @@ flowchart TD
     update --> notify
     notify --> timer
 ```
+
+## Robo Buy
+
+```mermaid
+flowchart TD
+    start[[Game tick / update]]
+    checkToggle{Robo-buy enabled?}
+    checkMoney{Enough BadCode?}
+    getLast[Get last purchased item]
+    markov[Markov chain selects next item]
+    canAfford{Can afford selected item?}
+    buy[Purchase item]
+    update[Update BadCode and item quantity]
+    save[Update lastPurchasedItem]
+    endTick[[Wait for next tick]]
+
+    start --> checkToggle
+    checkToggle -- no --> endTick
+    checkToggle -- yes --> checkMoney
+
+    checkMoney -- no --> endTick
+    checkMoney -- yes --> getLast
+
+    getLast --> markov
+    markov --> canAfford
+
+    canAfford -- no --> endTick
+    canAfford -- yes --> buy
+
+    buy --> update
+    update --> save
+    save --> endTick
+```
