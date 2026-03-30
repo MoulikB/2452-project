@@ -62,7 +62,7 @@ button {
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  background-color: #f30404;
+  background-color: #3bcc7a;
   color: rgb(0, 0, 0);
   transition: all 0.2s ease;
 }

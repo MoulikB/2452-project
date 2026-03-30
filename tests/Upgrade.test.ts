@@ -14,7 +14,7 @@ function givePlayerBadCode(player: Player, amount: number) {
   player.increment();
 }
 
-test("AI chatbot upgrade increases click power by 2", async () => {
+test("AI chatbot upgrade increases click power by 5", async () => {
   const player = await createPlayer();
 
   givePlayerBadCode(player, 50);
@@ -22,7 +22,7 @@ test("AI chatbot upgrade increases click power by 2", async () => {
   player.purchaseUpgrade("AI-facilitated chatbot");
 
   expect(player.badCode).toBe(0);
-  expect(player.clickPower).toBe(52);
+  expect(player.clickPower).toBe(55);
   expect(player.UpgradesList[1].upgradeCount).toBe(1);
 });
 
@@ -36,7 +36,7 @@ test("upgrade can be purchased multiple times", async () => {
 
   expect(player.badCode).toBe(0);
   expect(player.UpgradesList[1].upgradeCount).toBe(2);
-  expect(player.clickPower).toBe(104);
+  expect(player.clickPower).toBe(110);
 });
 
 test("AI chatbot purchase fails without enough badCode", async () => {

@@ -30,11 +30,11 @@ test("purchasing MemoryLeak increases productionPerSecond", async () => {
   p.purchaseBuildingHelper(p.buildingsList[1]);
 
   expect(p.badCode).toBe(0);
-  expect(p.productionPerSecond).toBe(15);
+  expect(p.productionPerSecond).toBe(30);
   expect(p.buildingsList[1].buildingCount).toBe(1);
 });
 
 test("purchaseDataCentre throws if player cannot afford it", async () => {
   const p = (await Account.create("test_" + Math.random(), "pw")).player;
-  expect(() => p.purchaseBuildingHelper(p.memoryLeak)).toThrow();
+  expect(() => p.purchaseBuildingHelper(p.buildingsList[1])).toThrow();
 });

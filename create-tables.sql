@@ -76,6 +76,7 @@ create table if not exists player_building (
 insert into upgrade_type (name, baseCost, clickPowerIncrease) values
 ('Vibe Coding Intern', 20, 1),
 ('AI-facilitated chatbot', 50, 5),
+--PHASE 3 NEW UPGRADE TYPES
 ('Fifty if-else statement', 100, 50),
 ('Implement backend in JavaScript', 500, 300),
 ('Implement frontend in Brainrot python', 1000, 800),
@@ -88,6 +89,7 @@ on conflict (name) do nothing;
 insert into building_type (name, baseCost, productionPerSecond) values
 ('Data Centre', 100, 5),
 ('Memory Leak', 500, 30 ),
+--PHASE 3 NEW BUILDING TYPES
 ('Using magic numbers', 1000, 70 ),
 ('Remove comments', 2000, 120 ),
 ('Reusing code', 5000, 250 ),
