@@ -2,6 +2,7 @@ import Player from "../model/Player/Player";
 import Account from "../model/Account/Account";
 import GameView from "../view/gameView";
 import IncorrectPasswordException from "./IncorrectPasswordException";
+import { RoboBuy } from "../model/RoboBuy";
 
 /**
  * Controls the flow of the game.
@@ -10,9 +11,17 @@ import IncorrectPasswordException from "./IncorrectPasswordException";
 export default class GameController {
   #account!: Account; // currently logged-in account
   #view: GameView; // UI layer
+  #RoboHelper: RoboBuy;
 
   constructor() {
     this.#view = new GameView(this);
+    this.#RoboHelper = new RoboBuy();
+  }
+
+  public startRoboHelper(): void {
+    setInterval(() => {
+      this.#RoboHelper.run(this.#account.player);
+    }, 2000);
   }
 
   /**
@@ -47,6 +56,7 @@ export default class GameController {
 
       this.#view.startGame(this.#account.player);
       // initialize UI with player state
+      this.startRoboHelper();
       flag = true;
     }
 
@@ -77,8 +87,13 @@ export default class GameController {
    */
   public async buyUpgrade(name: string): Promise<void> {
     this.#account.player.purchaseUpgrade(name);
+    this.#RoboHelper.setState(name);
     await this.#account.player.saveAll();
     // persist upgrade
+  }
+
+  public toggleState() {
+    this.#RoboHelper.toggle();
   }
 
   /**

@@ -99,6 +99,12 @@ export default class GameView implements Listener {
       <div>Bad Code: <span id="bad-code"></span></div>
       <div>Click power: <span id="cpower"></span></div>
       <div>Production Per Second: <span id="pps"></span></div>
+      <label class="switch">
+        <input type="checkbox" id="robo-on">
+        <span class="slider round"></span>
+      </label>
+      <span id="toggle-status">Off</span>
+
 
       <hr>
     `;
@@ -148,6 +154,16 @@ export default class GameView implements Listener {
     document
       .querySelector("#click-btn")!
       .addEventListener("click", () => this.#controller.click());
+
+    // Toggle on off autobuy
+    const checkbox = document.querySelector("#robo-on") as HTMLInputElement;
+
+    checkbox.addEventListener("change", () => {
+      this.#controller.toggleState();
+
+      const status = document.querySelector("#toggle-status")!;
+      status.textContent = checkbox.checked ? "On" : "Off";
+    });
 
     // upgrade buttons
     for (const upgrade of this.#player.UpgradesList) {

@@ -13,15 +13,28 @@ that emulate an autoclicker
 
 # Dependencies
 
-This project uses Papa Parse for just the training data.
+This project uses Papa Parse for parsing the training data csv file.
+We also run on vite-plugin-fs for its extended support and async support.
 
 To install it on your system run :
 
 ```
 npm install papaparse
-
+npm install vite-plugin-fs
 
 ```
+
+# Create Data Model
+
+To create the data model from training data for our markov chain run
+
+```
+npm run train
+
+```
+
+This can be used to create one manually!
+Otherwise main can create one.
 
 # Running the project
 

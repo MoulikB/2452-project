@@ -1,5 +1,4 @@
-import fs from "fs";
-import * as path from "path";
+import fs from "vite-plugin-fs/browser";
 import Papa from "papaparse";
 
 export default class TrainingModel {
@@ -12,15 +11,14 @@ export default class TrainingModel {
       new Array(this.size).fill(0),
     );
     this.#TableDenominator = new Array(this.size).fill(0);
-    this.fillTable();
   }
 
-  private letterToIndex(letter: string): number {
+  static letterToIndex(letter: string): number {
     return letter.charCodeAt(0) - 97; // a=0, b=1, ...
   }
 
-  private fillTable(): void {
-    const file = fs.readFileSync("src/training/data.csv", "utf8");
+  public async fillTable(): Promise<void> {
+    const file = await fs.readFile("src/training/data.csv");
 
     Papa.parse(file, {
       header: false, // Assumes first row is header (a,b,c...)
@@ -43,8 +41,8 @@ export default class TrainingModel {
 
         if (!from || !to) continue;
 
-        const i = this.letterToIndex(from);
-        const j = this.letterToIndex(to);
+        const i = TrainingModel.letterToIndex(from);
+        const j = TrainingModel.letterToIndex(to);
 
         // increment count
         this.#TableNumerator[i][j] += 1;
@@ -77,8 +75,11 @@ export default class TrainingModel {
     this.saveModel(model);
   }
 
-  private saveModel(model: object): void {
-    fs.writeFileSync("src/training/model.json", JSON.stringify(model, null, 2));
+  private async saveModel(model: object): Promise<void> {
+    await fs.writeFile(
+      "src/training/model.json",
+      JSON.stringify(model, null, 2),
+    );
     console.log("Model saved to model.json");
   }
 }
