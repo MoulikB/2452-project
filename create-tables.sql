@@ -81,7 +81,10 @@ insert into upgrade_type (name, baseCost, clickPowerIncrease) values
 ('Implement backend in JavaScript', 500, 300),
 ('Implement frontend in Brainrot python', 1000, 800),
 ('Buying more claude tokens', 5000, 2000),
-('Calling all variables var', 10000, 100)
+('Calling all variables var', 10000, 100),
+('Copy paste from StackOverflow', 20000, 4000),
+('Turn off type checking', 50000, 8000),
+('Ignore all warnings', 100000, 15000)
 on conflict (name) do nothing;
 
 -- =========================
@@ -94,5 +97,8 @@ insert into building_type (name, baseCost, productionPerSecond) values
 ('Remove comments', 2000, 120 ),
 ('Reusing code', 5000, 250 ),
 ('No error catching', 10000, 600 ),
-('Skipping Classes', 20000, 1500 )
+('Skipping Classes', 20000, 1500 ),
+('Infinite loop generator', 50000, 3000 ),
+('Deploy on Friday', 100000, 7000 ),
+('Hardcode everything', 200000, 15000 )
 on conflict (name) do nothing;
