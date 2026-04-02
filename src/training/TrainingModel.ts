@@ -1,4 +1,4 @@
-import fs from "vite-plugin-fs/browser";
+import fs from "fs";
 import Papa from "papaparse";
 
 export default class TrainingModel {
@@ -17,12 +17,12 @@ export default class TrainingModel {
     return letter.charCodeAt(0) - 97; // a=0, b=1, ...
   }
 
-  public async fillTable(): Promise<void> {
-    const file = await fs.readFile("src/training/data.csv");
+  public fillTable(): void {
+    const file = fs.readFileSync("src/training/data.csv", "utf-8");
 
     Papa.parse(file, {
-      header: false, // Assumes first row is header (a,b,c...)
-      dynamicTyping: false, // Automatically converts numbers
+      header: false, // Assumes first row is header (a,b,c...) so we turn this off
+      dynamicTyping: false, // Automatically converts numbers, not needed so we turn this off too
       complete: (results) => {
         // results.data contains the array of row objects
         this.processData(results.data);
@@ -75,12 +75,9 @@ export default class TrainingModel {
     this.saveModel(model);
   }
 
-  private async saveModel(model: object): Promise<void> {
-    await fs.writeFile(
-      "src/training/model.json",
-      JSON.stringify(model, null, 2),
-    );
+  private saveModel(model: object): void {
+    fs.writeFileSync("src/training/model.json", JSON.stringify(model, null, 2));
     console.log("Model saved to model.json");
   }
 }
-new TrainingModel();
+new TrainingModel().fillTable();
