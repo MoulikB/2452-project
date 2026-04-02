@@ -1,5 +1,4 @@
 import fs from "fs";
-import Papa from "papaparse";
 
 export default class TrainingModel {
   size = 10;
@@ -20,17 +19,11 @@ export default class TrainingModel {
   public fillTable(): void {
     const file = fs.readFileSync("src/training/data.csv", "utf-8");
 
-    Papa.parse(file, {
-      header: false, // Assumes first row is header (a,b,c...) so we turn this off
-      dynamicTyping: false, // Automatically converts numbers, not needed so we turn this off too
-      complete: (results) => {
-        // results.data contains the array of row objects
-        this.processData(results.data);
-      },
-      error: (error: any) => {
-        console.error("Error parsing CSV:", error.message);
-      },
-    });
+    const lines = file.trim().split("\n");
+
+    const data = lines.map((line) => line.split(","));
+
+    this.processData(data);
   }
 
   private processData(data: any[]) {

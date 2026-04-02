@@ -5,7 +5,8 @@ type Model = Record<string, Record<string, number>>;
 
 export class RoboBuy {
   #on: boolean;
-  #previousState!: string;
+  #previousState: string;
+  private model: Model;
 
   private mapping: Record<string, string> = {
     a: "Vibe Coding Intern",
@@ -35,6 +36,7 @@ export class RoboBuy {
   constructor() {
     this.#on = false;
     this.#previousState = "a";
+    this.model = modelData as Model;
   }
 
   public toggle(): void {
@@ -69,8 +71,7 @@ export class RoboBuy {
   }
 
   private getNextState(current: string): string {
-    const model = modelData as Model;
-    const transitions = model[current];
+    const transitions = this.model[current];
 
     let result = current;
 

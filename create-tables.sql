@@ -81,7 +81,7 @@ insert into upgrade_type (name, baseCost, clickPowerIncrease) values
 ('Implement backend in JavaScript', 500, 300),
 ('Implement frontend in Brainrot python', 1000, 800),
 ('Buying more claude tokens', 5000, 2000),
-('Calling all variables var', 10000, 100),
+('Calling all variables var', 10000, 5000),
 ('Copy paste from StackOverflow', 20000, 4000),
 ('Turn off type checking', 50000, 8000),
 ('Ignore all warnings', 100000, 15000)

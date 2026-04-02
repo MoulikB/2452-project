@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1774654369241" clover="3.2.0">
-  <project timestamp="1774654369241" name="All files">
+<coverage generated="1775151117776" clover="3.2.0">
+  <project timestamp="1775151117776" name="All files">
     <metrics statements="192" coveredstatements="189" conditionals="34" coveredconditionals="27" methods="68" coveredmethods="67" elements="294" coveredelements="283" complexity="0" loc="192" ncloc="192" packages="7" files="9" classes="9"/>
     <package name="2452-project">
       <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -12,7 +12,7 @@
       <metrics statements="3" coveredstatements="1" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="1"/>
       <file name="assertion.ts" path="C:\Users\Moulik\Documents\CODING\2452-project\src\assertion.ts">
         <metrics statements="3" coveredstatements="1" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="1"/>
-        <line num="2" count="254" type="cond" truecount="1" falsecount="1"/>
+        <line num="2" count="302" type="cond" truecount="1" falsecount="1"/>
         <line num="3" count="0" type="stmt"/>
         <line num="9" count="0" type="stmt"/>
       </file>
@@ -25,7 +25,7 @@
         <line num="9" count="4" type="stmt"/>
         <line num="11" count="4" type="cond" truecount="1" falsecount="1"/>
         <line num="13" count="4" type="stmt"/>
-        <line num="17" count="119" type="stmt"/>
+        <line num="17" count="131" type="stmt"/>
       </file>
     </package>
     <package name="2452-project.src.model.Account">
@@ -81,29 +81,29 @@
       <metrics statements="16" coveredstatements="16" conditionals="2" coveredconditionals="1" methods="8" coveredmethods="8"/>
       <file name="Building.ts" path="C:\Users\Moulik\Documents\CODING\2452-project\src\model\Building\Building.ts">
         <metrics statements="16" coveredstatements="16" conditionals="2" coveredconditionals="1" methods="8" coveredmethods="8"/>
-        <line num="11" count="219" type="stmt"/>
-        <line num="14" count="219" type="stmt"/>
-        <line num="17" count="219" type="stmt"/>
-        <line num="20" count="219" type="stmt"/>
-        <line num="25" count="19" type="stmt"/>
-        <line num="29" count="19" type="stmt"/>
-        <line num="33" count="19" type="stmt"/>
-        <line num="34" count="19" type="stmt"/>
-        <line num="39" count="78" type="stmt"/>
-        <line num="44" count="3" type="stmt"/>
-        <line num="49" count="18" type="stmt"/>
+        <line num="11" count="312" type="stmt"/>
+        <line num="14" count="312" type="stmt"/>
+        <line num="17" count="312" type="stmt"/>
+        <line num="20" count="312" type="stmt"/>
+        <line num="25" count="25" type="stmt"/>
+        <line num="29" count="25" type="stmt"/>
+        <line num="33" count="25" type="stmt"/>
+        <line num="34" count="25" type="stmt"/>
+        <line num="39" count="141" type="stmt"/>
+        <line num="44" count="4" type="stmt"/>
+        <line num="49" count="24" type="stmt"/>
         <line num="54" count="3" type="stmt"/>
         <line num="61" count="5" type="stmt"/>
         <line num="62" count="5" type="stmt"/>
-        <line num="70" count="14" type="stmt"/>
-        <line num="71" count="14" type="stmt"/>
+        <line num="70" count="20" type="stmt"/>
+        <line num="71" count="20" type="stmt"/>
       </file>
     </package>
     <package name="2452-project.src.model.Player">
       <metrics statements="108" coveredstatements="107" conditionals="20" coveredconditionals="18" methods="35" coveredmethods="35"/>
       <file name="InsufficientBadCodeError.ts" path="C:\Users\Moulik\Documents\CODING\2452-project\src\model\Player\InsufficientBadCodeError.ts">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="3" count="3" type="stmt"/>
+        <line num="3" count="4" type="stmt"/>
       </file>
       <file name="InvalidAmountError.ts" path="C:\Users\Moulik\Documents\CODING\2452-project\src\model\Player\InvalidAmountError.ts">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
@@ -129,23 +129,23 @@
         <line num="74" count="31" type="stmt"/>
         <line num="79" count="31" type="stmt"/>
         <line num="80" count="31" type="stmt"/>
-        <line num="81" count="217" type="stmt"/>
+        <line num="81" count="310" type="stmt"/>
         <line num="85" count="31" type="stmt"/>
         <line num="93" count="31" type="stmt"/>
         <line num="102" count="31" type="stmt"/>
         <line num="103" count="31" type="stmt"/>
-        <line num="104" count="217" type="stmt"/>
+        <line num="104" count="310" type="stmt"/>
         <line num="108" count="31" type="stmt"/>
         <line num="115" count="2" type="stmt"/>
         <line num="116" count="2" type="stmt"/>
-        <line num="117" count="14" type="stmt"/>
+        <line num="117" count="20" type="stmt"/>
         <line num="119" count="2" type="stmt"/>
-        <line num="120" count="14" type="stmt"/>
-        <line num="131" count="14" type="stmt"/>
+        <line num="120" count="20" type="stmt"/>
+        <line num="131" count="20" type="stmt"/>
         <line num="144" count="2" type="stmt"/>
         <line num="160" count="2" type="stmt"/>
         <line num="161" count="2" type="stmt"/>
-        <line num="171" count="14" type="stmt"/>
+        <line num="171" count="20" type="stmt"/>
         <line num="188" count="2" type="stmt"/>
         <line num="189" count="2" type="stmt"/>
         <line num="190" count="2" type="stmt"/>
@@ -165,29 +165,29 @@
         <line num="229" count="2" type="stmt"/>
         <line num="236" count="2" type="stmt"/>
         <line num="245" count="2" type="stmt"/>
-        <line num="246" count="14" type="stmt"/>
-        <line num="247" count="56" type="cond" truecount="2" falsecount="0"/>
-        <line num="248" count="14" type="stmt"/>
-        <line num="249" count="14" type="stmt"/>
+        <line num="246" count="20" type="stmt"/>
+        <line num="247" count="110" type="cond" truecount="2" falsecount="0"/>
+        <line num="248" count="20" type="stmt"/>
+        <line num="249" count="20" type="stmt"/>
         <line num="259" count="2" type="stmt"/>
         <line num="269" count="2" type="stmt"/>
-        <line num="270" count="14" type="stmt"/>
-        <line num="271" count="56" type="cond" truecount="2" falsecount="0"/>
-        <line num="272" count="14" type="stmt"/>
-        <line num="273" count="14" type="stmt"/>
+        <line num="270" count="20" type="stmt"/>
+        <line num="271" count="110" type="cond" truecount="2" falsecount="0"/>
+        <line num="272" count="20" type="stmt"/>
+        <line num="273" count="20" type="stmt"/>
         <line num="280" count="4" type="stmt"/>
-        <line num="284" count="3" type="stmt"/>
+        <line num="284" count="4" type="stmt"/>
         <line num="288" count="4" type="stmt"/>
-        <line num="292" count="34" type="stmt"/>
+        <line num="292" count="46" type="stmt"/>
         <line num="296" count="2" type="stmt"/>
         <line num="300" count="12" type="stmt"/>
         <line num="304" count="7" type="stmt"/>
         <line num="311" count="4" type="stmt"/>
-        <line num="312" count="23" type="cond" truecount="2" falsecount="0"/>
+        <line num="312" count="32" type="cond" truecount="2" falsecount="0"/>
         <line num="313" count="4" type="stmt"/>
         <line num="316" count="3" type="stmt"/>
         <line num="323" count="1" type="stmt"/>
-        <line num="324" count="7" type="cond" truecount="2" falsecount="0"/>
+        <line num="324" count="10" type="cond" truecount="2" falsecount="0"/>
         <line num="325" count="1" type="stmt"/>
         <line num="328" count="1" type="stmt"/>
         <line num="335" count="5" type="stmt"/>
@@ -206,8 +206,8 @@
         <line num="376" count="5" type="cond" truecount="2" falsecount="0"/>
         <line num="378" count="4" type="stmt"/>
         <line num="379" count="4" type="stmt"/>
-        <line num="386" count="11" type="cond" truecount="2" falsecount="0"/>
-        <line num="387" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="386" count="12" type="cond" truecount="2" falsecount="0"/>
+        <line num="387" count="11" type="cond" truecount="2" falsecount="0"/>
         <line num="389" count="7" type="stmt"/>
         <line num="390" count="7" type="stmt"/>
         <line num="397" count="1" type="stmt"/>
@@ -223,23 +223,23 @@
       <metrics statements="17" coveredstatements="17" conditionals="2" coveredconditionals="1" methods="8" coveredmethods="8"/>
       <file name="Upgrade.ts" path="C:\Users\Moulik\Documents\CODING\2452-project\src\model\Upgrade\Upgrade.ts">
         <metrics statements="17" coveredstatements="17" conditionals="2" coveredconditionals="1" methods="8" coveredmethods="8"/>
-        <line num="11" count="217" type="stmt"/>
-        <line num="14" count="217" type="stmt"/>
-        <line num="17" count="217" type="stmt"/>
-        <line num="20" count="217" type="stmt"/>
-        <line num="28" count="22" type="stmt"/>
-        <line num="32" count="22" type="stmt"/>
-        <line num="33" count="22" type="stmt"/>
-        <line num="37" count="22" type="stmt"/>
-        <line num="41" count="93" type="stmt"/>
+        <line num="11" count="310" type="stmt"/>
+        <line num="14" count="310" type="stmt"/>
+        <line num="17" count="310" type="stmt"/>
+        <line num="20" count="310" type="stmt"/>
+        <line num="28" count="28" type="stmt"/>
+        <line num="32" count="28" type="stmt"/>
+        <line num="33" count="28" type="stmt"/>
+        <line num="37" count="28" type="stmt"/>
+        <line num="41" count="162" type="stmt"/>
         <line num="45" count="6" type="stmt"/>
-        <line num="49" count="16" type="stmt"/>
+        <line num="49" count="22" type="stmt"/>
         <line num="53" count="4" type="stmt"/>
         <line num="60" count="4" type="stmt"/>
         <line num="61" count="4" type="stmt"/>
         <line num="62" count="4" type="stmt"/>
-        <line num="69" count="14" type="stmt"/>
-        <line num="70" count="14" type="stmt"/>
+        <line num="69" count="20" type="stmt"/>
+        <line num="70" count="20" type="stmt"/>
       </file>
     </package>
   </project>

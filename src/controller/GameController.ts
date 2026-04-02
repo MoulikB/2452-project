@@ -56,7 +56,7 @@ export default class GameController {
 
       this.#view.startGame(this.#account.player);
       // initialize UI with player state
-      this.startRoboHelper();
+
       flag = true;
     }
 
@@ -71,6 +71,7 @@ export default class GameController {
       // save initial player state
 
       this.#view.startGame(this.#account.player);
+      this.startRoboHelper();
     }
   }
 

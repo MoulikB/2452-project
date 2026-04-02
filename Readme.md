@@ -11,17 +11,6 @@ COMP 2452. The player clicks on an item to generate Bad Code and can
 purchase upgrades to increase their terrible coding power. They can now also purchase buildings
 that emulate an autoclicker
 
-# Dependencies
-
-This project uses Papa Parse for parsing the training data csv file.
-
-To install it on your system run :
-
-```
-npm install papaparse
-
-```
-
 # Markov Chain and Data Model
 
 To generate the Markov chain model, run:
@@ -34,7 +23,7 @@ This reads from: `src/training/data.csv`
 
 and creates: `src/training/model.json`
 
-## How It Works
+### How It Works
 
 The training script looks at sequences of letters (a to j) in the CSV file and figures out how often one letter follows another.
 
@@ -92,9 +81,5 @@ The design artifacts for Phase 3 can be found here:
 
 - **Domain model:** `domain.md`
 - **Flows of interaction:** `flows.md`
-- **REPL Database:** 'create-tables.sql'
-- **UI Assessment:** 'ui-assessment.md'
-
-```
-
-```
+- **REPL Database:** `create-tables.sql`
+- **UI Assessment:** `ui-assessment.md`

@@ -140,5 +140,7 @@ test("building counts persist in database", async () => {
 
   const list = loaded!.buildingsList;
 
-  expect(list.at(-1)!.buildingCount).toBe(1);
+  const building = list.find((b) => b.buildingName === "Skipping Classes");
+  expect(building).toBeDefined();
+  expect(building!.buildingCount).toBe(1);
 });
