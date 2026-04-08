@@ -46,6 +46,7 @@ The output file (model.json) looks like this:
 ```
 
 The app loads this file when it starts and uses it to decide what the next item should be (used in robobuy).
+The default value at startup is "Vibe Coding Intern" after which we determine next state by the previous purchase made by a player.
 
 # Running the project
 
