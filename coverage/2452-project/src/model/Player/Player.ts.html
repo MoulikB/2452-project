@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">99.09% </span>
+                <span class="strong">98.26% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>109/110</span>
+                <span class='fraction'>113/115</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90% </span>
+                <span class="strong">83.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>18/20</span>
+                <span class='fraction'>20/24</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">97.05% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>33/33</span>
+                <span class='fraction'>33/34</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">99.04% </span>
+                <span class="strong">98.18% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>104/105</span>
+                <span class='fraction'>108/110</span>
             </div>
         
             
@@ -487,7 +487,17 @@
 <a name='L422'></a><a href='#L422'>422</a>
 <a name='L423'></a><a href='#L423'>423</a>
 <a name='L424'></a><a href='#L424'>424</a>
-<a name='L425'></a><a href='#L425'>425</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L425'></a><a href='#L425'>425</a>
+<a name='L426'></a><a href='#L426'>426</a>
+<a name='L427'></a><a href='#L427'>427</a>
+<a name='L428'></a><a href='#L428'>428</a>
+<a name='L429'></a><a href='#L429'>429</a>
+<a name='L430'></a><a href='#L430'>430</a>
+<a name='L431'></a><a href='#L431'>431</a>
+<a name='L432'></a><a href='#L432'>432</a>
+<a name='L433'></a><a href='#L433'>433</a>
+<a name='L434'></a><a href='#L434'>434</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -527,6 +537,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31x</span>
 <span class="cline-any cline-yes">31x</span>
 <span class="cline-any cline-yes">31x</span>
 <span class="cline-any cline-yes">31x</span>
@@ -733,10 +744,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">110x</span>
 <span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">90x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -757,10 +769,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">110x</span>
 <span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">90x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -794,11 +807,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -931,6 +949,7 @@ export default class Player {
   #productionPerSecond: number; // passive generation rate
   #upgrades: Upgrade[];
   #buildings: Building[];
+  #previousPurchase: string;
 &nbsp;
   /**
    * Ensures internal state remains valid.
@@ -957,6 +976,7 @@ export default class Player {
     this.#listeners = [];
     this.#upgrades = [];
     this.#buildings = [];
+    this.#previousPurchase = "Vibe Coding Intern"; // Using this as a default value for the Robo Buy
 &nbsp;
     this.#productionPerSecond = 0;
 &nbsp;
@@ -1156,11 +1176,12 @@ export default class Player {
       [this.name],
     );
     for (const row of results.rows) {
-      for (const myUpgrade of this.#upgrades) {
-        if (row.upgrade_name === myUpgrade.upgradeName) {
-          myUpgrade.loadCount(row.quantity);
-          break;
-        }
+      let i = 0;
+      while (i &lt; this.#upgrades.length &amp;&amp; this.#upgrades[i].upgradeName !== row.upgrade_name) {
+        i++;
+      }
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (i &lt; this.#upgrades.length) {
+        this.#upgrades[i].loadCount(row.quantity);
       }
     }
   }
@@ -1180,11 +1201,12 @@ export default class Player {
     );
 &nbsp;
     for (const row of results.rows) {
-      for (const myBuilding of this.#buildings) {
-        if (row.building_name === myBuilding.buildingName) {
-          myBuilding.loadCount(row.quantity);
-          break;
-        }
+      let i = 0;
+      while (i &lt; this.#buildings.length &amp;&amp; this.#buildings[i].buildingName !== row.building_name) {
+        i++;
+      }
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (i &lt; this.#buildings.length) {
+        this.#buildings[i].loadCount(row.quantity);
       }
     }
   }
@@ -1197,7 +1219,7 @@ export default class Player {
     return this.#buildings;
   }
 &nbsp;
-  get UpgradesList(): Upgrade[] {
+  get upgradesList(): Upgrade[] {
     return this.#upgrades;
   }
 &nbsp;
@@ -1217,6 +1239,10 @@ export default class Player {
     return this.#clickPower;
   }
 &nbsp;
+  get <span class="fstat-no" title="function not covered" >previousPurchase(): string {</span>
+<span class="cstat-no" title="statement not covered" >    return this.#previousPurchase;</span>
+  }
+&nbsp;
   /**
    * Purchases mentioned upgrade.
    */
@@ -1224,6 +1250,7 @@ export default class Player {
     for (const myUpgrade of this.#upgrades) {
       if (name == myUpgrade.upgradeName) {
         this.purchaseUpgradeHelper(myUpgrade);
+        this.#previousPurchase = name;
       }
     }
     this.#notifyAll();
@@ -1342,7 +1369,7 @@ export default class Player {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-04-02T17:31:57.754Z
+                at 2026-04-08T03:18:28.773Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>
