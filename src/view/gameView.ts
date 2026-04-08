@@ -111,7 +111,7 @@ export default class GameView implements Listener {
 
     let upgradesHTML = "<h3>Upgrades</h3>";
 
-    for (const upgrade of this.#player.UpgradesList) {
+    for (const upgrade of this.#player.upgradesList) {
       const id = upgrade.upgradeName.replace(/\s+/g, "-").toLowerCase();
 
       upgradesHTML += ` 
@@ -166,7 +166,7 @@ export default class GameView implements Listener {
     });
 
     // upgrade buttons
-    for (const upgrade of this.#player.UpgradesList) {
+    for (const upgrade of this.#player.upgradesList) {
       const id = upgrade.upgradeName.replace(/\s+/g, "-").toLowerCase();
 
       document
@@ -227,7 +227,7 @@ export default class GameView implements Listener {
       this.#player.productionPerSecond.toString();
 
     // upgrades
-    for (const upgrade of this.#player.UpgradesList) {
+    for (const upgrade of this.#player.upgradesList) {
       const id = upgrade.upgradeName.replace(/\s+/g, "-").toLowerCase();
 
       document.querySelector(`#${id}-count`)!.textContent =

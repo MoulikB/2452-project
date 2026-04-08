@@ -140,7 +140,6 @@ flowchart TD
 flowchart TD
     start[[Game tick / update]]
     checkToggle{Robo-buy enabled?}
-    checkMoney{Enough BadCode?}
     getLast[Get last purchased item]
     markov[Markov chain selects next item]
     canAfford{Can afford selected item?}
@@ -151,15 +150,12 @@ flowchart TD
 
     start --> checkToggle
     checkToggle -- no --> endTick
-    checkToggle -- yes --> checkMoney
-
-    checkMoney -- no --> endTick
-    checkMoney -- yes --> getLast
+    checkToggle -- yes --> getLast
 
     getLast --> markov
     markov --> canAfford
 
-    canAfford -- no --> endTick
+    canAfford -- no --> markov
     canAfford -- yes --> buy
 
     buy --> update

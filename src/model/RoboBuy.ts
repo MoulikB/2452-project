@@ -3,10 +3,14 @@ import type Player from "./Player/Player";
 
 type Model = Record<string, Record<string, number>>;
 
+/**
+ * Automated buyer that uses a Markov chain model to decide which upgrade to purchase next.
+ */
 export class RoboBuy {
   #on: boolean;
   #previousState: string;
   private model: Model;
+  readonly defaultStartingValue = "a";
 
   private mapping: Record<string, string> = {
     a: "Vibe Coding Intern",
@@ -33,43 +37,65 @@ export class RoboBuy {
     "Ignore all warnings": "j",
   };
 
+  /**
+   * Creates a RoboBuy instance starting from a given previous purchase state.
+   *
+   * @param previousPurchase the key (string) of the last purchased upgrade
+   */
   constructor() {
     this.#on = false;
-    this.#previousState = "a";
+    this.#previousState = this.defaultStartingValue;
     this.model = modelData as Model;
   }
 
+  /**
+   * Toggles the auto-buyer on or off.
+   */
   public toggle(): void {
     this.#on = !this.#on;
   }
 
+  /**
+   * Updates the previous state to reflect a manually purchased upgrade.
+   *
+   * @param state the display name of the purchased upgrade
+   */
   public setState(state: string): void {
     this.#previousState = this.reverseMapping[state];
   }
 
-  public run(p: Player): void {
-    let next = this.#previousState;
-
+  /**
+   * If the auto-buyer is on, repeatedly picks the next upgrade via the Markov
+   * model and attempts to purchase it until one succeeds.
+   *
+   * @param player the player whose upgrades will be purchased
+   */
+  public run(player: Player): void {
     if (this.#on) {
       let success = false;
 
       while (!success) {
-        next = this.getNextState(this.#previousState);
+        const next = this.getNextState(this.#previousState);
         const itemName = this.mapping[next];
 
         try {
-          p.purchaseUpgrade(itemName);
+          player.purchaseUpgrade(itemName);
           this.#previousState = next;
           success = true;
         } catch {
-          //ignore if we can not afford it
+          // ignore if we cannot afford this upgrade — try the next one
         }
       }
     }
-
-    return;
   }
 
+  /**
+   * Samples the next state from the transition probabilities using a
+   * cumulative distribution (roulette-wheel selection).
+   *
+   * @param current the current state key (letter)
+   * @return the chosen next state key
+   */
   private getNextState(current: string): string {
     const transitions = this.model[current];
 

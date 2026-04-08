@@ -23,7 +23,7 @@ test("AI chatbot upgrade increases click power by 5", async () => {
 
   expect(player.badCode).toBe(0);
   expect(player.clickPower).toBe(55);
-  expect(player.UpgradesList[1].upgradeCount).toBe(1);
+  expect(player.upgradesList[1].upgradeCount).toBe(1);
 });
 
 test("upgrade can be purchased multiple times", async () => {
@@ -35,7 +35,7 @@ test("upgrade can be purchased multiple times", async () => {
   player.purchaseUpgrade("AI-facilitated chatbot");
 
   expect(player.badCode).toBe(0);
-  expect(player.UpgradesList[1].upgradeCount).toBe(2);
+  expect(player.upgradesList[1].upgradeCount).toBe(2);
   expect(player.clickPower).toBe(110);
 });
 
@@ -52,8 +52,8 @@ test("AI chatbot upgrade cost remains constant", async () => {
 
   givePlayerBadCode(player, 50);
 
-  player.purchaseUpgradeHelper(player.UpgradesList[1]);
+  player.purchaseUpgradeHelper(player.upgradesList[1]);
 
   expect(player.badCode).toBe(0);
-  expect(player.UpgradesList[1].costValue).toBe(50);
+  expect(player.upgradesList[1].costValue).toBe(50);
 });

@@ -11,17 +11,23 @@ import { RoboBuy } from "../model/RoboBuy";
 export default class GameController {
   #account!: Account; // currently logged-in account
   #view: GameView; // UI layer
-  #RoboHelper: RoboBuy;
+  #roboHelper: RoboBuy; // Auto buying robo helper
+
+  // Interval in milliseconds between each auto-buy attempt
+  static readonly ROBO_INTERVAL_MS = 2000;
 
   constructor() {
     this.#view = new GameView(this);
-    this.#RoboHelper = new RoboBuy();
+    this.#roboHelper = new RoboBuy();
   }
 
+  /**
+   * Starts the auto-buyer, running it on a fixed interval.
+   */
   public startRoboHelper(): void {
     setInterval(() => {
-      this.#RoboHelper.run(this.#account.player);
-    }, 2000);
+      this.#roboHelper.run(this.#account.player);
+    }, GameController.ROBO_INTERVAL_MS);
   }
 
   /**
@@ -71,8 +77,9 @@ export default class GameController {
       // save initial player state
 
       this.#view.startGame(this.#account.player);
-      this.startRoboHelper();
     }
+
+    this.startRoboHelper();
   }
 
   /**
@@ -88,13 +95,16 @@ export default class GameController {
    */
   public async buyUpgrade(name: string): Promise<void> {
     this.#account.player.purchaseUpgrade(name);
-    this.#RoboHelper.setState(name);
+    this.#roboHelper.setState(name);
     await this.#account.player.saveAll();
     // persist upgrade
   }
 
+  /**
+   * Toggles the auto-buyer on or off.
+   */
   public toggleState() {
-    this.#RoboHelper.toggle();
+    this.#roboHelper.toggle();
   }
 
   /**

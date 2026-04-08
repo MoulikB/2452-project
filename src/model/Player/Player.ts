@@ -18,6 +18,7 @@ export default class Player {
   #productionPerSecond: number; // passive generation rate
   #upgrades: Upgrade[];
   #buildings: Building[];
+  #previousPurchase: string;
 
   /**
    * Ensures internal state remains valid.
@@ -44,6 +45,7 @@ export default class Player {
     this.#listeners = [];
     this.#upgrades = [];
     this.#buildings = [];
+    this.#previousPurchase = "Vibe Coding Intern"; // Using this as a default value for the Robo Buy
 
     this.#productionPerSecond = 0;
 
@@ -243,11 +245,12 @@ export default class Player {
       [this.name],
     );
     for (const row of results.rows) {
-      for (const myUpgrade of this.#upgrades) {
-        if (row.upgrade_name === myUpgrade.upgradeName) {
-          myUpgrade.loadCount(row.quantity);
-          break;
-        }
+      let i = 0;
+      while (i < this.#upgrades.length && this.#upgrades[i].upgradeName !== row.upgrade_name) {
+        i++;
+      }
+      if (i < this.#upgrades.length) {
+        this.#upgrades[i].loadCount(row.quantity);
       }
     }
   }
@@ -267,11 +270,12 @@ export default class Player {
     );
 
     for (const row of results.rows) {
-      for (const myBuilding of this.#buildings) {
-        if (row.building_name === myBuilding.buildingName) {
-          myBuilding.loadCount(row.quantity);
-          break;
-        }
+      let i = 0;
+      while (i < this.#buildings.length && this.#buildings[i].buildingName !== row.building_name) {
+        i++;
+      }
+      if (i < this.#buildings.length) {
+        this.#buildings[i].loadCount(row.quantity);
       }
     }
   }
@@ -284,7 +288,7 @@ export default class Player {
     return this.#buildings;
   }
 
-  get UpgradesList(): Upgrade[] {
+  get upgradesList(): Upgrade[] {
     return this.#upgrades;
   }
 
@@ -304,6 +308,10 @@ export default class Player {
     return this.#clickPower;
   }
 
+  get previousPurchase(): string {
+    return this.#previousPurchase;
+  }
+
   /**
    * Purchases mentioned upgrade.
    */
@@ -311,6 +319,7 @@ export default class Player {
     for (const myUpgrade of this.#upgrades) {
       if (name == myUpgrade.upgradeName) {
         this.purchaseUpgradeHelper(myUpgrade);
+        this.#previousPurchase = name;
       }
     }
     this.#notifyAll();
