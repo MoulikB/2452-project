@@ -98,12 +98,15 @@ export default class GameView implements Listener {
       <button id="click-btn">Write Bad Code</button>
       <div>Bad Code: <span id="bad-code"></span></div>
       <div>Click power: <span id="cpower"></span></div>
-      <div>Production Per Second: <span id="pps"></span></div>
+      <div>Production Per Second: <span id="pps"></div>
+      <div>Toggle Robo-Buy (Auto Purchase): <span id="TAB">
       <label class="switch">
         <input type="checkbox" id="robo-on">
         <span class="slider round"></span>
       </label>
       <span id="toggle-status">Off</span>
+      </span></div>
+      
 
 
       <hr>

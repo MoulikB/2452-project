@@ -1,4 +1,5 @@
 import modelData from "../training/model.json";
+import InsufficientBadCodeError from "./Player/InsufficientBadCodeError";
 import type Player from "./Player/Player";
 
 type Model = Record<string, Record<string, number>>;
@@ -82,7 +83,8 @@ export class RoboBuy {
           player.purchaseUpgrade(itemName);
           this.#previousState = next;
           success = true;
-        } catch {
+        } catch (error) {
+          if (error instanceof InsufficientBadCodeError) return;
           // ignore if we cannot afford this upgrade — try the next one
         }
       }
